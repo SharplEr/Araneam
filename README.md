@@ -2,4 +2,4 @@ Araneam
 =============
 
 Neural Network Library
-Araneam - spider in English
+Araneam - spider in Latin
