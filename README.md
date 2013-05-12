@@ -1,5 +1,5 @@
 Araneam
 =============
 
-Neural Network Library
-Araneam - spider in Latin
+Neural Network Library.
+Araneam - "spider" in Latin
