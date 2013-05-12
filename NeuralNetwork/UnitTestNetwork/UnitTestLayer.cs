@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VectorSpace;
-using NeuralNetwork;
+using Araneam;
 using System.Threading;
 
 namespace UnitTestNetwork

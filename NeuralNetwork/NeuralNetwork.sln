@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows Desktop
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetwork", "NeuralNetwork\NeuralNetwork.csproj", "{46FC5442-371E-4CBB-8E3C-05AEEF639B5C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetwork", "NeuralNetwork\Araneam.csproj", "{46FC5442-371E-4CBB-8E3C-05AEEF639B5C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyParallel", "..\MyParallel\MyParallel\MyParallel.csproj", "{458CCDBC-BF99-4B55-8044-926C317943A0}"
 EndProject

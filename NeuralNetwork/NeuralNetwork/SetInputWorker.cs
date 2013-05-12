@@ -6,7 +6,7 @@ using VectorSpace;
 using MyParallel;
 using System.Threading;
 
-namespace NeuralNetwork
+namespace Araneam
 {
     /// <summary>
     /// Параллельная связывание синапсов с входным сигналом

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using VectorSpace;
 
-namespace NeuralNetwork
+namespace Araneam
 {
     /// <summary>
     /// Базовый класс для представления однослойного персепртрона использующий алгоритм LMS для обучения с моделью отжига

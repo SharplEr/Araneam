@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NeuralNetwork;
+using Araneam;
 using VectorSpace;
 using System.Threading;
 

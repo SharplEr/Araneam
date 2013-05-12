@@ -1,7 +1,7 @@
 ﻿using System;
 using VectorSpace;
 
-namespace NeuralNetwork
+namespace Araneam
 {
     /// <summary>
     /// Представление одного нейрона 

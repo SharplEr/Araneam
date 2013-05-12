@@ -3,7 +3,7 @@ using VectorSpace;
 using System.Diagnostics;
 using System.Collections.Generic;
 
-namespace NeuralNetwork
+namespace Araneam
 {
     /// <summary>
     /// Представление одного слоя нейронов

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using VectorSpace;
 
-namespace NeuralNetwork
+namespace Araneam
 {
     public class BackPropagationNetwork: Network
     {

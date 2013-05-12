@@ -7,7 +7,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Diagnostics;
 
-namespace NeuralNetwork
+namespace Araneam
 {
     /// <summary>
     /// Представление нейронной сети

@@ -6,7 +6,7 @@ using VectorSpace;
 using MyParallel;
 using System.Threading;
 
-namespace NeuralNetwork
+namespace Araneam
 {
     /// <summary>
     /// Паралельная коррекция весов по правилу w+=rate*input

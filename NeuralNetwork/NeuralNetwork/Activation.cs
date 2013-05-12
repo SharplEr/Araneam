@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NeuralNetwork
+namespace Araneam
 {
     /// <summary>
     /// Набор функций активации
