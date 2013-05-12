@@ -68,7 +68,7 @@ namespace Araneam
         #endregion
 
         /// <summary>
-        /// Внутрений конструктор для метода Copy
+        /// Внутренний конструктор для метода Copy
         /// </summary>
         NeuronLayer(int n, int[][] indexs, bool useThreshold, int count, FuncInfo f)
         {
@@ -155,7 +155,6 @@ namespace Araneam
                 Correcter.Run(rate);
         }
 
-        //Вероятно потребуется для многослойных сетей
         public Vector CalcDer()
         {
             if (fi.df == null) throw new ArgumentNullException("Функция активации не имеет производной.");
@@ -165,7 +164,7 @@ namespace Araneam
         /// <summary>
         /// Расчет матрицы связи каждого входного сигнала с синапсами нейрона
         /// </summary>
-        /// <param name="missLast">ППропускать ли последний вход, если он константный</param>
+        /// <param name="missLast">Пропускать ли последний вход, если он константный</param>
         public void CalcInvers(bool missLast)
         {
             if (inputLength==0) throw new ArgumentOutOfRangeException("Вход не может быть нулевым, назначте вход или используйте другой конструктор");

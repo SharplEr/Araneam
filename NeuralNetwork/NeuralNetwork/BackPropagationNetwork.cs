@@ -8,7 +8,7 @@ namespace Araneam
 {
     public class BackPropagationNetwork: Network
     {
-        //Требуется инициализация в конструкторе, зависит от чилса слоев
+        //Требуется инициализация в конструкторе, зависит от числа слоев
         protected Vector[] LocalGrads = null;
 
         double rateStart;
@@ -99,7 +99,6 @@ namespace Araneam
 
                 indexs = Statist.getRandomIndex(testDate.Length);
                 error = Math.Sqrt(error) / testDate.Length;
-                Console.WriteLine(error);
 
                 if (error < errorMin)
                 {
@@ -140,11 +139,8 @@ namespace Araneam
                 }
                 error = Math.Sqrt(error) / testDate.Length;
 
-                Console.WriteLine(error);
-
             } while (error > minError);
 
-            Console.WriteLine("Итараций {0}", n);
             return error;
         }
 
@@ -178,7 +174,7 @@ namespace Araneam
 
             double p;
 
-            //Можно расспаралелить, так как коректировка не зависит от последовательности
+            //Можно расспаралелить, так как корректировка не зависит от последовательности
             
             for (int i = 0; i < hidden.Length; i++)
             {

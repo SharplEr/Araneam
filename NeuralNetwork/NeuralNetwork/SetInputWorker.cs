@@ -25,23 +25,6 @@ namespace Araneam
             Run();
         }
 
-        //override protected void DoFromTo(int start, int finish)
-        //{
-        //    int[] Index;
-        //    Vector syn;
-
-        //    int i, j;
-
-        //    for (i = start; i < finish; i++)
-        //    {
-        //        Index = inputIndex[i];
-        //        syn = vector[i].synapse;
-
-        //        for (j = 0; j < syn.Length; j++)
-        //            syn[j] = input[Index[j]];
-        //    }
-        //}
-
         override unsafe protected void DoFromTo(int start, int finish)
         {
             int[] Index;

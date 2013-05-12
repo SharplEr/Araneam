@@ -5,7 +5,6 @@ using System.Text;
 
 namespace Araneam
 {
-    
     [Serializable]
     /// <summary>
     /// Инкапсулирует информацию о функции активации
@@ -39,7 +38,7 @@ namespace Araneam
         }
 
         /// <summary>
-        /// Воставление несериализуемых данных
+        /// Восстановление несериализуемых данных
         /// </summary>
         public void Refresh()
         {

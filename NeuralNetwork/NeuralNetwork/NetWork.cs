@@ -131,7 +131,6 @@ namespace Araneam
         {
             if ((fixedLayers == null) || (hidden == null)) return;
 
-
             for (int i = 0; i < hidden.Length; i++)
             {
                 hidden[i].Dispose();

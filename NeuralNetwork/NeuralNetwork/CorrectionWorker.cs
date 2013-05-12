@@ -9,7 +9,7 @@ using System.Threading;
 namespace Araneam
 {
     /// <summary>
-    /// Паралельная коррекция весов по правилу w+=rate*input
+    /// Параллельная коррекция весов по правилу w+=rate*input
     /// </summary>
     class CorrectionWorker: ParallelWorker<Neuron>
     {
@@ -19,7 +19,7 @@ namespace Araneam
 
         public void Run(Vector r)
         {
-            if (r.Length != vector.Length) throw new ArgumentException("плохой вектор коррекции");
+            if (r.Length != vector.Length) throw new ArgumentException("Bad correction vector");
             rate = r.element;
             Run();
         }

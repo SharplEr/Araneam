@@ -77,15 +77,6 @@ namespace VectorSpace
             return ans;
         }
 
-        //public static Double operator *(Vector vf, Vector vc)
-        //{
-        //    Double ans = 0.0;
-
-        //    for (int i = 0; i < vf.Length; i++) ans += vf[i] * vc[i];
-
-        //    return ans;
-        //}
-
         public unsafe static Double operator *(Vector vf, Vector vs)
         {
             double ans = 0.0;
@@ -158,14 +149,12 @@ namespace VectorSpace
             return this;
         }
         
-
         public Vector Multiplication(Vector v)
         {
             for (int i = 0; i < element.Length; i++) element[i] = v[i] * element[i];
 
             return this;
         }
-
 
         public unsafe Vector Addication(Vector v)
         {
@@ -260,6 +249,5 @@ namespace VectorSpace
 
             return this;
         }
-
     }
 }

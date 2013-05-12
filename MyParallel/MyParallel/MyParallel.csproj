@@ -54,7 +54,6 @@
   <ItemGroup>
     <Compile Include="ParallelArray.cs" />
     <Compile Include="ParallelLambda.cs" />
-    <Compile Include="ParallelStream.cs" />
     <Compile Include="ParallelWorker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

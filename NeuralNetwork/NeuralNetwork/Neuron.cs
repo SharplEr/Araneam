@@ -4,7 +4,7 @@ using VectorSpace;
 namespace Araneam
 {
     /// <summary>
-    /// Представление одного нейрона 
+    /// Представление одного нейрона
     /// </summary>
     [Serializable]
     public struct Neuron: ICloneable
