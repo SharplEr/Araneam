@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VectorSpace;
 using Araneam;
 using System.Threading;
+using MyParallel;
 
 namespace UnitTestNetwork
 {
@@ -18,10 +19,7 @@ namespace UnitTestNetwork
             inp[1] = new int[] { 1, 2, 3 };
 
             NeuronLayer nl = new NeuronLayer(2, inp, false,"no");
-            Thread t = new Thread(()=>nl.Input = v);
-            t.SetApartmentState(ApartmentState.MTA);
-            t.Start();
-            t.Join();
+            new Thread(()=>nl.Input = v).InMTA();
 
             nl.CalcInvers(false);
             Assert.AreEqual(4, nl.InversIndex.Length);
@@ -69,10 +67,8 @@ namespace UnitTestNetwork
             v[3] = 4;
 
             NeuronLayer nl = new NeuronLayer(2, inp, false,"no");
-            Thread t = new Thread(() => nl.Input = v);
-            t.SetApartmentState(ApartmentState.MTA);
-            t.Start();
-            t.Join();
+            new Thread(() => nl.Input = v).InMTA();
+            
             nl.neuros[0].weight[0] = 0.5;
             nl.neuros[0].weight[1] = 1.5;
 
@@ -82,10 +78,7 @@ namespace UnitTestNetwork
 
             Vector ans = null;
 
-            t = new Thread(() => ans = nl.Calc());
-            t.SetApartmentState(ApartmentState.MTA);
-            t.Start();
-            t.Join();
+            new Thread(() => ans = nl.Calc()).InMTA();
 
             Assert.AreEqual(ans[0], 5, "ошибка в 1 элементе");
             Assert.AreEqual(ans[1], 20, "ошибка во 2 элементе");
@@ -162,10 +155,8 @@ namespace UnitTestNetwork
             v[3] = 4;
 
             NeuronLayer nl = new NeuronLayer(2, inp, false, "no");
-            Thread t = new Thread(() => nl.Input = v);
-            t.SetApartmentState(ApartmentState.MTA);
-            t.Start();
-            t.Join();
+            new Thread(() => nl.Input = v).InMTA();
+            
             nl.neuros[0].weight[0] = 0.5;
             nl.neuros[0].weight[1] = 1.5;
 
@@ -177,6 +168,37 @@ namespace UnitTestNetwork
 
             Assert.AreEqual(ans[0], 1, "ошибка в 1 элементе");
             Assert.AreEqual(ans[1], 1, "ошибка во 2 элементе");
+        }
+
+        [TestMethod]
+        public void TestLayerClone()
+        {
+            const int n = 3;
+            const int m = 2;
+
+            NeuronLayer nl = new NeuronLayer(n, m, false, "threshold");
+
+            nl.NormalInitialize();
+
+            new Thread(() => nl.Input = new Vector(m, j => j + 1)).InMTA();
+
+            Vector t1 = null;
+            Vector t2 = null;
+
+            new Thread(() => t1 = nl.Calc()).InMTA();
+
+            NeuronLayer newNl = (NeuronLayer) nl.Clone();
+
+            for(int i = 0; i<nl.neuros.Length; i++)
+                for (int j = 0; j < nl.neuros[i].Length; j++)
+                {
+                    Assert.AreEqual(nl.neuros[i].weight[j], newNl.neuros[i].weight[j], "Весы неверно скопированны");
+                }
+
+            new Thread(() => t2 = newNl.Calc()).InMTA();
+
+            for (int i = 0; i < t1.Length; i++)
+                Assert.AreEqual(t1[i], t2[i], "Неверно вычисляет после клонирования");
         }
     }
 }

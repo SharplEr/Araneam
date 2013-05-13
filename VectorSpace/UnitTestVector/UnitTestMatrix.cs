@@ -22,7 +22,7 @@ namespace UnitTestVector
             }
             bool flag = true;
             
-            Thread t = new Thread(()=>
+            new Thread(()=>
                 {
                     MatrixSumWorker msw = new MatrixSumWorker(2, matrix1);
                     msw.Run(matrix2);
@@ -31,10 +31,7 @@ namespace UnitTestVector
                             flag = flag && (matrix1[i][j] == 0.0);
                     msw.Dispose();
                 }
-                );
-            t.SetApartmentState(ApartmentState.MTA);
-            t.Start();
-            t.Join();
+                ).InMTA();
             
             Assert.IsTrue(flag, "Не сумирует матрицы на двух потоках");
         }
@@ -53,7 +50,7 @@ namespace UnitTestVector
             }
             bool flag = true;
 
-            Thread t = new Thread(() =>
+            new Thread(() =>
             {
                 MatrixSqMulWorker mmw = new MatrixSqMulWorker(2, matrix1);
                 Vector[] ans = mmw.Run(matrix2);
@@ -62,10 +59,7 @@ namespace UnitTestVector
                         flag = flag && (ans[i][j] == matrix2[i][j]);
                 mmw.Dispose();
             }
-                );
-            t.SetApartmentState(ApartmentState.MTA);
-            t.Start();
-            t.Join();
+                ).InMTA();
 
             Assert.IsTrue(flag, "Не множатся матрицы на двух потоках");
         }
@@ -81,7 +75,7 @@ namespace UnitTestVector
             }
             bool flag = true;
 
-            Thread t = new Thread(() =>
+            new Thread(() =>
             {
                 MatrixDivisionWorker mmw = new MatrixDivisionWorker(2, matrix);
                 mmw.Run(2.0);
@@ -90,10 +84,7 @@ namespace UnitTestVector
                         flag = flag && (matrix[i][j] == (i*n+j)/2.0);
                 mmw.Dispose();
             }
-                );
-            t.SetApartmentState(ApartmentState.MTA);
-            t.Start();
-            t.Join();
+                ).InMTA();
 
             Assert.IsTrue(flag, "Не делит матрицу на скаляр на двух потоках");
         }
@@ -109,7 +100,7 @@ namespace UnitTestVector
             }
             bool flag = true;
 
-            Thread t = new Thread(() =>
+            new Thread(() =>
             {
                 MatrixDivisionWorker mmw = new MatrixDivisionWorker(1, matrix);
                 mmw.Run(2.0);
@@ -118,10 +109,7 @@ namespace UnitTestVector
                         flag = flag && (matrix[i][j] == (i * n + j) / 2.0);
                 mmw.Dispose();
             }
-                );
-            t.SetApartmentState(ApartmentState.MTA);
-            t.Start();
-            t.Join();
+                ).InMTA();
 
             Assert.IsTrue(flag, "Не делит матрицу на скаляр на одном потоке");
         }
@@ -140,7 +128,7 @@ namespace UnitTestVector
             }
             bool flag = true;
 
-            Thread t = new Thread(() =>
+            new Thread(() =>
             {
                 MatrixSqMulWorker mmw = new MatrixSqMulWorker(1, matrix1);
                 Vector[] ans = mmw.Run(matrix2);
@@ -149,10 +137,7 @@ namespace UnitTestVector
                         flag = flag && (ans[i][j] == matrix2[i][j]);
                 mmw.Dispose();
             }
-                );
-            t.SetApartmentState(ApartmentState.MTA);
-            t.Start();
-            t.Join();
+                ).InMTA();
 
             Assert.IsTrue(flag, "Не множатся матрицы на одном потоке");
         }
@@ -171,7 +156,7 @@ namespace UnitTestVector
             }
             bool flag = true;
 
-            Thread t = new Thread(() =>
+            new Thread(() =>
             {
                 MatrixSqMulWorker mmw = new MatrixSqMulWorker(1, matrix1);
                 Vector[] ans = mmw.Run(matrix2);
@@ -180,10 +165,7 @@ namespace UnitTestVector
                         flag = flag && (ans[i][j] == matrix2[i][j]);
                 mmw.Dispose();
             }
-                );
-            t.SetApartmentState(ApartmentState.MTA);
-            t.Start();
-            t.Join();
+                ).InMTA();
 
             Assert.IsTrue(flag, "Не множатся матрицы 1x1 на одном потоке.");
         }
@@ -201,7 +183,7 @@ namespace UnitTestVector
             }
             bool flag = true;
 
-            Thread t = new Thread(() =>
+            new Thread(() =>
             {
                 MatrixSumWorker msw = new MatrixSumWorker(1, matrix1);
                 msw.Run(matrix2);
@@ -210,10 +192,7 @@ namespace UnitTestVector
                         flag = flag && (matrix1[i][j] == 0.0);
                 msw.Dispose();
             }
-                );
-            t.SetApartmentState(ApartmentState.MTA);
-            t.Start();
-            t.Join();
+                ).InMTA();
 
             Assert.IsTrue(flag, "Не сумирует матрицы на одном потоке");
         }

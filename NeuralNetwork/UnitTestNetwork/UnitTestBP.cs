@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Araneam;
 using VectorSpace;
 using System.Threading;
+using MyParallel;
 
 namespace UnitTestNetwork
 {    
@@ -41,15 +42,11 @@ namespace UnitTestNetwork
 
             Vector e = null;
             Vector[] lg = null;
-            Thread t = new Thread(() =>
+            new Thread(() =>
             {
                 e =  d-nw.Calculation(x);
                 lg = nw.LG(e);
-            });
-
-            t.SetApartmentState(ApartmentState.MTA);
-            t.Start();
-            t.Join();
+            }).InMTA();
 
             Assert.AreEqual(1, e[0]);
 
@@ -118,7 +115,7 @@ namespace UnitTestNetwork
 
             Vector[] y = new Vector[4];
 
-            Thread t = new Thread(() =>
+            new Thread(() =>
                 {
                     for (int i = 0; i < 1000; i++)
                     {
@@ -131,11 +128,7 @@ namespace UnitTestNetwork
                     }
 
                     nw.Dispose();
-                });
-
-            t.SetApartmentState(ApartmentState.MTA);
-            t.Start();
-            t.Join();
+                }).InMTA();
 
             for (int i = 0; i < 4; i++)
             {
@@ -202,14 +195,7 @@ namespace UnitTestNetwork
 
             Vector y = null;
 
-            Thread t;
-            t = new Thread(() =>
-             {
-                 y = nw.Calculation(x);
-             });
-            t.SetApartmentState(ApartmentState.MTA);
-            t.Start();
-            t.Join();
+            new Thread(() => y = nw.Calculation(x)).InMTA();
 
             Assert.AreEqual(0.1437,y[0], 0.0002);
             Assert.AreEqual(0.1075, y[1], 0.0002);

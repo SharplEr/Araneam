@@ -4,6 +4,7 @@ using Araneam;
 using VectorSpace;
 using System.Threading;
 using System.IO;
+using MyParallel;
 
 namespace UnitTestNetwork
 {
@@ -19,7 +20,7 @@ namespace UnitTestNetwork
 
             double y = 0.0;
 
-            Thread t = new Thread(() =>
+            new Thread(() =>
                 {
                     for (int i = 0; i < 1000; i++)
                     {
@@ -29,11 +30,8 @@ namespace UnitTestNetwork
                     y = nw.Calculation(x)[0];
                     
                     nw.Dispose();
-                });
+                }).InMTA();
 
-            t.SetApartmentState(ApartmentState.MTA);
-            t.Start();
-            t.Join();
             Assert.AreEqual(1.0, y, 0.0001, "Сеть не обучается");
         }
 
@@ -41,7 +39,7 @@ namespace UnitTestNetwork
         public void TestLMSFix()
         {
             double yPred = 0.0, yPost = 0.0;
-            Thread t = new Thread(() =>
+            new Thread(() =>
             {
                 LMSNetwork nw = new LMSNetwork(0.9, 100, 1, 2, "no");
                 Vector x = new Vector(2, (j) => 1.0);
@@ -69,11 +67,8 @@ namespace UnitTestNetwork
                 
                 nw.Dispose();
                 
-            });
+            }).InMTA();
 
-            t.SetApartmentState(ApartmentState.MTA);
-            t.Start();
-            t.Join();
             Assert.AreEqual(2.0, yPred, 0.0001, "Обучение поломалось после фиксации");
             Assert.AreEqual(1.0, yPost, 0.0001, "Восстановление не работает");
         }
@@ -84,7 +79,7 @@ namespace UnitTestNetwork
             bool save, load;
             save = load = false;
             double y = 0.0;
-            Thread t = new Thread(() =>
+            new Thread(() =>
             {
                 LMSNetwork nw = new LMSNetwork(0.9, 100, 1, 2, "no");
                 Vector x = new Vector(2, (j) => 1.0);
@@ -106,11 +101,8 @@ namespace UnitTestNetwork
                 s.Close();
                 y = nw.Calculation(x)[0];
                 
-            });
+            }).InMTA();
 
-            t.SetApartmentState(ApartmentState.MTA);
-            t.Start();
-            t.Join();
             Assert.IsTrue(save, "Сохранение не удалось.");
 
             Assert.IsTrue(load, "Загрузка не удалась.");
