@@ -77,7 +77,7 @@ namespace UnitTestVector
         }
 
         [TestMethod]
-        public void TestClone()
+        public void TestVectorClone()
         {
             const int n = 5;
             Vector v1 = new Vector(n, (j) => j);

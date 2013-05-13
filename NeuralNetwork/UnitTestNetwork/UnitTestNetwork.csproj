@@ -66,6 +66,7 @@
     <Compile Include="UnitTestLayer.cs" />
     <Compile Include="UnitTestLMS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitTestNeuron.cs" />
     <Compile Include="UnitTestStatist.cs" />
   </ItemGroup>
   <ItemGroup>

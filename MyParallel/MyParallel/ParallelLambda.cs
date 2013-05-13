@@ -30,6 +30,11 @@ namespace MyParallel
                 t[i].Join();
         }
 
-        
+        public static void InMTA(this Thread t)
+        {
+            t.SetApartmentState(ApartmentState.MTA);
+            t.Start();
+            t.Join();
+        }
     }
 }
