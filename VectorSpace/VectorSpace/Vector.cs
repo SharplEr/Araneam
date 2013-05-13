@@ -1,5 +1,6 @@
 ﻿using System;
 using MyParallel;
+using System.Text;
 
 namespace VectorSpace
 {
@@ -20,6 +21,7 @@ namespace VectorSpace
         /// <param name="n">Размерность</param>
         public Vector(int n)
         {
+            if (n == 0) throw new ArgumentException();
             element = new Double[n];
         }
 
@@ -30,6 +32,7 @@ namespace VectorSpace
         /// <param name="f">Функция инициализации</param>
         public Vector(int n, Func<int, Double> f)
         {
+            if (n == 0) throw new ArgumentException();
             element = new Double[n];
             for (int i = 0; i < n; i++) element[i] = f(i);
         }
@@ -248,6 +251,21 @@ namespace VectorSpace
             }
 
             return this;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder("(");
+
+            sb.Append(element[0]);
+
+            for (int i = 1; i < Length; i++)
+            {
+                sb.Append(", ");
+                sb.Append(element[i]);
+            }
+
+            return sb.ToString();
         }
     }
 }
