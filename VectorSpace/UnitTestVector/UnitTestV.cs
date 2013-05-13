@@ -74,7 +74,6 @@ namespace UnitTestVector
                 flag = flag && (v[i] == i);
 
             Assert.IsTrue(flag, "Не верная инициализация");
-            Console.WriteLine("all ok");
         }
 
         [TestMethod]
@@ -92,7 +91,6 @@ namespace UnitTestVector
                 flag = flag && (v1[i] == v2[i]);
 
             Assert.IsTrue(flag, "Не верно клонирует");
-            Console.WriteLine("all ok");
         }
 
         [TestMethod]

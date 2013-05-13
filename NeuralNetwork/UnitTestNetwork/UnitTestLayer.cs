@@ -177,7 +177,6 @@ namespace UnitTestNetwork
 
             Assert.AreEqual(ans[0], 1, "ошибка в 1 элементе");
             Assert.AreEqual(ans[1], 1, "ошибка во 2 элементе");
-            Console.WriteLine("all ok");
         }
     }
 }

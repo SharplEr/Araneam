@@ -37,7 +37,6 @@ namespace UnitTestNetwork
                 flag = flag &&count[i];
 
             Assert.IsTrue(flag, "Повторы номеров");
-            Console.WriteLine("all ok");
         }
 
         [TestMethod]
@@ -63,7 +62,6 @@ namespace UnitTestNetwork
             some[1] = 2.5;
             f(some);
             Assert.IsTrue((some[0]==0.5)&&(some[1]==-0.5), "Возвращает функцию которая, не нормализует");
-            Console.WriteLine("all ok");
         }
     }
 }

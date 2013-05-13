@@ -35,7 +35,6 @@ namespace UnitTestNetwork
             t.Start();
             t.Join();
             Assert.AreEqual(1.0, y, 0.0001, "Сеть не обучается");
-            Console.WriteLine("all ok");
         }
 
         [TestMethod]
