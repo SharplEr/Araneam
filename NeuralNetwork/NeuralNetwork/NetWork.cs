@@ -51,6 +51,15 @@ namespace Araneam
             return input;
         }
 
+        public Vector[] Calculation(Vector[] input)
+        {
+            Vector[] ans = new Vector[input.Length];
+
+            for (int i = 0; i < ans.Length; i++)
+                ans[i] = Calculation(input[i]);
+            return ans;
+        }
+
         /// <summary>
         /// Сериализация сети в поток
         /// </summary>
