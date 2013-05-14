@@ -39,7 +39,6 @@ namespace Araneam
 
         protected void setLocalGrads(Vector e)
         {
-            
             int l, i, j;
             Vector t;
             TwoArray inv;
