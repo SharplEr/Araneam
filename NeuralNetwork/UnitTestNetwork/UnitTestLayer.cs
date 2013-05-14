@@ -176,7 +176,7 @@ namespace UnitTestNetwork
             const int n = 3;
             const int m = 2;
 
-            NeuronLayer nl = new NeuronLayer(n, m, false, "threshold");
+            NeuronLayer nl = new NeuronLayer(n, m, false, "sigmoid", 0.5);
 
             nl.NormalInitialize();
 
@@ -199,6 +199,24 @@ namespace UnitTestNetwork
 
             for (int i = 0; i < t1.Length; i++)
                 Assert.AreEqual(t1[i], t2[i], "Неверно вычисляет после клонирования");
+
+            nl.NormalInitialize();
+
+            new Thread(() => t1 = nl.Calc()).InMTA();
+
+            for (int i = 0; i < t1.Length; i++)
+                Assert.AreNotEqual(t2[i], t1[i], "Вычисления сломались");
+
+            new Thread(()=> nl.Dispose()).InMTA();
+
+            t2 = null;
+
+            new Thread(() => t2 = newNl.Calc()).InMTA();
+
+            Assert.AreNotEqual(null, t2, "После высвобождение оригинала сломался потомок");
+
+            for (int i = 0; i < t1.Length; i++)
+                Assert.AreNotEqual(t1[i], t2[i], "Вычисления сломались");
         }
     }
 }
