@@ -275,14 +275,14 @@ namespace Araneam
         }
 
         /// <summary>
-        /// Инициализация весов случайными числами от -1 до 1
+        /// Инициализация весов случайными числами по модулю не превосходящих обратного квадратного корня от числа связей
         /// </summary>
         public void NormalInitialize()
         {
             double x;
             for (int i = 0; i < neuros.Length; i++)
             {
-                x = 1.0 / Math.Sqrt(neuros[i].weight.Length);
+                x = 1.0 / Math.Sqrt(neuros[i].Length);
                 neuros[i].weight.SetRandom(-x, x);
             }
         }
