@@ -43,7 +43,6 @@ namespace Araneam
         /// <summary>
         /// Выходной сигнал
         /// </summary>
-        [NonSerialized]
         public Vector Output
         {
             get;
