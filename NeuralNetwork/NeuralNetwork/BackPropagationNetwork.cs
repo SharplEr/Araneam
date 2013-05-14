@@ -8,7 +8,6 @@ namespace Araneam
 {
     public class BackPropagationNetwork: Network
     {
-        //Требуется инициализация в конструкторе, зависит от числа слоев
         protected Vector[] LocalGrads = null;
 
         double rateStart;
@@ -26,7 +25,6 @@ namespace Araneam
             fixedLayers = new NeuronLayer[LayerCount];
             LocalGrads = new Vector[LayerCount];
         }
-
 
         public void AddTestDate(Vector[] tests, Vector[] results)
         {
@@ -115,7 +113,7 @@ namespace Araneam
 
         public virtual double FullLearn()
         {
-            double minError = (double)hidden[hidden.Length - 1].output.Length / (testDate.Length + 1);
+            double minError = (double)hidden[hidden.Length - 1].Output.Length / (testDate.Length + 1);
             return FullLearn(minError);
         }
 

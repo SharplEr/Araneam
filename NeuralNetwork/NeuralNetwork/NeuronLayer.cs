@@ -27,6 +27,7 @@ namespace Araneam
         public int[][] InputIndex
         {
             get { return inputIndex; }
+            private set { inputIndex = value; }
         }
 
         /// <summary>
@@ -34,13 +35,20 @@ namespace Araneam
         /// </summary>
         TwoArray[] inversIndex;
         public TwoArray[] InversIndex
-        { get { return inversIndex; } }
+        { 
+            get { return inversIndex; }
+            private set { inversIndex = value; }
+        }
 
         /// <summary>
         /// Выходной сигнал
         /// </summary>
         [NonSerialized]
-        public Vector output;
+        public Vector Output
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// Число потоков, равное числу ядер процессора
@@ -158,7 +166,7 @@ namespace Araneam
         public Vector CalcDer()
         {
             if (fi.df == null) throw new ArgumentNullException("Функция активации не имеет производной.");
-            return new Vector(neuros.Length).Set(i => fi.df(output[i]));
+            return new Vector(neuros.Length).Set(i => fi.df(Output[i]));
         }
 
         /// <summary>
@@ -219,10 +227,10 @@ namespace Araneam
         {
             if (withThreshold)
             {
-                output = new Vector(neuros.Length + 1);
-                output[neuros.Length] = 0.5;
+                Output = new Vector(neuros.Length + 1);
+                Output[neuros.Length] = 0.5;
             }
-            else output = new Vector(neuros.Length);
+            else Output = new Vector(neuros.Length);
         }
 
         /// <summary>
@@ -252,8 +260,8 @@ namespace Araneam
         /// <returns>Выходной сигнал</returns>
         public Vector Calc()
         {
-            Calcer.Run(output);
-            return output;
+            Calcer.Run(Output);
+            return Output;
         }
 
         /// <summary>

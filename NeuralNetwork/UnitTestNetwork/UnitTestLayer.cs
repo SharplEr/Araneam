@@ -125,7 +125,7 @@ namespace UnitTestNetwork
 
             Assert.AreEqual(3, nl.neuros[0].Length, "Число синапсов у первого нейрона неверное");
             Assert.AreEqual(3, nl.neuros[1].Length, "Число синапсов у второго нейрона неверное");
-            Assert.AreEqual(2, nl.output.Length, "Размерность выхода неверная");
+            Assert.AreEqual(2, nl.Output.Length, "Размерность выхода неверная");
 
             new Thread(() => nl.Dispose()).Start();
 
@@ -136,7 +136,7 @@ namespace UnitTestNetwork
             Assert.AreEqual(4, nl.neuros[0].Length, "Число синапсов у первого нейрона неверное");
             Assert.AreEqual(4, nl.neuros[1].Length, "Число синапсов у второго нейрона неверное");
 
-            Assert.AreEqual(3, nl.output.Length, "Размерность выхода неверная");
+            Assert.AreEqual(3, nl.Output.Length, "Размерность выхода неверная");
 
             new Thread(() => nl.Dispose()).Start();
         }

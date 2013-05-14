@@ -7,13 +7,18 @@ namespace Araneam
     /// Представление одного нейрона
     /// </summary>
     [Serializable]
-    public struct Neuron: ICloneable
+    public class Neuron: ICloneable
     {
         [NonSerialized]
         public Vector synapse;
 
         public Vector weight;
-        public readonly int Length;
+
+        public int Length
+        {
+            get;
+            private set;
+        }
 
         [NonSerialized]
         public Func<Double, Double> activationFunction;
