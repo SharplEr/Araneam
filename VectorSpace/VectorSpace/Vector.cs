@@ -255,7 +255,7 @@ namespace VectorSpace
 
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder("(");
+            StringBuilder sb = new StringBuilder('(');
 
             sb.Append(element[0]);
 
@@ -265,6 +265,7 @@ namespace VectorSpace
                 sb.Append(element[i]);
             }
 
+            sb.Append(')');
             return sb.ToString();
         }
     }
