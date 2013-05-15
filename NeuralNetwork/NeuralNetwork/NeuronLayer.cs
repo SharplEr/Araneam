@@ -268,8 +268,9 @@ namespace Araneam
         /// </summary>
         public void Initialize(double a, double b)
         {
+            Random r = new Random();
             for (int i = 0; i < neuros.Length; i++)
-                neuros[i].Weight.SetRandom(a, b);
+                neuros[i].Weight.SetRandom(a, b, r);
         }
 
         /// <summary>
@@ -287,10 +288,11 @@ namespace Araneam
         public void NormalInitialize()
         {
             double x;
+            Random r = new Random();
             for (int i = 0; i < neuros.Length; i++)
             {
                 x = 1.0 / Math.Sqrt(neuros[i].Length);
-                neuros[i].Weight.SetRandom(-x, x);
+                neuros[i].Weight.SetRandom(-x, x, r);
             }
         }
 

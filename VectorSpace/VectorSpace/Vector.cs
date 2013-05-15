@@ -220,6 +220,16 @@ namespace VectorSpace
         }
 
         /// <summary>
+        /// Заполняет случайными координатами от a до b, используя внешний рандомизатор
+        /// </summary>
+        public Vector SetRandom(double a, double b, Random r)
+        {
+            for (int i = 0; i < element.Length; i++) element[i] = (b - a) * r.NextDouble() + a;
+
+            return this;
+        }
+
+        /// <summary>
         /// Заполняет случайными координатами от a до b
         /// </summary>
         public Vector SetRandom(double a, double b)
