@@ -269,7 +269,7 @@ namespace Araneam
         public void Initialize(double a, double b)
         {
             for (int i = 0; i < neuros.Length; i++)
-                neuros[i].weight.SetRandom(a, b);
+                neuros[i].Weight.SetRandom(a, b);
         }
 
         /// <summary>
@@ -278,7 +278,7 @@ namespace Araneam
         public void Initialize()
         {
             for (int i = 0; i < neuros.Length; i++)
-                neuros[i].weight.SetRandom();
+                neuros[i].Weight.SetRandom();
         }
 
         /// <summary>
@@ -290,7 +290,7 @@ namespace Araneam
             for (int i = 0; i < neuros.Length; i++)
             {
                 x = 1.0 / Math.Sqrt(neuros[i].Length);
-                neuros[i].weight.SetRandom(-x, x);
+                neuros[i].Weight.SetRandom(-x, x);
             }
         }
 

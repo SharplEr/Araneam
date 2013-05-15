@@ -56,7 +56,7 @@ namespace Araneam
                     t[i] = 0.0;
                     for (j = 0; j < inv.index.Length; j++)
                     {
-                        t[i] += hidden[l + 1].neuros[inv.index[j]].weight[inv.subIndex[j]] * LocalGrads[l + 1][inv.index[j]];
+                        t[i] += hidden[l + 1].neuros[inv.index[j]].Weight[inv.subIndex[j]] * LocalGrads[l + 1][inv.index[j]];
                     }
                 }
                 LocalGrads[l].Multiplication(t);

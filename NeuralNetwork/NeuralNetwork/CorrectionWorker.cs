@@ -33,7 +33,7 @@ namespace Araneam
                 for (int i = start; i < finish; i++)
                 {
                     syn = vector[i].synapse.element;
-                    wei = vector[i].weight.element;
+                    wei = vector[i].Weight.element;
                     
                     fixed (double* psyn = syn, pwei = wei)
                     {

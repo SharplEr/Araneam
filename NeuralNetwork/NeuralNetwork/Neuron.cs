@@ -12,7 +12,25 @@ namespace Araneam
         [NonSerialized]
         public Vector synapse;
 
-        public Vector weight;
+        Vector weight;
+
+        public Vector Weight
+        {
+            get
+            {
+                return weight;
+            }
+            set
+            {
+                weight = value;
+                int n = weight.Length;
+                if (n != Length)
+                {
+                    synapse = new Vector(n);
+                    Length = n;
+                }
+            }
+        }
 
         public int Length
         {

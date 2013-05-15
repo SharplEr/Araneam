@@ -147,22 +147,22 @@ namespace UnitTestNetwork
 
                 hidden[1].CalcInvers(hidden[0].WithThreshold);
 
-                hidden[0].neuros[0].weight[0] = 1.0 / 2.0;
-                hidden[0].neuros[0].weight[1] = 1.0 / 3.0;
-                hidden[0].neuros[0].weight[2] = 1.0 / 4.0;
-                hidden[0].neuros[1].weight[0] = 1.0 / 5.0;
-                hidden[0].neuros[1].weight[1] = 1.0 / 6.0;
-                hidden[0].neuros[1].weight[2] = 1.0 / 7.0;
+                hidden[0].neuros[0].Weight[0] = 1.0 / 2.0;
+                hidden[0].neuros[0].Weight[1] = 1.0 / 3.0;
+                hidden[0].neuros[0].Weight[2] = 1.0 / 4.0;
+                hidden[0].neuros[1].Weight[0] = 1.0 / 5.0;
+                hidden[0].neuros[1].Weight[1] = 1.0 / 6.0;
+                hidden[0].neuros[1].Weight[2] = 1.0 / 7.0;
 
-                hidden[1].neuros[0].weight[0] = 1.0 / 8.0;
-                hidden[1].neuros[0].weight[1] = 1.0 / 9.0;
-                hidden[1].neuros[0].weight[2] = 1.0 / 10.0;
-                hidden[1].neuros[1].weight[0] = 1.0 / 11.0;
-                hidden[1].neuros[1].weight[1] = 1.0 / 12.0;
-                hidden[1].neuros[1].weight[2] = 1.0 / 13.0;
-                hidden[1].neuros[2].weight[0] = 1.0 / 14.0;
-                hidden[1].neuros[2].weight[1] = 1.0 / 15.0;
-                hidden[1].neuros[2].weight[2] = 1.0 / 16.0;
+                hidden[1].neuros[0].Weight[0] = 1.0 / 8.0;
+                hidden[1].neuros[0].Weight[1] = 1.0 / 9.0;
+                hidden[1].neuros[0].Weight[2] = 1.0 / 10.0;
+                hidden[1].neuros[1].Weight[0] = 1.0 / 11.0;
+                hidden[1].neuros[1].Weight[1] = 1.0 / 12.0;
+                hidden[1].neuros[1].Weight[2] = 1.0 / 13.0;
+                hidden[1].neuros[2].Weight[0] = 1.0 / 14.0;
+                hidden[1].neuros[2].Weight[1] = 1.0 / 15.0;
+                hidden[1].neuros[2].Weight[2] = 1.0 / 16.0;
             }
 
             public Vector[] LG(Vector e)

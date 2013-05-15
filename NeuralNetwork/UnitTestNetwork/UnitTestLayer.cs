@@ -69,12 +69,12 @@ namespace UnitTestNetwork
             NeuronLayer nl = new NeuronLayer(2, inp, false,"no");
             new Thread(() => nl.Input = v).InMTA();
             
-            nl.neuros[0].weight[0] = 0.5;
-            nl.neuros[0].weight[1] = 1.5;
+            nl.neuros[0].Weight[0] = 0.5;
+            nl.neuros[0].Weight[1] = 1.5;
 
-            nl.neuros[1].weight[0] = 1.0;
-            nl.neuros[1].weight[1] = 2.0;
-            nl.neuros[1].weight[2] = 3.0;
+            nl.neuros[1].Weight[0] = 1.0;
+            nl.neuros[1].Weight[1] = 2.0;
+            nl.neuros[1].Weight[2] = 3.0;
 
             Vector ans = null;
 
@@ -157,12 +157,12 @@ namespace UnitTestNetwork
             NeuronLayer nl = new NeuronLayer(2, inp, false, "no");
             new Thread(() => nl.Input = v).InMTA();
             
-            nl.neuros[0].weight[0] = 0.5;
-            nl.neuros[0].weight[1] = 1.5;
+            nl.neuros[0].Weight[0] = 0.5;
+            nl.neuros[0].Weight[1] = 1.5;
 
-            nl.neuros[1].weight[0] = 1.0;
-            nl.neuros[1].weight[1] = 2.0;
-            nl.neuros[1].weight[2] = 3.0;
+            nl.neuros[1].Weight[0] = 1.0;
+            nl.neuros[1].Weight[1] = 2.0;
+            nl.neuros[1].Weight[2] = 3.0;
 
             Vector ans = nl.CalcDer();
 
@@ -192,7 +192,7 @@ namespace UnitTestNetwork
             for(int i = 0; i<nl.neuros.Length; i++)
                 for (int j = 0; j < nl.neuros[i].Length; j++)
                 {
-                    Assert.AreEqual(nl.neuros[i].weight[j], newNl.neuros[i].weight[j], "Весы неверно скопированны");
+                    Assert.AreEqual(nl.neuros[i].Weight[j], newNl.neuros[i].Weight[j], "Весы неверно скопированны");
                 }
 
             new Thread(() => t2 = newNl.Calc()).InMTA();
