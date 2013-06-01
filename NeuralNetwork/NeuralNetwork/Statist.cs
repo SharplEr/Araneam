@@ -99,5 +99,19 @@ namespace Araneam
                     }
                 };
         }
+
+        /// <summary>
+        /// Оценка по пятибальной шкале качества ответов
+        /// </summary>
+        /// <param name="x">Число верно данных ответов</param>
+        /// <param name="p">Вероятность угадать ответ</param>
+        /// <param name="n">Число вопросов</param>
+        public static double Mark(int x, double p, int n)
+        {
+            return 2.0 + 3.0 / Math.Log(2) * (Math.Log(x / (n * p)));
+            // 2 - минимальная оценка
+            // 3 - диапазон отметок:  5-2=3
+            // Подразумевается что угадать все вопросы равновероятно
+        }
     }
 }
