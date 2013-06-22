@@ -289,7 +289,7 @@ namespace Araneam
             double x;
             for (int i = 0; i < neuros.Length; i++)
             {
-                x = 1.0 / Math.Sqrt(neuros[i].Length);
+                x = 1.0 / (Math.Sqrt(neuros[i].Length) * neuros.Length);
                 neuros[i].weight.SetRandom(-x, x);
             }
         }

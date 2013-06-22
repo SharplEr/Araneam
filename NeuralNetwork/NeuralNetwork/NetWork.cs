@@ -32,7 +32,7 @@ namespace Araneam
         protected  int n = 0;
 
         [NonSerialized]
-        protected NeuronLayer[] fixedLayers;
+        protected NeuronLayer[] fixedLayers;        
 
         /// <summary>
         /// Обработка входного сигнала
