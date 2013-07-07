@@ -128,6 +128,7 @@ namespace Araneam
 
             for (int i = 0; i < hidden.Length; i++)
             {
+                if (fixedLayers[i] != null) fixedLayers[i].Dispose();
                 NeuronLayer nl = (NeuronLayer)hidden[i].Clone();
                 fixedLayers[i] = nl;
             }

@@ -22,6 +22,9 @@ namespace Araneam
             else return Guess(m - 1, n - 1) + Guess(m, n - 1);
         }
 
+        /// <summary>
+        /// Возвращает массив случайных индексов от 0 до n-1
+        /// </summary>
         public static int[] getRandomIndex(int n)
         {
             int[] ans = new int[n];

@@ -227,7 +227,7 @@ namespace Araneam
             if (withThreshold)
             {
                 Output = new Vector(neuros.Length + 1);
-                Output[neuros.Length] = 0.5;
+                Output[neuros.Length] = 1.0 / neuros.Length;
             }
             else Output = new Vector(neuros.Length);
         }
@@ -289,7 +289,7 @@ namespace Araneam
             double x;
             for (int i = 0; i < neuros.Length; i++)
             {
-                x = 1.0 / (Math.Sqrt(neuros[i].Length) * neuros.Length);
+                x = 1.0 / (Math.Sqrt(neuros[i].Length));
                 neuros[i].weight.SetRandom(-x, x);
             }
         }
