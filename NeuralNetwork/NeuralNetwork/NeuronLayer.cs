@@ -291,13 +291,8 @@ namespace Araneam
             Random r = new Random();
             for (int i = 0; i < neuros.Length; i++)
             {
-<<<<<<< HEAD
                 x = 1.0 / Math.Sqrt(neuros[i].Length);
                 neuros[i].Weight.SetRandom(-x, x, r);
-=======
-                x = 1.0 / (Math.Sqrt(neuros[i].Length));
-                neuros[i].weight.SetRandom(-x, x);
->>>>>>> master
             }
         }
 
