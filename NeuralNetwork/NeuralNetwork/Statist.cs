@@ -22,6 +22,9 @@ namespace Araneam
             else return Guess(m - 1, n - 1) + Guess(m, n - 1);
         }
 
+        /// <summary>
+        /// Возвращает массив случайных индексов от 0 до n-1
+        /// </summary>
         public static int[] getRandomIndex(int n)
         {
             int[] ans = new int[n];
@@ -62,7 +65,7 @@ namespace Araneam
 
             int n = matrix[0].Length;
             Vector maxs = new Vector(n).Set(matrix[0]);
-            Vector avgs = new Vector(n).Set(matrix[0]);
+            Vector mins = new Vector(n).Set(matrix[0]);
             Vector vec;
             double x;
             for (int i = 1; i < matrix.Length; i++)
@@ -73,31 +76,29 @@ namespace Araneam
                 {
                     x = vec[j];
                     if (maxs[j] < x) maxs[j] = x;
-                    avgs[j] += x;
+                    if (mins[j] > x) mins[j] = x;
                 }
             }
-
-            avgs.Multiplication(1.0 / matrix.Length);
 
             for (int i = 0; i < matrix.Length; i++)
             {
                 for (int j = 0; j < n; j++)
                 {
-                    double t = maxs[j] - avgs[j];
+                    double t = maxs[j] - mins[j];
                     if (t == 0) matrix[i][j] = 0;
-                    else matrix[i][j] = (matrix[i][j] - avgs[j]) / t;
+                    else matrix[i][j] = 2.0 * (matrix[i][j] - maxs[j]) / t + 1;
                 }
             }
 
             return (v) =>
+            {
+                for (int i = 0; i < n; i++)
                 {
-                    for (int i = 0; i < n; i++)
-                    {
-                        double t = maxs[i] - avgs[i];
-                        if (t == 0) v[i] = 0;
-                        else v[i] = (v[i] - avgs[i]) / t;
-                    }
-                };
+                    double t = maxs[i] - mins[i];
+                    if (t == 0) v[i] = 0;
+                    else v[i] = 2.0*(v[i] - maxs[i]) / t + 1;
+                }
+            };
         }
 
         /// <summary>

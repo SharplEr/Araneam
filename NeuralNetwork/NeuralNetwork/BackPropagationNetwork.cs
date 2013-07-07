@@ -15,6 +15,7 @@ namespace Araneam
 
         protected Vector[] testDate = null;
         protected Vector[] resultDate = null;
+        protected int[] testCount = null;
 
         public BackPropagationNetwork(double r, double t, int LayerCount)
         {
@@ -29,12 +30,14 @@ namespace Araneam
         public void AddTestDate(Vector[] tests, Vector[] results)
         {
             List<Vector> t = tests.ToList();
+
             if (testDate != null) t.AddRange(testDate);
             testDate = t.ToArray();
 
             t = results.ToList();
             if (resultDate != null) t.AddRange(resultDate);
             resultDate = t.ToArray();
+            testCount = new int[testDate.Length];
         }
 
         protected void setLocalGrads(Vector e)
@@ -68,6 +71,8 @@ namespace Araneam
             const double r = 1.0 - 0.2;
 
             n = 0;
+            for (int i = 0; i < testCount.Length; i++)
+                testCount[i] = 1;
 
             int finish = (int)Math.Round(testDate.Length * r);
 
@@ -77,21 +82,47 @@ namespace Araneam
             int[] indexs;
 
             int count = 0;
-            int max = 20;
+            int max = 30;
+
+            int maxTestCount = 0;
+            int minTestCount = Int32.MaxValue;
+
+            int N;
+
             do
             {
                 indexs = Statist.getRandomIndex(testDate.Length);
-
+                int k;
+                maxTestCount = 0;
+                minTestCount = Int32.MaxValue;
+                for (int i = 0; i < testCount.Length; i++)
+                {
+                    if (maxTestCount < testCount[i]) maxTestCount = testCount[i];
+                    if (minTestCount > testCount[i]) minTestCount = testCount[i];
+                }
+                N = maxTestCount / minTestCount;
+                N = (int)Math.Sqrt(N);
                 for (int i = 0; i < finish; i++)
                 {
-                    Learn(testDate[indexs[i]], resultDate[indexs[i]]);
+                    k = indexs[i];
+
+                    int c = testCount[k];
+                    testCount[k] += (int)Learn(testDate[k], resultDate[k]);
+                    int m = (int)((N - 1.0) * minTestCount * ((double)maxTestCount / c - 1.0) / (maxTestCount - minTestCount) + 1.0);
+                    for (int j = 0; j < m; j++)
+                    {
+                        Learn(testDate[k], resultDate[k]);
+                    }
                 }
 
                 error = 0.0;
-
+                double eee;
                 for (int i = finish; i < testDate.Length; i++)
                 {
-                    error += (double)(resultDate[indexs[i]] - Calculation(testDate[indexs[i]]));
+                    k = indexs[i];
+                    eee = (double)(resultDate[k] - Calculation(testDate[k]));
+                    testCount[k] += (int) eee;
+                    error += eee;
                 }
 
                 indexs = Statist.getRandomIndex(testDate.Length);
@@ -123,7 +154,7 @@ namespace Araneam
         {
             n = 0;
 
-            double error = Double.PositiveInfinity;
+            double error;
             int[] indexs;
 
             do
