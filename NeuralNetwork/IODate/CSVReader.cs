@@ -44,6 +44,31 @@ namespace IODate
             }
         }
 
+        public CSVReader(string[] tags, params string[] name)
+        {
+            List<string[]> temp = new List<string[]>();
+            lineLength = tags.Length;
+            for (int i = 0; i < name.Length; i++)
+            {
+                CSVReader reader = new CSVReader(name[i]);
+                for (int j = 0; j < reader.countLine; j++)
+                {
+                    string[] strs = new string[lineLength];
+                    for (int k = 0; k < lineLength; k++)
+                    {
+                        strs[k] = reader[j, tags[k]];
+                    }
+                    temp.Add(strs);
+                }
+            }
+            allElement = temp.ToArray();
+            countLine = allElement.Length;
+            for (int i = 0; i<tags.Length; i++)
+            {
+                map.Add(tags[i].ToUpper(), i);
+            }
+        }
+
         string[] Separating(string s)
         {
             List<string> ans = new List<string>();

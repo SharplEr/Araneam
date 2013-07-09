@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows Desktop
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetwork", "NeuralNetwork\Araneam.csproj", "{46FC5442-371E-4CBB-8E3C-05AEEF639B5C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Araneam", "NeuralNetwork\Araneam.csproj", "{46FC5442-371E-4CBB-8E3C-05AEEF639B5C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyParallel", "..\MyParallel\MyParallel\MyParallel.csproj", "{458CCDBC-BF99-4B55-8044-926C317943A0}"
 EndProject
@@ -11,7 +11,39 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestVector", "..\Vector
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestNetwork", "UnitTestNetwork\UnitTestNetwork.csproj", "{B441FE24-C224-4C72-8B3B-8DF0BE97A3CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IODate", "IODate\IODate.csproj", "{8471FC16-BA93-417C-ADBC-637139501CC8}"
+EndProject
 Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://mephigenomeproject.visualstudio.com/defaultcollection
+		SccProjectUniqueName0 = ..\\MyParallel\\MyParallel\\MyParallel.csproj
+		SccProjectName0 = ../MyParallel/MyParallel
+		SccAuxPath0 = https://mephigenomeproject.visualstudio.com/defaultcollection
+		SccLocalPath0 = ..\\MyParallel\\MyParallel
+		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName1 = ..\\VectorSpace\\VectorSpace\\VectorSpace.csproj
+		SccProjectName1 = ../VectorSpace/VectorSpace
+		SccAuxPath1 = https://mephigenomeproject.visualstudio.com/defaultcollection
+		SccLocalPath1 = ..\\VectorSpace\\VectorSpace
+		SccProvider1 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName2 = NeuralNetwork\\Araneam.csproj
+		SccProjectName2 = NeuralNetwork
+		SccAuxPath2 = https://mephigenomeproject.visualstudio.com/defaultcollection
+		SccLocalPath2 = NeuralNetwork
+		SccProvider2 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName3 = ..\\VectorSpace\\UnitTestVector\\UnitTestVector.csproj
+		SccProjectName3 = ../VectorSpace/UnitTestVector
+		SccAuxPath3 = https://mephigenomeproject.visualstudio.com/defaultcollection
+		SccLocalPath3 = ..\\VectorSpace\\UnitTestVector
+		SccProvider3 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName4 = UnitTestNetwork\\UnitTestNetwork.csproj
+		SccProjectName4 = UnitTestNetwork
+		SccAuxPath4 = https://mephigenomeproject.visualstudio.com/defaultcollection
+		SccLocalPath4 = UnitTestNetwork
+		SccProvider4 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -37,6 +69,10 @@ Global
 		{B441FE24-C224-4C72-8B3B-8DF0BE97A3CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B441FE24-C224-4C72-8B3B-8DF0BE97A3CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B441FE24-C224-4C72-8B3B-8DF0BE97A3CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8471FC16-BA93-417C-ADBC-637139501CC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8471FC16-BA93-417C-ADBC-637139501CC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8471FC16-BA93-417C-ADBC-637139501CC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8471FC16-BA93-417C-ADBC-637139501CC8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
