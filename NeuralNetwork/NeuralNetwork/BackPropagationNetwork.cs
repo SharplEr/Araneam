@@ -82,7 +82,7 @@ namespace Araneam
             int[] indexs;
 
             int count = 0;
-            int max = 30;
+            int max = 10;
 
             int maxTestCount = 0;
             int minTestCount = Int32.MaxValue;
@@ -101,7 +101,7 @@ namespace Araneam
                     if (minTestCount > testCount[i]) minTestCount = testCount[i];
                 }
                 N = maxTestCount / minTestCount;
-                N = (int)Math.Sqrt(N);
+                N = (int)Math.Sqrt(N / Math.E);
                 for (int i = 0; i < finish; i++)
                 {
                     k = indexs[i];
