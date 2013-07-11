@@ -66,8 +66,9 @@ namespace Araneam
             }
         }
 
-        public virtual void EarlyStoppingLearn()
+        public virtual LearnLog EarlyStoppingLearn()
         {
+            int epoch = 0;
             const double r = 1.0 - 0.2;
 
             n = 0;
@@ -135,13 +136,15 @@ namespace Araneam
                     Fix();
                 }
                 else count++;
-                
+
+                epoch++;
             } while (count<max);
 
             ReFix();
+            return new LearnLog(n, epoch);
         }
 
-        public virtual double FullLearn()
+        public virtual LearnLog FullLearn()
         {
             double minError = (double)hidden[hidden.Length - 1].Output.Length / (testDate.Length + 1);
             return FullLearn(minError);
@@ -150,8 +153,9 @@ namespace Araneam
         /// <summary>
         /// Полное обучение
         /// </summary>
-        public virtual double FullLearn(double minError)
+        public virtual LearnLog FullLearn(double minError)
         {
+            int epoch = 0;
             n = 0;
 
             double error;
@@ -166,10 +170,10 @@ namespace Araneam
                     error += Learn(testDate[indexs[i]], resultDate[indexs[i]]);
                 }
                 error = Math.Sqrt(error) / testDate.Length;
-
+                epoch++;
             } while (error > minError);
 
-            return error;
+            return new LearnLog(n, epoch, error);
         }
 
         public override double Learn(Vector x, Vector d)
