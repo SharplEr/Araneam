@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using VectorSpace;
 
-namespace Araneam
+namespace IODate
 {
     public static class Statist
     {
@@ -96,7 +97,7 @@ namespace Araneam
                 {
                     double t = maxs[i] - mins[i];
                     if (t == 0) v[i] = 0;
-                    else v[i] = 2.0*(v[i] - maxs[i]) / t + 1;
+                    else v[i] = 2.0 * (v[i] - maxs[i]) / t + 1;
                 }
             };
         }

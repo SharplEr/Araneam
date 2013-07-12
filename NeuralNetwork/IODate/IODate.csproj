@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>IODate</RootNamespace>
     <AssemblyName>IODate</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,6 +44,21 @@
     <Compile Include="DateAnalysis.cs" />
     <Compile Include="DateInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Statist.cs" />
+    <Compile Include="TagsExtension.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MyParallel\MyParallel\MyParallel.csproj">
+      <Project>{458ccdbc-bf99-4b55-8044-926c317943a0}</Project>
+      <Name>MyParallel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\VectorSpace\VectorSpace\VectorSpace.csproj">
+      <Project>{82c4c097-83df-4c8a-acf7-bd4cd7fbdbc9}</Project>
+      <Name>VectorSpace</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
