@@ -21,13 +21,18 @@ namespace IODate
             protected set;
         }
 
-        public readonly Action<Vector> convert;
+        public readonly Action<Vector> Convert;
+
+        readonly DateInfo info;
+
+        public readonly DateReader Reader;
 
         public DateAnalysis(string[] fileNames, string[] TestTags, string[] ResultTags, string[] NumberTags, Func<string[], double> fEq, Func<string, double> ToDouble)
         {
-            CSVReader reader = new CSVReader(TestTags.Union(ResultTags).ToArray(), fileNames);
+            string[] AllTags = TestTags.Union(ResultTags).ToArray();
+            CSVReader reader = new CSVReader(AllTags, fileNames);
             string[] DiscreteTags = TestTags.Remove(NumberTags);
-            DateInfo info = new DateInfo(reader, DiscreteTags, ResultTags, fEq);
+            info = new DateInfo(reader, DiscreteTags, ResultTags, fEq);
 
             TestDate = new Vector[reader.countLine];
             ResultDate = new Vector[reader.countLine];
@@ -48,7 +53,8 @@ namespace IODate
                 TestDate[i][TestTags.Length] = 1.0;
             }
 
-            convert = TestDate.Normalization();
+            Convert = TestDate.Normalization();
+            Reader = new DateReader(info, AllTags, ResultTags, TestTags, NumberTags, DiscreteTags, Convert, ToDouble);
         }
     }
 }
