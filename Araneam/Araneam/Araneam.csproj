@@ -8,8 +8,8 @@
     <ProjectGuid>{46FC5442-371E-4CBB-8E3C-05AEEF639B5C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NeuralNetwork</RootNamespace>
-    <AssemblyName>NeuralNetwork</AssemblyName>
+    <RootNamespace>Araneam</RootNamespace>
+    <AssemblyName>Araneam</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -71,6 +71,10 @@
     <Compile Include="Two.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\IODate\IODate.csproj">
+      <Project>{8471fc16-ba93-417c-adbc-637139501cc8}</Project>
+      <Name>IODate</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\MyParallel\MyParallel\MyParallel.csproj">
       <Project>{458CCDBC-BF99-4B55-8044-926C317943A0}</Project>
       <Name>MyParallel</Name>
