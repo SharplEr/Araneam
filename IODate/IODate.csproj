@@ -52,11 +52,11 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MyParallel\MyParallel\MyParallel.csproj">
+    <ProjectReference Include="..\MyParallel\MyParallel\MyParallel.csproj">
       <Project>{458ccdbc-bf99-4b55-8044-926c317943a0}</Project>
       <Name>MyParallel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\VectorSpace\VectorSpace\VectorSpace.csproj">
+    <ProjectReference Include="..\VectorSpace\VectorSpace\VectorSpace.csproj">
       <Project>{82c4c097-83df-4c8a-acf7-bd4cd7fbdbc9}</Project>
       <Name>VectorSpace</Name>
     </ProjectReference>

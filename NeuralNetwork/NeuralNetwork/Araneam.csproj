@@ -79,10 +79,6 @@
       <Project>{82C4C097-83DF-4C8A-ACF7-BD4CD7FBDBC9}</Project>
       <Name>VectorSpace</Name>
     </ProjectReference>
-    <ProjectReference Include="..\IODate\IODate.csproj">
-      <Project>{8471fc16-ba93-417c-adbc-637139501cc8}</Project>
-      <Name>IODate</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

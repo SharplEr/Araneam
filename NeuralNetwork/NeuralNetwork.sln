@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestVector", "..\Vector
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestNetwork", "UnitTestNetwork\UnitTestNetwork.csproj", "{B441FE24-C224-4C72-8B3B-8DF0BE97A3CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IODate", "IODate\IODate.csproj", "{8471FC16-BA93-417C-ADBC-637139501CC8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IODate", "..\IODate\IODate.csproj", "{8471FC16-BA93-417C-ADBC-637139501CC8}"
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
