@@ -1,7 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows Desktop
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IODate", "IODate.csproj", "{8471FC16-BA93-417C-ADBC-637139501CC8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestIODate", "UnitTestIODate\UnitTestIODate.csproj", "{52C608BD-51E9-4016-ADE5-004A6DE681C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IODate", "IODate\IODate.csproj", "{8471FC16-BA93-417C-ADBC-637139501CC8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,6 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{52C608BD-51E9-4016-ADE5-004A6DE681C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52C608BD-51E9-4016-ADE5-004A6DE681C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52C608BD-51E9-4016-ADE5-004A6DE681C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52C608BD-51E9-4016-ADE5-004A6DE681C4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8471FC16-BA93-417C-ADBC-637139501CC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8471FC16-BA93-417C-ADBC-637139501CC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8471FC16-BA93-417C-ADBC-637139501CC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
