@@ -50,7 +50,7 @@ namespace UnitTestIODate
             matrix[1] = new Vector(2);
             matrix[1][0] = -1;
             matrix[1][1] = 4;
-            Action<Vector> f = matrix.Normalization();
+            Action<Vector> f = matrix.Normalization(1.0);
 
             Assert.AreEqual(matrix[0][0], 1.0, "Не нормализует массив");
             Assert.AreEqual(matrix[0][1], -1.0, "Не нормализует массив");

@@ -59,7 +59,7 @@ namespace IODate
         /// <summary>
         /// Нормализует по эллементно массив векторов и возвращает функцию нормализации
         /// </summary>
-        public static Action<Vector> Normalization(this Vector[] matrix)
+        public static Action<Vector> Normalization(this Vector[] matrix, double c)
         {
             if (matrix == null) throw new ArgumentNullException();
             if (matrix.Length == 0) throw new ArgumentNullException("Длина ноль");
@@ -86,7 +86,7 @@ namespace IODate
                 for (int j = 0; j < n; j++)
                 {
                     double t = maxs[j] - mins[j];
-                    if (t == 0) matrix[i][j] = 0;
+                    if (t == 0) matrix[i][j] = c;
                     else matrix[i][j] = 2.0 * (matrix[i][j] - maxs[j]) / t + 1;
                 }
             }
@@ -96,7 +96,7 @@ namespace IODate
                 for (int i = 0; i < n; i++)
                 {
                     double t = maxs[i] - mins[i];
-                    if (t == 0) v[i] = 0;
+                    if (t == 0) v[i] = c;
                     else v[i] = 2.0 * (v[i] - maxs[i]) / t + 1;
                 }
             };

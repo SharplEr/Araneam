@@ -53,7 +53,7 @@ namespace IODate
                 TestDate[i][TestTags.Length] = 1.0;
             }
 
-            Convert = TestDate.Normalization();
+            Convert = TestDate.Normalization(1.0);
             Reader = new DateReader(info, AllTags, ResultTags, TestTags, NumberTags, DiscreteTags, Convert, ToDouble);
         }
     }
