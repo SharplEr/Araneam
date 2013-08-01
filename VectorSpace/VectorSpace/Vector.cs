@@ -59,7 +59,16 @@ namespace VectorSpace
 
         public Object Clone()
         {
-            return new Vector(element.Length, (i)=>element[i]);
+            Vector v = new Vector(element.Length);
+            //Магическая константа при размере массива больше которой стандартный метод обгоняет простую итерацию
+            if (element.Length < 50)
+            {
+                for (int i = 0; i < element.Length; i++)
+                    v.element[i] = element[i];
+            }
+            else
+                element.CopyTo(v.element, 0);
+            return v;
         }
 
         public static Vector operator +(Vector vf, Vector vc)
