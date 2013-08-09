@@ -21,7 +21,7 @@ namespace VectorSpace
         /// <param name="n">Размерность</param>
         public Vector(int n)
         {
-            if (n == 0) throw new ArgumentException();
+            if (n <= 0) throw new ArgumentException("размерность вектора должен быть больше 0");
             element = new Double[n];
         }
 
@@ -32,7 +32,7 @@ namespace VectorSpace
         /// <param name="f">Функция инициализации</param>
         public Vector(int n, Func<int, Double> f)
         {
-            if (n == 0) throw new ArgumentException();
+            if (n <= 0) throw new ArgumentException("размерность вектора должен быть больше 0");
             element = new Double[n];
             for (int i = 0; i < n; i++) element[i] = f(i);
         }
@@ -60,7 +60,7 @@ namespace VectorSpace
         public Object Clone()
         {
             Vector v = new Vector(element.Length);
-            //Магическая константа при размере массива больше которой стандартный метод обгоняет простую итерацию
+            //Магическая константа, при размере массива больше которой стандартный метод обгоняет простую итерацию
             if (element.Length < 50)
             {
                 for (int i = 0; i < element.Length; i++)
@@ -209,10 +209,17 @@ namespace VectorSpace
             return this;
         }
 
+        //!
         public Vector Set(Vector v)
         {
-            for (int i = 0; i < element.Length; i++)
-                element[i] = v[i];
+            if (element.Length < 50)
+            {
+                for (int i = 0; i < element.Length; i++)
+                    element[i] = v[i];
+            }
+            else
+                v.element.CopyTo(element, 0);
+
             return this;
         }
 
