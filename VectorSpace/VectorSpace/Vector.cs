@@ -122,12 +122,21 @@ namespace VectorSpace
         /// </summary>
         /// <param name="v">Вектор</param>
         /// <returns>Квадрат нормы вектора</returns>
-        public static explicit operator Double(Vector v)
+        public static unsafe explicit operator Double(Vector v)
         {
-            Double ans = 0.0;
-
-            for (int i = 0; i < v.Length; i++) ans += v[i] * v[i];
-
+            double ans = 0.0;
+            fixed (double* pv0 = v.element)
+            {
+                double* pv = pv0;
+                double* pend = pv0 + v.Length;
+                double t;
+                while (pv < pend)
+                {
+                    t = *pv;
+                    ans += t * t;
+                    pv++;
+                }
+            }
             return ans;
         }
 
