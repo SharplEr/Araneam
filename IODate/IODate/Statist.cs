@@ -29,18 +29,19 @@ namespace IODate
         public static int[] getRandomIndex(int n)
         {
             int[] ans = new int[n];
-            List<int> index = new List<int>();
             Random r = new Random();
-            int i, k;
-            for (i = 0; i < n; i++) index.Add(i);
+            int i, k, t;
+            for (i = 0; i < n; i++)
+                ans[i] = i;
 
-            for (i = 0; i < (n - 1); i++)
+            for (i = n - 1; i >= 0; i--)
             {
-                k = r.Next(index.Count - 1);
-                ans[i] = index[k];
-                index.RemoveAt(k);
+                k = r.Next(i);
+                t = ans[i];
+                ans[i] = ans[k];
+                ans[k] = t;
             }
-            ans[n - 1] = index[0];
+
             return ans;
         }
 
