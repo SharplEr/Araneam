@@ -8,6 +8,9 @@ using MyParallel;
 
 namespace IODate
 {
+    /// <summary>
+    /// Класс предназначенный для выделения данных из множества файлов
+    /// </summary>
     public class DateAnalysis
     {
         public Vector[] TestDate

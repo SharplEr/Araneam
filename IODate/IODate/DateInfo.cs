@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace IODate
 {
+    /// <summary>
+    /// Класс преднозначенный для нумерования дискретных именных значений
+    /// </summary>
     public class DateInfo
     {
         Dictionary<string, List<string>> sortDic = new Dictionary<string,List<string>>();

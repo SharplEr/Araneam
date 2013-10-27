@@ -6,6 +6,9 @@ using VectorSpace;
 
 namespace IODate
 {
+    /// <summary>
+    /// Класс предназначенный для считывания данных из csv файла
+    /// </summary>
     public class DateReader
     {
         DateInfo info;
@@ -22,6 +25,17 @@ namespace IODate
         Action<Vector> convert;
         Func<string, double> ToDouble;
 
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <param name="inf"></param>
+        /// <param name="aTags">Имя всех важных колонок</param>
+        /// <param name="rTags">Имя колонки ответов</param>
+        /// <param name="tTags">Имя колонок входных данных</param>
+        /// <param name="nTags">Имя колонок с числовыми (потенциально) непрерывными значениями</param>
+        /// <param name="dTags">Имя колонок с дискретными именными значениями</param>
+        /// <param name="conv">Дополнительное преобразование входных данных</param>
+        /// <param name="td">Преобразование из строки в число для непрерывных значений</param>
         public DateReader(
             DateInfo inf,
             string[] aTags,

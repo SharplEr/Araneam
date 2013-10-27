@@ -14,33 +14,42 @@ namespace IODate
         readonly public int countLine;
         readonly public int lineLength;
 
+        static Action<string, SystemException> OnError;
+
         public CSVReader(string name)
         {
-            StreamReader reader = new StreamReader(name);
-            List<string> ans = new List<string>();
-            string s;
-            do
+            try
             {
-                s = reader.ReadLine();
-                if (s != null) ans.Add(s);
-            } while (s != null);
-            reader.Close();
-            allElement = new string[ans.Count - 1][];
+                StreamReader reader = new StreamReader(name);
+                List<string> ans = new List<string>();
+                string s;
+                do
+                {
+                    s = reader.ReadLine();
+                    if (s != null) ans.Add(s);
+                } while (s != null);
+                reader.Close();
+                allElement = new string[ans.Count - 1][];
 
-            countLine = allElement.Length;
+                countLine = allElement.Length;
 
-            for (int i = 1; i < ans.Count; i++)
-            {
-                allElement[i - 1] = Separating(ans[i]);
+                for (int i = 1; i < ans.Count; i++)
+                {
+                    allElement[i - 1] = Separating(ans[i]);
+                }
+
+                string[] strs = Separating(ans[0]);
+
+                lineLength = strs.Length;
+
+                for (int i = 0; i < strs.Length; i++)
+                {
+                    map.Add(strs[i].ToUpper(), i);
+                }
             }
-
-            string[] strs = Separating(ans[0]);
-
-            lineLength = strs.Length;
-
-            for (int i = 0; i < strs.Length; i++)
+            catch(SystemException e)
             {
-                map.Add(strs[i].ToUpper(), i);
+                OnError("Error in CSVReader at constructor(string name = '"+ name+"'.", e);
             }
         }
 
