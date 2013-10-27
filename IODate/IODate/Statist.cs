@@ -9,6 +9,8 @@ namespace IODate
 {
     public static class Statist
     {
+        static Random r = new Random();
+
         /// <summary>
         /// Способов угадать m бит из n
         /// </summary>
@@ -29,7 +31,7 @@ namespace IODate
         public static int[] getRandomIndex(int n)
         {
             int[] ans = new int[n];
-            Random r = new Random();
+
             int i, k, t;
             for (i = 0; i < n; i++)
                 ans[i] = i;
@@ -40,6 +42,22 @@ namespace IODate
                 t = ans[i];
                 ans[i] = ans[k];
                 ans[k] = t;
+            }
+
+            return ans;
+        }
+
+        static int[] ReservoirSampling(int k, int n)
+        {
+            int[] ans = new int[k];
+            for (int i = 0; i < k; i++)
+                ans[i] = i;
+
+            int j;
+            for (int i = k; i < n; i++)
+            {
+                j = r.Next(i);
+                if (j < k) ans[j] = i;
             }
 
             return ans;
