@@ -16,7 +16,9 @@ namespace Araneam
 
         protected Vector[] testDate = null;
         protected Vector[] resultDate = null;
-        protected int[] testCount = null;
+        protected double[] testCount = null;
+        double[] ratios;
+        int[] classCount;
 
         public BackPropagationNetwork(double r, double t, int LayerCount)
         {
@@ -28,17 +30,36 @@ namespace Araneam
             LocalGrads = new Vector[LayerCount];
         }
 
-        public void AddTestDate(Vector[] tests, Vector[] results)
+        public void AddTestDate(Vector[] tests, Vector[] results, int[] cc)
         {
-            List<Vector> t = tests.ToList();
+            classCount = cc;
+            int max = 0;
 
+            for(int i = 0; i<classCount.Length; i++)
+                if (max<classCount[i]) max = classCount[i];
+            
+            ratios = new double[results.Length];
+            
+            int k = 0;
+
+            for(int i = 0; i<classCount.Length; i++)
+            {
+                for (int j = 0; j < classCount[i]; j++)
+                {
+                    ratios[k] = (double)max / classCount[i];                    
+                    k++;
+                }
+            }
+
+            List<Vector> t = tests.ToList();
+            
             if (testDate != null) t.AddRange(testDate);
             testDate = t.ToArray();
 
             t = results.ToList();
             if (resultDate != null) t.AddRange(resultDate);
             resultDate = t.ToArray();
-            testCount = new int[testDate.Length];
+            testCount = new double[testDate.Length];
         }
 
         protected void setLocalGrads(Vector e)
@@ -67,14 +88,13 @@ namespace Araneam
             }
         }
 
-        public virtual LearnLog EarlyStoppingLearn()
+        public virtual LearnLog EarlyStoppingLearn(bool flag)
         {
             int epoch = 0;
             const double r = 1.0 - 0.2;
+            double[] rats = (double[]) ratios.Clone();
 
             n = 0;
-            for (int i = 0; i < testCount.Length; i++)
-                testCount[i] = 1;
 
             int finish = (int)Math.Round(testDate.Length * r);
 
@@ -82,53 +102,135 @@ namespace Araneam
             double errorMin = Double.PositiveInfinity;
 
             int[] indexs;
-
+            int mmm=-1;
             int count = 0;
-            int max = 10;
+            //m=10
+            int max = 5;
 
-            int maxTestCount = 0;
-            int minTestCount = Int32.MaxValue;
+            //double maxTestCount;
+            //double minTestCount;
+            //double N;
 
-            int N;
+            for (int i = 0; i < testDate.Length; i++)
+            {
+                indexs = Statist.getRandomIndex(testDate.Length);
+                int k = indexs[i];
+                Learn(testDate[k], resultDate[k], rats[k]);
+            }
+
+            Vector[] calcDate = Calculation(testDate);
+            double[] errors = new double[classCount.Length];
+            double maxError = 0.0;
+            int l = 0;
+            for (int i = 0; i < errors.Length; i++)
+            {
+                errors[i] = 0.0;
+                int k = classCount[i];
+                for (int j = 0; j < k; j++)
+                {
+                    errors[i] += (double)(calcDate[j + l] - resultDate[j + l]);
+                }
+                errors[i] /= k;
+                l += k;
+                if (maxError < errors[i]) maxError = errors[i];
+            }
+
+            l = 0;
+            for (int i = 0; i < classCount.Length; i++)
+            {
+                for (int j = 0; j < classCount[i]; j++)
+                {
+                    rats[l] = rats[l] / maxError * errors[i];
+                    l++;
+                }
+            }
 
             do
             {
                 indexs = Statist.getRandomIndex(testDate.Length);
                 int k;
-                maxTestCount = 0;
-                minTestCount = Int32.MaxValue;
-                for (int i = 0; i < testCount.Length; i++)
-                {
-                    if (maxTestCount < testCount[i]) maxTestCount = testCount[i];
-                    if (minTestCount > testCount[i]) minTestCount = testCount[i];
-                }
-                N = maxTestCount / minTestCount;
-                N = (int)Math.Sqrt(N / Math.E);
+                /*
+                maxTestCount = 1;
+                minTestCount = 1;
                 for (int i = 0; i < finish; i++)
                 {
                     k = indexs[i];
+                    if (maxTestCount < testCount[k]) maxTestCount = testCount[k];
+                    if (minTestCount > testCount[k]) minTestCount = testCount[k];
+                }
+                */
+                //N = maxTestCount / minTestCount;
+                //N = (int)Math.Sqrt(N / Math.E);
+                for (int i = 0; i < finish; i++)
+                {
+                    k = indexs[i];
+                    Learn(testDate[k], resultDate[k], rats[k]);
 
-                    int c = testCount[k];
-                    testCount[k] += (int)Learn(testDate[k], resultDate[k]);
-                    int m = (int)((N - 1.0) * minTestCount * ((double)maxTestCount / c - 1.0) / (maxTestCount - minTestCount) + 1.0);
+                    //double c = testCount[k];
+                    //testCount[k] += Math.Sqrt(Learn(testDate[k], resultDate[k], ratios[k]));
+                    //int m = (int)((N - 1.0) * minTestCount * ((double)maxTestCount / c - 1.0) / (maxTestCount - minTestCount) + 1.0);
+                    /*
                     for (int j = 0; j < m; j++)
                     {
                         Learn(testDate[k], resultDate[k]);
                     }
+                    */
                 }
+
+                calcDate = Calculation(testDate);
+                maxError = -1;
+                l = 0;
+                for (int i = 0; i < errors.Length; i++)
+                {
+                    errors[i] = 0.0;
+                    int m = classCount[i];
+                    for (int j = 0; j < m; j++)
+                    {
+                        errors[i] += Math.Sqrt((double)(calcDate[j + l] - resultDate[j + l]));
+                    }
+                    errors[i] /= m;
+                    l += m;
+                    if (maxError < errors[i])
+                    {
+                        maxError = errors[i];
+                        mmm = i;
+                    }
+                }
+
+                l = 0;
+                for (int i = 0; i < classCount.Length; i++)
+                {
+                    for (int j = 0; j < classCount[i]; j++)
+                    {
+                        if (((mmm==i)&&(rats[l]<1.0))||((mmm != i)&&(rats[l])==1.0))
+                            rats[l] = ratios[l] / maxError * errors[i];
+                        else rats[l] *= errors[i]/maxError;
+
+                        //rats[l] = rats[l] / maxError * errors[i];
+                        l++;
+                    }
+                }
+
+                double maxrat = 0.0;
+
+                for (int i = 0; i < rats.Length; i++)
+                    if (maxrat < rats[i]) maxrat = rats[i];
+
+                for (int i = 0; i < rats.Length; i++)
+                    rats[i]/=maxrat;
 
                 error = 0.0;
                 double eee;
                 for (int i = finish; i < testDate.Length; i++)
                 {
                     k = indexs[i];
-                    eee = (double)(resultDate[k] - Calculation(testDate[k]));
+                    eee = ratios[k]*(double)(resultDate[k] - Calculation(testDate[k]));
+                    eee = Math.Sqrt(eee);
                     testCount[k] += (int) eee;
                     error += eee;
                 }
 
-                indexs = Statist.getRandomIndex(testDate.Length);
-                error = Math.Sqrt(error) / testDate.Length;
+                error = error / testDate.Length;
 
                 if (error < errorMin)
                 {
@@ -140,9 +242,120 @@ namespace Araneam
 
                 epoch++;
             } while (count<max);
-
+            //Нармировать r!!11
             ReFix();
-            return new LearnLog(n, epoch);
+            if (flag)
+            {
+                calcDate = Calculation(testDate);
+                double err=0.0;
+                for (int i = 0; i < calcDate.Length; i++)
+                    err += Math.Sqrt((double)(calcDate[i] - resultDate[i]));
+                err /= calcDate.Length;
+                return new LearnLog(n, epoch, err);
+            }
+            else return new LearnLog(n, epoch);
+        }
+
+
+        public virtual void NewLearn()
+        {
+            int epoch = 0;
+           
+            double[] rats = (double[])ratios.Clone();
+
+            n = 0;
+
+            int[] indexs;
+            int mmm = -1;
+
+            for (int i = 0; i < testDate.Length; i++)
+            {
+                indexs = Statist.getRandomIndex(testDate.Length);
+                int k = indexs[i];
+                Learn(testDate[k], resultDate[k], rats[k]);
+            }
+
+            Vector[] calcDate = Calculation(testDate);
+            double[] errors = new double[classCount.Length];
+            double maxError = 0.0;
+            int l = 0;
+            for (int i = 0; i < errors.Length; i++)
+            {
+                errors[i] = 0.0;
+                int k = classCount[i];
+                for (int j = 0; j < k; j++)
+                {
+                    errors[i] += (double)(calcDate[j + l] - resultDate[j + l]);
+                }
+                errors[i] /= k;
+                l += k;
+                if (maxError < errors[i]) maxError = errors[i];
+            }
+
+            l = 0;
+            for (int i = 0; i < classCount.Length; i++)
+            {
+                for (int j = 0; j < classCount[i]; j++)
+                {
+                    rats[l] = rats[l] / maxError * errors[i];
+                    l++;
+                }
+            }
+
+            do
+            {
+                indexs = Statist.getRandomIndex(testDate.Length);
+                int k;
+
+                for (int i = 0; i < testDate.Length; i++)
+                {
+                    k = indexs[i];
+                    Learn(testDate[k], resultDate[k], rats[k]);
+                }
+
+                calcDate = Calculation(testDate);
+                maxError = -1;
+                l = 0;
+                for (int i = 0; i < errors.Length; i++)
+                {
+                    errors[i] = 0.0;
+                    int m = classCount[i];
+                    for (int j = 0; j < m; j++)
+                    {
+                        errors[i] += Math.Sqrt((double)(calcDate[j + l] - resultDate[j + l]));
+                    }
+                    errors[i] /= m;
+                    l += m;
+                    if (maxError < errors[i])
+                    {
+                        maxError = errors[i];
+                        mmm = i;
+                    }
+                }
+
+                l = 0;
+                for (int i = 0; i < classCount.Length; i++)
+                {
+                    for (int j = 0; j < classCount[i]; j++)
+                    {
+                        if (((mmm == i) && (rats[l] < 1.0)) || ((mmm != i) && (rats[l]) == 1.0))
+                            rats[l] = ratios[l] / maxError * errors[i];
+                        else rats[l] *= errors[i] / maxError;
+
+                        l++;
+                    }
+                }
+
+                double maxrat = 0.0;
+
+                for (int i = 0; i < rats.Length; i++)
+                    if (maxrat < rats[i]) maxrat = rats[i];
+
+                for (int i = 0; i < rats.Length; i++)
+                    rats[i] /= maxrat;
+
+                epoch++;
+            } while (n<100000);
         }
 
         public virtual LearnLog FullLearn()
@@ -175,6 +388,48 @@ namespace Araneam
             } while (error > minError);
 
             return new LearnLog(n, epoch, error);
+        }
+
+        public double Learn(Vector x, Vector d, double r)
+        {
+            if (hidden == null) throw new ArgumentNullException();
+
+            double ans = 0.0;
+
+            Vector y = Calculation(x);
+            Vector errorSignal = d - y;
+            ans = (double)errorSignal;
+
+            setLocalGrads(errorSignal);
+
+            double h = r * rateStart / (1.0 + (double)(n) / timeLearn);
+
+            int max = Int32.MinValue;
+            int min = Int32.MaxValue;
+            int now;
+            for (int i = 0; i < hidden.Length; i++)
+            {
+                now = hidden[i].Input.Length;
+                if (now > max) max = now;
+                if (now < min) min = now;
+            }
+
+            double t = Math.Sqrt(min);
+            double m = 1.0 / (Math.Sqrt(max) - t);
+            double b = 1.0 - t * m;
+
+            double p;
+
+            //Можно расспаралелить, так как корректировка не зависит от последовательности
+
+            for (int i = 0; i < hidden.Length; i++)
+            {
+                p = (Math.Sqrt(hidden[i].Input.Length) * m + b);
+                hidden[i].Сorrection(LocalGrads[i].Multiplication(h / p));
+            }
+
+            n++;
+            return ans;
         }
 
         public override double Learn(Vector x, Vector d)

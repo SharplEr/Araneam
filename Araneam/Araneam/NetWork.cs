@@ -41,6 +41,7 @@ namespace Araneam
         /// <returns>Выходной сигнал</returns>
         public Vector Calculation(Vector input)
         {
+            input = (Vector)input.Clone();
             if (hidden == null) throw new ArgumentNullException();
             for (int i = 0; i < hidden.Length; i++)
             {
@@ -48,7 +49,7 @@ namespace Araneam
                 input = hidden[i].Calc();
             }
 
-            return input;
+            return (Vector)input.Clone();
         }
 
         public Vector[] Calculation(Vector[] input)

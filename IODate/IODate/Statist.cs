@@ -12,6 +12,30 @@ namespace IODate
         static Random r = new Random();
 
         /// <summary>
+        /// Поиск отклонения
+        /// </summary>
+        /// <param name="n">Число испытаний</param>
+        /// <param name="D">Дисперсия</param>
+        /// <param name="a">доверительная вероятность</param>
+        /// <returns></returns>
+        public static double CalcError(int n, double D, double a)
+        {
+            return Math.Sqrt(D / (1 - a) / n);
+        }
+
+        /// <summary>
+        /// Поиск квадрата отклонения
+        /// </summary>
+        /// <param name="n">Число испытаний</param>
+        /// <param name="D">Дисперсия</param>
+        /// <param name="a">доверительная вероятность</param>
+        /// <returns></returns>
+        public static double CalcQError(int n, double D, double a)
+        {
+            return D / (1 - a) / n;
+        }
+
+        /// <summary>
         /// Способов угадать m бит из n
         /// </summary>
         /// <param name="m">сколько надо угадать</param>
@@ -47,7 +71,25 @@ namespace IODate
             return ans;
         }
 
-        static int[] ReservoirSampling(int k, int n)
+        public static int[] FisherShuffle(int k, int n)
+        {
+            int[] ans = new int[n];
+            int i, j, t;
+            for (i = 0; i < n; i++)
+                ans[i] = i;
+
+            for (i = n - 1; i >= n - k; i--)
+            {
+                j = r.Next(i);
+                t = ans[i];
+                ans[i] = ans[j];
+                ans[j] = t;
+            }
+
+            return ans;
+        }
+
+        public static int[] ReservoirSampling(int k, int n)
         {
             int[] ans = new int[k];
             for (int i = 0; i < k; i++)
@@ -119,6 +161,12 @@ namespace IODate
                     else v[i] = 2.0 * (v[i] - maxs[i]) / t + 1;
                 }
             };
+        }
+
+        public static void done<T>(this T[] arr) where T: new()
+        {
+            for (int i = 0; i < arr.Length; i++)
+                arr[i] = new T();
         }
     }
 }
