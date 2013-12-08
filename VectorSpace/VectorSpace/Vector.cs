@@ -117,6 +117,15 @@ namespace VectorSpace
             return ans;
         }
 
+        public static Vector operator *(Vector[] matrix, Vector v)
+        {
+            Vector ans = new Vector(matrix.Length);
+
+            for (int i = 0; i < matrix.Length; i++) ans[i] = matrix[i] * v;
+
+            return ans;
+        }
+
         /// <summary>
         /// Квадрат нормы вектора
         /// </summary>
@@ -286,7 +295,7 @@ namespace VectorSpace
 
             for (int i = 1; i < Length; i++)
             {
-                sb.Append(", ");
+                sb.Append("; ");
                 sb.Append(element[i]);
             }
 

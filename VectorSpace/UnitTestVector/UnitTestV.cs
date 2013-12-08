@@ -144,5 +144,33 @@ namespace UnitTestVector
                 Assert.AreEqual(i * i / 2.0, v1[i], 0.00000001, "Поломалось умножение на {0} шаге", i);
             }
         }
+
+        [TestMethod]
+        public void TestVectorMulMatrix()
+        {
+            Vector v = new Vector(3);
+            v[0] = 29;
+            v[1] = 23;
+            v[2] = 31;
+
+            Vector[] m = new Vector[3];
+            m[0] = new Vector(3);
+            m[0][0] = 19;
+            m[0][1] = 3;
+            m[0][2] = 5;
+            m[1] = new Vector(3);
+            m[1][0] = 7;
+            m[1][1] = 11;
+            m[1][2] = 13;
+            m[2] = new Vector(3);
+            m[2][0] = 15;
+            m[2][1] = 17;
+            m[2][2] = 2;
+            Vector n = m * v;
+            Assert.AreEqual(n.Length, 3, "Нарушена размерность");
+            Assert.AreEqual(n[0], 775, 0.001, "ошибка в 1 элементе");
+            Assert.AreEqual(n[1], 859, 0.001, "ошибка в 2 элементе");
+            Assert.AreEqual(n[2], 888, 0.001, "ошибка в 3 элементе");
+        }
     }
 }
