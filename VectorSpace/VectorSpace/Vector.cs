@@ -1,5 +1,4 @@
 ﻿using System;
-using MyParallel;
 using System.Text;
 
 namespace VectorSpace
