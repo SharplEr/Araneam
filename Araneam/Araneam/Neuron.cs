@@ -9,11 +9,20 @@ namespace Araneam
     [Serializable]
     public class Neuron: ICloneable
     {
+        /// <summary>
+        /// Входной сигнал
+        /// </summary>
         [NonSerialized]
         public Vector synapse;
 
+        /// <summary>
+        /// Весы
+        /// </summary>
         public Vector weight;
 
+        /// <summary>
+        /// Размерность нейрона
+        /// </summary>
         public int Length
         {
             get;
