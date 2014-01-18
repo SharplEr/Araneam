@@ -9,6 +9,14 @@ using System.Diagnostics;
 
 namespace Araneam
 {
+    /*
+     * Общие пояснения для тех, кто попытается разобраться:
+     * 0) Базовый класс для нейронных сетей
+     * 1) Для реализации достаточно реализовать метод Learn()
+     *      Смотри пример в LMSNetwork - это однослойная сеть
+     * 2!) Работа должна производиться в многопоточном апартаменте, потому что см. класс NeuronLayer
+     * 3!) После завершения работы необходимо вызвать метод Dispose() - это вызовет Dispose() во всех слоях
+    */
     /// <summary>
     /// Представление нейронной сети
     /// </summary>
@@ -157,6 +165,9 @@ namespace Araneam
             if (hidden != null)
                 for (int i = 0; i < hidden.Length; i++)
                     hidden[i].Dispose();
+            if ((fixedLayers != null) && (fixedLayers != hidden))
+                for (int i = 0; i < fixedLayers.Length; i++)
+                    fixedLayers[i].Dispose();
         }
     }
 }
