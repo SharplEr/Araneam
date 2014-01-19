@@ -30,6 +30,9 @@ namespace MyParallel
                 t[i].Join();
         }
 
+        /// <summary>
+        /// Запускает поток в многопоточном апартаменте
+        /// </summary>
         public static void InMTA(this Thread t)
         {
             t.SetApartmentState(ApartmentState.MTA);

@@ -5,6 +5,14 @@ namespace MyParallel
 {
     public static class ParallelArray
     {
+        /// <summary>
+        /// Функция единичной паралельной обработки одномерного массива
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="vector">Обрабатываемый массив</param>
+        /// <param name="f">Функция обработчик по индексу</param>
+        /// <param name="pc">Число потоков</param>
+        /// <returns></returns>
         public static T[] Set<T>(this T[] vector, Func<int, T> f, int pc)
         {
             if (vector == null) return null;
@@ -45,6 +53,9 @@ namespace MyParallel
             return vector;
         }
 
+        /// <summary>
+        /// Переводит массив типа T в массив типа U
+        /// </summary>
         public static U[] Convert<T, U>(this T[] vector, Func<T, U> f)
         {
             U[] ans = new U[vector.Length];

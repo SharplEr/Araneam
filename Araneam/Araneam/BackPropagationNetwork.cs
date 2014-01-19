@@ -7,6 +7,9 @@ using IODate;
 
 namespace Araneam
 {
+    /// <summary>
+    /// Представление многослойного персептрона с алгоритмом обратного распространения
+    /// </summary>
     public class BackPropagationNetwork: Network
     {
         protected Vector[] LocalGrads = null;

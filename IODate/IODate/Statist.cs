@@ -7,6 +7,9 @@ using VectorSpace;
 
 namespace IODate
 {
+    /// <summary>
+    /// Набор статистических функций
+    /// </summary>
     public static class Statist
     {
         static Random r = new Random();
@@ -163,6 +166,9 @@ namespace IODate
             };
         }
 
+        /// <summary>
+        /// Инициализация массива объектов
+        /// </summary>
         public static void done<T>(this T[] arr) where T: new()
         {
             for (int i = 0; i < arr.Length; i++)
