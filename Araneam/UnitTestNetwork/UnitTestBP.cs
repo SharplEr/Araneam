@@ -15,9 +15,9 @@ namespace UnitTestNetwork
             public BPNW1()
                 : base(0.9, 1000, 2)
             {
-                hidden[0] = new NeuronLayer(2, 2, false,"no");
+                hidden[0] = new NeuronLayer(2, 2, false, 0, "no");
 
-                hidden[1] = new NeuronLayer(1, 2, false, "no");
+                hidden[1] = new NeuronLayer(1, 2, false, 0, "no");
                 hidden[1].CalcInvers(hidden[0].WithThreshold);
             }
 
@@ -63,8 +63,8 @@ namespace UnitTestNetwork
                 : base(0.5, 100, 2)
             {
 
-                hidden[0] = new NeuronLayer(2, 3, true, "no");
-                hidden[1] = new NeuronLayer(1, 3, false, "no");
+                hidden[0] = new NeuronLayer(2, 3, true, 0, "no");
+                hidden[1] = new NeuronLayer(1, 3, false, 0, "no");
                 
                 hidden[0].NormalInitialize();
 
@@ -142,8 +142,8 @@ namespace UnitTestNetwork
                 : base(0.5, 100, 2)
             {
 
-                hidden[0] = new NeuronLayer(2, 3, true, "tanh", 1.7159, 2.0/3.0);
-                hidden[1] = new NeuronLayer(3, 3, false, "tanh", 1.7159, 2.0 / 3.0);
+                hidden[0] = new NeuronLayer(2, 3, true, 0, "tanh", 1.7159, 2.0/3.0);
+                hidden[1] = new NeuronLayer(3, 3, false, 0, "tanh", 1.7159, 2.0 / 3.0);
 
                 hidden[1].CalcInvers(hidden[0].WithThreshold);
 
@@ -229,6 +229,4 @@ namespace UnitTestNetwork
             Assert.AreEqual(0.2443, lg[1][2], 0.001);   
         }
     }
-
-    
 }

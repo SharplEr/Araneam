@@ -18,7 +18,7 @@ namespace UnitTestNetwork
             inp[0] = new int[] { 0, 2 };
             inp[1] = new int[] { 1, 2, 3 };
 
-            NeuronLayer nl = new NeuronLayer(2, inp, false,"no");
+            NeuronLayer nl = new NeuronLayer(2, inp, false, 0, "no");
             new Thread(()=>nl.Input = v).InMTA();
 
             nl.CalcInvers(false);
@@ -66,7 +66,7 @@ namespace UnitTestNetwork
             v[2] = 3;
             v[3] = 4;
 
-            NeuronLayer nl = new NeuronLayer(2, inp, false,"no");
+            NeuronLayer nl = new NeuronLayer(2, inp, false, 0, "no");
             new Thread(() => nl.Input = v).InMTA();
             
             nl.neuros[0].weight[0] = 0.5;
@@ -87,7 +87,7 @@ namespace UnitTestNetwork
         [TestMethod]
         public void TestLayerIndexer()
         {
-            NeuronLayer nl = new NeuronLayer(2, 3, false, "no");
+            NeuronLayer nl = new NeuronLayer(2, 3, false, 0, "no");
 
             Assert.AreNotEqual(null, nl.InputIndex, "Массив индексов не инициализирован");
 
@@ -101,7 +101,7 @@ namespace UnitTestNetwork
 
             new Thread(() => nl.Dispose()).Start();
 
-            nl = new NeuronLayer(2, 3, true, "no");
+            nl = new NeuronLayer(2, 3, true, 0, "no");
 
             Assert.AreNotEqual(null, nl.InputIndex, "Массив индексов не инициализирован");
 
@@ -119,7 +119,7 @@ namespace UnitTestNetwork
         [TestMethod]
         public void TestLayerConstructor()
         {
-            NeuronLayer nl = new NeuronLayer(2, 3, false, "no");
+            NeuronLayer nl = new NeuronLayer(2, 3, false, 0, "no");
 
             Assert.AreEqual(2, nl.neuros.Length, "Число нейронов неверное");
 
@@ -129,7 +129,7 @@ namespace UnitTestNetwork
 
             new Thread(() => nl.Dispose()).Start();
 
-            nl = new NeuronLayer(2, 4, true, "no");
+            nl = new NeuronLayer(2, 4, true, 0, "no");
 
             Assert.AreEqual(nl.neuros.Length, 2, "Число нейронов неверное");
 
@@ -154,7 +154,7 @@ namespace UnitTestNetwork
             v[2] = 3;
             v[3] = 4;
 
-            NeuronLayer nl = new NeuronLayer(2, inp, false, "no");
+            NeuronLayer nl = new NeuronLayer(2, inp, false, 0, "no");
             new Thread(() => nl.Input = v).InMTA();
             
             nl.neuros[0].weight[0] = 0.5;
@@ -176,7 +176,7 @@ namespace UnitTestNetwork
             const int n = 3;
             const int m = 2;
 
-            NeuronLayer nl = new NeuronLayer(n, m, false, "sigmoid", 0.5);
+            NeuronLayer nl = new NeuronLayer(n, m, false, 0, "sigmoid", 0.5);
 
             nl.NormalInitialize();
 

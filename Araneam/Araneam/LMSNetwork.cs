@@ -36,7 +36,7 @@ namespace Araneam
             rateStart = r;
             timeLearn = t;
             hidden = new NeuronLayer[1];
-            hidden[0] = new NeuronLayer(n, indexs, false, name, p);
+            hidden[0] = new NeuronLayer(n, indexs, false, 0, name, p);
             fixedLayers = new NeuronLayer[1];
         }
 
@@ -54,7 +54,7 @@ namespace Araneam
             rateStart = r;
             timeLearn = t;
             hidden = new NeuronLayer[1];
-            hidden[0] = new NeuronLayer(n, m, false, name, p);
+            hidden[0] = new NeuronLayer(n, m, false, 0, name, p);
             fixedLayers = new NeuronLayer[1];
         }
 

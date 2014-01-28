@@ -114,7 +114,7 @@ namespace Araneam
         /// <param name="useThreshold">Добавить ли порог для выхода</param>
         /// <param name="name">Имя функции активации</param>
         /// <param name="p">Параметры функци активации</param>
-        public NeuronLayer(int n, int[][] indexs, bool useThreshold, string name, params Double[] p)
+        public NeuronLayer(int n, int[][] indexs, bool useThreshold, int count, string name, params Double[] p)
         {
             fi = new FuncInfo(name, p);
             withThreshold = useThreshold;
@@ -128,10 +128,8 @@ namespace Araneam
             {
                 neuros[i] = new Neuron(inputIndex[i].Length, fi.f);
             }
-              
-            threadCount = Environment.ProcessorCount;
-            if (threadCount > n) threadCount = n;
-            SetWorker();
+
+            SetWorker(count);
         }
 
         /// <summary>
@@ -142,7 +140,7 @@ namespace Araneam
         /// <param name="useThreshold">Добавить ли порог для выхода</param>
         /// <param name="name">Имя функции активации</param>
         /// <param name="p">Параметры функци активации</param>
-        public NeuronLayer(int n, int m, bool useThreshold, string name, params Double[] p)
+        public NeuronLayer(int n, int m, bool useThreshold, int count, string name, params Double[] p)
         {
             withThreshold = useThreshold;
             inputLength = m;
@@ -163,10 +161,8 @@ namespace Araneam
             {
                 neuros[i] = new Neuron(inputIndex[i].Length, fi.f);
             }
-              
-            threadCount = Environment.ProcessorCount;
-            if (threadCount > n) threadCount = n;
-            SetWorker();
+             
+            SetWorker(count);
         }
         
         /// <summary>
@@ -254,9 +250,6 @@ namespace Araneam
         {
             SetOutput();
 
-            //Число доступных ядер после загрузки может измениться
-            threadCount = Environment.ProcessorCount;
-
             fi.Refresh();
 
             //Востановление функций активации и высвобождение памяти под синапсы
@@ -265,7 +258,7 @@ namespace Araneam
                 neuros[i].activationFunction = fi.f;
                 neuros[i].synapse = new Vector(neuros[i].Length);
             }
-            SetWorker();
+            SetWorker(0);
         }
 
         /// <summary>
@@ -309,8 +302,17 @@ namespace Araneam
             }
         }
 
-        void SetWorker()
+        void SetWorker(int n)
         {
+            if (n == 0)
+            {
+                threadCount = Environment.ProcessorCount;
+                if (threadCount > neuros.Length) threadCount = neuros.Length;
+            }
+            else
+            {
+                if (n > neuros.Length) threadCount = neuros.Length;
+            }
             InputWorker = new SetInputWorker(threadCount, neuros);
             Correcter = new CorrectionWorker(threadCount, neuros);
             Calcer = new NeurosCalcWorker(threadCount, neuros);
@@ -331,7 +333,7 @@ namespace Araneam
             if (inversIndex != null)
                 nl.CalcInvers(inversIndex.Length!=inputLength);
 
-            nl.SetWorker();
+            nl.SetWorker(threadCount);
 
             return nl;
         }
