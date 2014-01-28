@@ -32,6 +32,7 @@ namespace MyParallel
         readonly protected T[] vector;
 
         readonly int d;
+        readonly int tc;
 
         protected object go = new object();
         protected AutoResetEvent[] ready;
@@ -46,18 +47,22 @@ namespace MyParallel
         public ParallelWorker(int threadCount, T[] v)
         {
             vector = v;
-            Workers = new Thread[threadCount];
-            ready = new AutoResetEvent[threadCount];
-            pause = new AutoResetEvent[threadCount];
-
-            d = vector.Length / threadCount;
-
-            for (int i = 0; i < threadCount; i++)
+            tc = threadCount;
+            if (threadCount > 1)
             {
-                ready[i] = new AutoResetEvent(false);
-                pause[i] = new AutoResetEvent(false);
-                Workers[i] = new Thread(DoOne);
-                Workers[i].Start(i);
+                Workers = new Thread[threadCount];
+                ready = new AutoResetEvent[threadCount];
+                pause = new AutoResetEvent[threadCount];
+
+                d = vector.Length / threadCount;
+
+                for (int i = 0; i < threadCount; i++)
+                {
+                    ready[i] = new AutoResetEvent(false);
+                    pause[i] = new AutoResetEvent(false);
+                    Workers[i] = new Thread(DoOne);
+                    Workers[i].Start(i);
+                }
             }
         }
 
@@ -68,24 +73,27 @@ namespace MyParallel
         /// <param name="v">Обрабатываемый массив</param>
         /// <param name="name">Начало имени для потоков</param>
         public ParallelWorker(int threadCount, T[] v, string name)
-        {
+        {            
             vector = v;
-            Workers = new Thread[threadCount];
-            ready = new AutoResetEvent[threadCount];
-            pause = new AutoResetEvent[threadCount];
-
-            d = vector.Length / threadCount;
-
-            for (int i = 0; i < threadCount; i++)
+            tc = threadCount;
+            if (threadCount > 1)
             {
-                ready[i] = new AutoResetEvent(false);
-                pause[i] = new AutoResetEvent(false);
-                Workers[i] = new Thread(DoOne);
-                Workers[i].Name = name + i.ToString();
-                Workers[i].Start(i);
+                Workers = new Thread[threadCount];
+                ready = new AutoResetEvent[threadCount];
+                pause = new AutoResetEvent[threadCount];
+
+                d = vector.Length / threadCount;
+
+                for (int i = 0; i < threadCount; i++)
+                {
+                    ready[i] = new AutoResetEvent(false);
+                    pause[i] = new AutoResetEvent(false);
+                    Workers[i] = new Thread(DoOne);
+                    Workers[i].Name = name + i.ToString();
+                    Workers[i].Start(i);
+                }
             }
         }
-
 
         /// <summary>
         /// Запуск потоков
@@ -93,11 +101,19 @@ namespace MyParallel
         [MTAThreadAttribute]
         protected void Run()
         {
-            WaitHandle.WaitAll(pause);
+            if (tc > 1)
+            {
 
-            lock (go) Monitor.PulseAll(go);
+                WaitHandle.WaitAll(pause);
 
-            WaitHandle.WaitAll(ready);
+                lock (go) Monitor.PulseAll(go);
+
+                WaitHandle.WaitAll(ready);
+            }
+            else
+            {
+                DoFromTo(0, vector.Length);
+            }
         }
 
         /// <summary>
@@ -145,12 +161,15 @@ namespace MyParallel
         /// </summary>
         public void Dispose()
         {
-            exit = true;
-            Run();
-            for (int i = 0; i < Workers.Length; i++)
-                ready[i].Close();
-            for (int i = 0; i < Workers.Length; i++)
-                pause[i].Close();
+            if (tc > 1)
+            {
+                exit = true;
+                Run();
+                for (int i = 0; i < Workers.Length; i++)
+                    ready[i].Close();
+                for (int i = 0; i < Workers.Length; i++)
+                    pause[i].Close();
+            }
         }
     }
 }
