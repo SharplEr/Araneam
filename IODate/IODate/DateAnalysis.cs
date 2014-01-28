@@ -66,5 +66,11 @@ namespace IODate
             Convert = TestDate.Normalization(1.0);
             Reader = new DateReader(info, AllTags, ResultTags, TestTags, NumberTags, DiscreteTags, Convert, ToDouble);
         }
+
+        /*
+        public DateAnalysis(string[] fileNames, string[] TestTags, string[] ResultTags, string[] NumberTags, Func<string[], double> fEq, Func<string, int> ToInt)
+        {
+            //Требуется реализовать выделение дискретных значений для данных.
+        }*/
     }
 }
