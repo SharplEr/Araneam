@@ -39,5 +39,16 @@ namespace MyParallel
             t.Start();
             t.Join();
         }
+
+        public static void InNThread(this Action<int> f, int n)
+        {
+            Thread[] ts = new Thread[n];
+            for (int i = 0; i < n; i++)
+            {
+                ts[i] = new Thread((o)=>f((int)o));
+                ts[i].Start(i);
+            }
+            ts.join();
+        }
     }
 }
