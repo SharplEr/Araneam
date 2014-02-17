@@ -40,15 +40,25 @@ namespace MyParallel
             t.Join();
         }
 
-        public static void InNThread(this Action<int> f, int n)
+        public static void InNThread(this ParameterizedThreadStart f, int n)
         {
             Thread[] ts = new Thread[n];
             for (int i = 0; i < n; i++)
             {
-                ts[i] = new Thread((o)=>f((int)o));
+                ts[i] = new Thread(f);
                 ts[i].Start(i);
             }
             ts.join();
+        }
+
+        public static T Casing<T>(this object o, Func<T> f)
+        {
+            T r;
+            lock(o)
+            {
+                r = f();
+            }
+            return r;
         }
     }
 }
