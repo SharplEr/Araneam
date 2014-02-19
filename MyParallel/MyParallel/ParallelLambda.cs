@@ -51,7 +51,7 @@ namespace MyParallel
             ts.join();
         }
 
-        public static T Casing<T>(this object o, Func<T> f)
+        public static T Casing<T>(object o, Func<T> f)
         {
             T r;
             lock(o)
@@ -59,6 +59,14 @@ namespace MyParallel
                 r = f();
             }
             return r;
+        }
+
+        public static void Casing(object o, Action f)
+        {
+            lock (o)
+            {
+                f();
+            }
         }
     }
 }
