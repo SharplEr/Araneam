@@ -244,7 +244,7 @@ namespace Araneam
         }
 
         /// <summary>
-        /// Воставление несериализуемых данных
+        /// Восстанавление несериализуемых данных
         /// </summary>
         public void Refresh()
         {
@@ -302,6 +302,12 @@ namespace Araneam
             }
         }
 
+        public void ReSetWorker(int n)
+        {
+            Dispose();
+            SetWorker(n);
+        }
+
         void SetWorker(int n)
         {
             if (n == 0)
@@ -312,6 +318,7 @@ namespace Araneam
             else
             {
                 if (n > neuros.Length) threadCount = neuros.Length;
+                else threadCount = n;
             }
             InputWorker = new SetInputWorker(threadCount, neuros);
             Correcter = new CorrectionWorker(threadCount, neuros);

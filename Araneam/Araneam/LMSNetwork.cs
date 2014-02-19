@@ -64,9 +64,9 @@ namespace Araneam
             Vector errorSignal = d - y;
             double ans = (double)errorSignal;
 
-            hidden[0].Сorrection(errorSignal.Multiplication(rateStart / (1.0 + (double)n / timeLearn)));
+            hidden[0].Сorrection(errorSignal.Multiplication(rateStart / (1.0 + (double)step / timeLearn)));
             
-            n++;
+            step++;
             return ans;
         }
     }

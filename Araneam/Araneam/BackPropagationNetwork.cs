@@ -97,7 +97,7 @@ namespace Araneam
             const double r = 1.0 - 0.2;
             double[] rats = (double[]) ratios.Clone();
 
-            n = 0;
+            step = 0;
 
             int finish = (int)Math.Round(testDate.Length * r);
 
@@ -254,9 +254,9 @@ namespace Araneam
                 for (int i = 0; i < calcDate.Length; i++)
                     err += Math.Sqrt((double)(calcDate[i] - resultDate[i]));
                 err /= calcDate.Length;
-                return new LearnLog(n, epoch, err);
+                return new LearnLog(step, epoch, err);
             }
-            else return new LearnLog(n, epoch);
+            else return new LearnLog(step, epoch);
         }
 
 
@@ -266,7 +266,7 @@ namespace Araneam
            
             double[] rats = (double[])ratios.Clone();
 
-            n = 0;
+            step = 0;
 
             int[] indexs;
             int mmm = -1;
@@ -358,7 +358,7 @@ namespace Araneam
                     rats[i] /= maxrat;
 
                 epoch++;
-            } while (n<100000);
+            } while (step<100000);
         }
 
         public virtual LearnLog FullLearn()
@@ -373,7 +373,7 @@ namespace Araneam
         public virtual LearnLog FullLearn(double minError)
         {
             int epoch = 0;
-            n = 0;
+            step = 0;
 
             double error;
             int[] indexs;
@@ -390,7 +390,7 @@ namespace Araneam
                 epoch++;
             } while (error > minError);
 
-            return new LearnLog(n, epoch, error);
+            return new LearnLog(step, epoch, error);
         }
 
         public double Learn(Vector x, Vector d, double r)
@@ -405,7 +405,7 @@ namespace Araneam
 
             setLocalGrads(errorSignal);
 
-            double h = r * rateStart / (1.0 + (double)(n) / timeLearn);
+            double h = r * rateStart / (1.0 + (double)(step) / timeLearn);
 
             int max = Int32.MinValue;
             int min = Int32.MaxValue;
@@ -431,7 +431,7 @@ namespace Araneam
                 hidden[i].Сorrection(LocalGrads[i].Multiplication(h / p));
             }
 
-            n++;
+            step++;
             return ans;
         }
 
@@ -447,7 +447,7 @@ namespace Araneam
 
             setLocalGrads(errorSignal);
 
-            double h = rateStart / (1.0 + (double)(n) / timeLearn);
+            double h = rateStart / (1.0 + (double)(step) / timeLearn);
 
             int max = Int32.MinValue;
             int min = Int32.MaxValue;
@@ -473,7 +473,7 @@ namespace Araneam
                 hidden[i].Сorrection(LocalGrads[i].Multiplication(h / p));
             }
 
-            n++;
+            step++;
             return ans;
         }
     }

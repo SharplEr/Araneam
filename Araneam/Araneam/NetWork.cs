@@ -38,10 +38,31 @@ namespace Araneam
         /// <summary>
         /// Номер шага обучения
         /// </summary>
-        protected  int n = 0;
+        protected int step = 0;
 
         [NonSerialized]
-        protected NeuronLayer[] fixedLayers;        
+        protected NeuronLayer[] fixedLayers;
+
+        protected int maxThread = 0;
+
+        /// <summary>
+        /// Свойство, задающее максимальное число потоков на слое. Может быть динамически изменено во время работы сети.
+        /// Значение 0 соответствет автоматическому определению всех доступных ядер.
+        /// </summary>
+        public int MaxThread
+        {
+            get
+            {
+                return maxThread;
+            }
+
+            set
+            {
+                maxThread = (value < 0) ? 0 : value;
+                for (int i = 0; i < hidden.Length; i++)
+                    hidden[i].ReSetWorker(maxThread);
+            }
+        }
 
         /// <summary>
         /// Обработка входного сигнала
@@ -106,7 +127,7 @@ namespace Araneam
                 }
                 
                 this.hidden = nw.hidden;
-                this.n = nw.n;
+                this.step = nw.step;
                 
                 if (hidden != null)
                 {
