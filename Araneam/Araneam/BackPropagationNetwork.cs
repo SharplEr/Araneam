@@ -10,6 +10,7 @@ namespace Araneam
     /// <summary>
     /// Представление многослойного персептрона с алгоритмом обратного распространения
     /// </summary>
+    [Serializable]
     public class BackPropagationNetwork: Network
     {
         protected Vector[] LocalGrads = null;
