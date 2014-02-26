@@ -122,9 +122,19 @@ namespace MyParallel
         protected void DoOne(object nm)
         {
             int num = (int)nm;
-            int str = d * num;
-            int end = (num == Workers.Length - 1) ? vector.Length : str + d;
-
+            int mod = vector.Length % Workers.Length;
+            int str;
+            int end;
+            if (num < mod)
+            {
+                str = (d+1) * num;
+                end = str + d + 1;
+            }
+            else
+            {
+                str = (d+1) * mod + d*(num-mod);
+                end = str + d;
+            }
             AutoResetEvent myReady = ready[num];
             while (true)
             {
