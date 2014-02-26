@@ -145,7 +145,7 @@ namespace Araneam
         /// <summary>
         /// Обучение сети
         /// </summary>
-        /// <param name="x">Входной сигнал</param>
+        /// <param name="x">Входной сигнал (не должен быть изменен)</param>
         /// <param name="d">Желаемый отклик</param>
         /// <returns>Квадрат сигнала ошибки</returns>
         public abstract double Learn(Vector x, Vector d);
