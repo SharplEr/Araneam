@@ -69,7 +69,7 @@
   <ItemGroup>
     <Compile Include="ParallelArray.cs" />
     <Compile Include="ParallelLambda.cs" />
-    <Compile Include="ParallelWorker.cs" />
+    <Compile Include="ParallelWorkerT.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
