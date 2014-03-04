@@ -108,8 +108,8 @@ namespace Araneam
             int[] indexs;
             int mmm=-1;
             int count = 0;
-            //m=10
-            int max = 5;
+            //m=5//10
+            int max = 20;
 
             //double maxTestCount;
             //double minTestCount;
@@ -153,32 +153,11 @@ namespace Araneam
             {
                 indexs = Statist.getRandomIndex(testDate.Length);
                 int k;
-                /*
-                maxTestCount = 1;
-                minTestCount = 1;
-                for (int i = 0; i < finish; i++)
-                {
-                    k = indexs[i];
-                    if (maxTestCount < testCount[k]) maxTestCount = testCount[k];
-                    if (minTestCount > testCount[k]) minTestCount = testCount[k];
-                }
-                */
-                //N = maxTestCount / minTestCount;
-                //N = (int)Math.Sqrt(N / Math.E);
+
                 for (int i = 0; i < finish; i++)
                 {
                     k = indexs[i];
                     Learn(testDate[k], resultDate[k], rats[k]);
-
-                    //double c = testCount[k];
-                    //testCount[k] += Math.Sqrt(Learn(testDate[k], resultDate[k], ratios[k]));
-                    //int m = (int)((N - 1.0) * minTestCount * ((double)maxTestCount / c - 1.0) / (maxTestCount - minTestCount) + 1.0);
-                    /*
-                    for (int j = 0; j < m; j++)
-                    {
-                        Learn(testDate[k], resultDate[k]);
-                    }
-                    */
                 }
 
                 calcDate = Calculation(testDate);
