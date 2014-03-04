@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Collections.Concurrent;
 
 namespace MyParallel
 {
@@ -52,19 +53,6 @@ namespace MyParallel
             }
             return vector;
         }
-
-        /// <summary>
-        /// Переводит массив типа T в массив типа U
-        /// </summary>
-        public static U[] Convert<T, U>(this T[] vector, Func<T, U> f)
-        {
-            U[] ans = new U[vector.Length];
-            for (int i = 0; i < vector.Length; i++)
-                ans[i] = f(vector[i]);
-            return ans;
-        }
-
-
     }
 
 }
