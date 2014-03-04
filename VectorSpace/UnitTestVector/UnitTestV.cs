@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VectorSpace;
+using MyParallel;
 
 namespace UnitTestVector
 {
@@ -81,7 +82,7 @@ namespace UnitTestVector
         {
             const int n = 5;
             Vector v1 = new Vector(n, (j) => j);
-            Vector v2 = (Vector) v1.Clone();
+            Vector v2 = v1.CloneOk();
 
             bool flag = !(v1.Equals(v2));
 

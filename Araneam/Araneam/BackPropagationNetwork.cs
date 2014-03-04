@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using VectorSpace;
 using IODate;
+using MyParallel;
 
 namespace Araneam
 {
@@ -96,7 +97,7 @@ namespace Araneam
         {
             int epoch = 0;
             const double r = 1.0 - 0.2;
-            double[] rats = (double[]) ratios.Clone();
+            double[] rats = ratios.CloneOk<double[]>();
 
             step = 0;
 
@@ -243,8 +244,8 @@ namespace Araneam
         public virtual void NewLearn()
         {
             int epoch = 0;
-           
-            double[] rats = (double[])ratios.Clone();
+
+            double[] rats = ratios.CloneOk<double[]>();
 
             step = 0;
 

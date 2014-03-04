@@ -187,7 +187,7 @@ namespace UnitTestNetwork
 
             new Thread(() => t1 = nl.Calc()).InMTA();
 
-            NeuronLayer newNl = (NeuronLayer) nl.Clone();
+            NeuronLayer newNl = nl.CloneOk();
 
             for(int i = 0; i<nl.neuros.Length; i++)
                 for (int j = 0; j < nl.neuros[i].Length; j++)

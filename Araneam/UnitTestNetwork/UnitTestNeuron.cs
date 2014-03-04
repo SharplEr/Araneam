@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Araneam;
+using MyParallel;
 
 namespace UnitTestNetwork
 {
@@ -21,7 +22,7 @@ namespace UnitTestNetwork
 
             double t = neuron.CalcS();
 
-            Neuron newNeuron = (Neuron) neuron.Clone();
+            Neuron newNeuron = neuron.CloneOk();
 
             for (int i = 0; i < n; i++)
             {

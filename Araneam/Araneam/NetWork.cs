@@ -6,6 +6,7 @@ using VectorSpace;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Diagnostics;
+using MyParallel;
 
 namespace Araneam
 {
@@ -71,7 +72,7 @@ namespace Araneam
         /// <returns>Выходной сигнал</returns>
         public Vector Calculation(Vector input)
         {
-            input = (Vector)input.Clone();
+            input = input.CloneOk();
             if (hidden == null) throw new ArgumentNullException();
             for (int i = 0; i < hidden.Length; i++)
             {
@@ -79,7 +80,7 @@ namespace Araneam
                 input = hidden[i].Calc();
             }
 
-            return (Vector)input.Clone();
+            return input.CloneOk();
         }
 
         public Vector[] Calculation(Vector[] input)
@@ -160,7 +161,7 @@ namespace Araneam
             for (int i = 0; i < hidden.Length; i++)
             {
                 if (fixedLayers[i] != null) fixedLayers[i].Dispose();
-                NeuronLayer nl = (NeuronLayer)hidden[i].Clone();
+                NeuronLayer nl = hidden[i].CloneOk();
                 fixedLayers[i] = nl;
             }
         }

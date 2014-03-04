@@ -2,6 +2,7 @@
 using VectorSpace;
 using System.Diagnostics;
 using System.Collections.Generic;
+using MyParallel;
 
 namespace Araneam
 {
@@ -327,13 +328,13 @@ namespace Araneam
 
         public object Clone()
         {
-            int[][] indx = (int[][])inputIndex.Clone();
+            int[][] indx = inputIndex.CloneOk();
 
             NeuronLayer nl = new NeuronLayer(neuros.Length, inputIndex, withThreshold, threadCount, fi);
 
             for (int i = 0; i < neuros.Length; i++)
             {
-                nl.neuros[i] = (Neuron) neuros[i].Clone();
+                nl.neuros[i] = neuros[i].CloneOk();
             }
 
             nl.inputLength = inputLength;

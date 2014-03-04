@@ -124,7 +124,7 @@ namespace UnitTestNetwork
 
                     for (int i = 0; i < 4; i++)
                     {
-                        y[i] = (Vector)nw.Calculation(x[i]).Clone();
+                        y[i] = nw.Calculation(x[i]).CloneOk();
                     }
 
                     nw.Dispose();
