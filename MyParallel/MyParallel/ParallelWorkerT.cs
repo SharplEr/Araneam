@@ -66,6 +66,8 @@ namespace MyParallel
             }
         }
 
+        static int fullCount = 0;
+        static object naming = new object();
         /// <summary>
         /// Конструктор связывает обработчик с массивом и дает потокам уникальные имена
         /// </summary>
@@ -89,7 +91,11 @@ namespace MyParallel
                     ready[i] = new AutoResetEvent(false);
                     pause[i] = new AutoResetEvent(false);
                     Workers[i] = new Thread(DoOne);
-                    Workers[i].Name = name + i.ToString();
+                    lock (naming)
+                    {
+                        fullCount++;
+                        Workers[i].Name = name + fullCount.ToString();
+                    }
                     Workers[i].Start(i);
                 }
             }
