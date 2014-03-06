@@ -36,7 +36,7 @@ namespace Araneam
 
         public void AddTestDate(Vector[] tests, Vector[] results, int[] cc)
         {
-            classCount = cc;
+            classCount = cc.CloneOk<int[]>();
             int max = 0;
 
             for(int i = 0; i<classCount.Length; i++)
@@ -93,6 +93,7 @@ namespace Araneam
 
         public virtual LearnLog EarlyStoppingLearn(bool flag)
         {
+            Random rnd = new Random();
             int epoch = 0;
             const double r = 1.0 - 0.2;
             double[] rats = ratios.CloneOk<double[]>();
@@ -112,7 +113,7 @@ namespace Araneam
 
             for (int i = 0; i < inputDate.Length; i++)
             {
-                indexs = Statist.getRandomIndex(inputDate.Length);
+                indexs = Statist.getRandomIndex(inputDate.Length, rnd);
                 int k = indexs[i];
                 Learn(inputDate[k], resultDate[k], rats[k]);
             }
@@ -146,7 +147,7 @@ namespace Araneam
 
             do
             {
-                indexs = Statist.getRandomIndex(inputDate.Length);
+                indexs = Statist.getRandomIndex(inputDate.Length, rnd);
                 int k;
 
                 for (int i = 0; i < finish; i++)
@@ -236,6 +237,7 @@ namespace Araneam
 
         public virtual void NewLearn()
         {
+            Random rnd = new Random();
             int epoch = 0;
 
             double[] rats = ratios.CloneOk<double[]>();
@@ -247,7 +249,7 @@ namespace Araneam
 
             for (int i = 0; i < inputDate.Length; i++)
             {
-                indexs = Statist.getRandomIndex(inputDate.Length);
+                indexs = Statist.getRandomIndex(inputDate.Length, rnd);
                 int k = indexs[i];
                 Learn(inputDate[k], resultDate[k], rats[k]);
             }
@@ -281,7 +283,7 @@ namespace Araneam
 
             do
             {
-                indexs = Statist.getRandomIndex(inputDate.Length);
+                indexs = Statist.getRandomIndex(inputDate.Length, rnd);
                 int k;
 
                 for (int i = 0; i < inputDate.Length; i++)
@@ -346,6 +348,7 @@ namespace Araneam
         /// </summary>
         public virtual LearnLog FullLearn(double minError)
         {
+            Random rnd = new Random();
             int epoch = 0;
             step = 0;
 
@@ -355,7 +358,7 @@ namespace Araneam
             do
             {
                 error = 0.0;
-                indexs = Statist.getRandomIndex(inputDate.Length);
+                indexs = Statist.getRandomIndex(inputDate.Length, rnd);
                 for (int i = 0; i < inputDate.Length; i++)
                 {
                     error += Learn(inputDate[indexs[i]], resultDate[indexs[i]]);

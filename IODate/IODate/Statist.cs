@@ -12,8 +12,6 @@ namespace IODate
     /// </summary>
     public static class Statist
     {
-        static Random r = new Random();
-
         /// <summary>
         /// Поиск отклонения
         /// </summary>
@@ -52,10 +50,12 @@ namespace IODate
             else return Guess(m - 1, n - 1) + Guess(m, n - 1);
         }
 
+        static object goRnd = new object();
+
         /// <summary>
         /// Возвращает массив случайных индексов от 0 до n-1
         /// </summary>
-        public static int[] getRandomIndex(int n)
+        public static int[] getRandomIndex(int n, Random r)
         {
             int[] ans = new int[n];
 
@@ -74,7 +74,7 @@ namespace IODate
             return ans;
         }
 
-        public static int[] FisherShuffle(int k, int n)
+        public static int[] FisherShuffle(int k, int n, Random r)
         {
             int[] ans = new int[n];
             int i, j, t;
@@ -92,7 +92,7 @@ namespace IODate
             return ans;
         }
 
-        public static int[] ReservoirSampling(int k, int n)
+        public static int[] ReservoirSampling(int k, int n, Random r)
         {
             int[] ans = new int[k];
             for (int i = 0; i < k; i++)

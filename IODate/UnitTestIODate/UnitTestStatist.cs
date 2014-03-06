@@ -11,8 +11,9 @@ namespace UnitTestIODate
         [TestMethod]
         public void TestStatistGetRandomIndex()
         {
+            Random rnd = new Random();
             const int n = 13;
-            int[] indexes = Statist.getRandomIndex(n);
+            int[] indexes = Statist.getRandomIndex(n, rnd);
 
             Assert.IsTrue(indexes.Length == n, "Длина массива" + ((indexes.Length > n) ? "больше" : "меньше") + "чем надо");
 
