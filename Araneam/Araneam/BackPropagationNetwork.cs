@@ -19,9 +19,8 @@ namespace Araneam
         double rateStart;
         double timeLearn;
 
-        protected Vector[] testDate = null;
+        protected Vector[] inputDate = null;
         protected Vector[] resultDate = null;
-        protected double[] testCount = null;
         double[] ratios;
         int[] classCount;
 
@@ -58,13 +57,12 @@ namespace Araneam
 
             List<Vector> t = tests.ToList();
             
-            if (testDate != null) t.AddRange(testDate);
-            testDate = t.ToArray();
+            if (inputDate != null) t.AddRange(inputDate);
+            inputDate = t.ToArray();
 
             t = results.ToList();
             if (resultDate != null) t.AddRange(resultDate);
             resultDate = t.ToArray();
-            testCount = new double[testDate.Length];
         }
 
         protected void setLocalGrads(Vector e)
@@ -101,7 +99,7 @@ namespace Araneam
 
             step = 0;
 
-            int finish = (int)Math.Round(testDate.Length * r);
+            int finish = (int)Math.Round(inputDate.Length * r);
 
             double error = Double.PositiveInfinity;
             double errorMin = Double.PositiveInfinity;
@@ -112,18 +110,14 @@ namespace Araneam
             //m=5//10
             int max = 20;
 
-            //double maxTestCount;
-            //double minTestCount;
-            //double N;
-
-            for (int i = 0; i < testDate.Length; i++)
+            for (int i = 0; i < inputDate.Length; i++)
             {
-                indexs = Statist.getRandomIndex(testDate.Length);
+                indexs = Statist.getRandomIndex(inputDate.Length);
                 int k = indexs[i];
-                Learn(testDate[k], resultDate[k], rats[k]);
+                Learn(inputDate[k], resultDate[k], rats[k]);
             }
 
-            Vector[] calcDate = Calculation(testDate);
+            Vector[] calcDate = Calculation(inputDate);
             double[] errors = new double[classCount.Length];
             double maxError = 0.0;
             int l = 0;
@@ -152,16 +146,16 @@ namespace Araneam
 
             do
             {
-                indexs = Statist.getRandomIndex(testDate.Length);
+                indexs = Statist.getRandomIndex(inputDate.Length);
                 int k;
 
                 for (int i = 0; i < finish; i++)
                 {
                     k = indexs[i];
-                    Learn(testDate[k], resultDate[k], rats[k]);
+                    Learn(inputDate[k], resultDate[k], rats[k]);
                 }
 
-                calcDate = Calculation(testDate);
+                calcDate = Calculation(inputDate);
                 maxError = -1;
                 l = 0;
                 for (int i = 0; i < errors.Length; i++)
@@ -205,16 +199,15 @@ namespace Araneam
 
                 error = 0.0;
                 double eee;
-                for (int i = finish; i < testDate.Length; i++)
+                for (int i = finish; i < inputDate.Length; i++)
                 {
                     k = indexs[i];
-                    eee = ratios[k]*(double)(resultDate[k] - Calculation(testDate[k]));
+                    eee = ratios[k]*(double)(resultDate[k] - Calculation(inputDate[k]));
                     eee = Math.Sqrt(eee);
-                    testCount[k] += (int) eee;
                     error += eee;
                 }
 
-                error = error / testDate.Length;
+                error = error / inputDate.Length;
 
                 if (error < errorMin)
                 {
@@ -230,7 +223,7 @@ namespace Araneam
             ReFix();
             if (flag)
             {
-                calcDate = Calculation(testDate);
+                calcDate = Calculation(inputDate);
                 double err=0.0;
                 for (int i = 0; i < calcDate.Length; i++)
                     err += Math.Sqrt((double)(calcDate[i] - resultDate[i]));
@@ -252,14 +245,14 @@ namespace Araneam
             int[] indexs;
             int mmm = -1;
 
-            for (int i = 0; i < testDate.Length; i++)
+            for (int i = 0; i < inputDate.Length; i++)
             {
-                indexs = Statist.getRandomIndex(testDate.Length);
+                indexs = Statist.getRandomIndex(inputDate.Length);
                 int k = indexs[i];
-                Learn(testDate[k], resultDate[k], rats[k]);
+                Learn(inputDate[k], resultDate[k], rats[k]);
             }
 
-            Vector[] calcDate = Calculation(testDate);
+            Vector[] calcDate = Calculation(inputDate);
             double[] errors = new double[classCount.Length];
             double maxError = 0.0;
             int l = 0;
@@ -288,16 +281,16 @@ namespace Araneam
 
             do
             {
-                indexs = Statist.getRandomIndex(testDate.Length);
+                indexs = Statist.getRandomIndex(inputDate.Length);
                 int k;
 
-                for (int i = 0; i < testDate.Length; i++)
+                for (int i = 0; i < inputDate.Length; i++)
                 {
                     k = indexs[i];
-                    Learn(testDate[k], resultDate[k], rats[k]);
+                    Learn(inputDate[k], resultDate[k], rats[k]);
                 }
 
-                calcDate = Calculation(testDate);
+                calcDate = Calculation(inputDate);
                 maxError = -1;
                 l = 0;
                 for (int i = 0; i < errors.Length; i++)
@@ -344,7 +337,7 @@ namespace Araneam
 
         public virtual LearnLog FullLearn()
         {
-            double minError = (double)hidden[hidden.Length - 1].Output.Length / (testDate.Length + 1);
+            double minError = (double)hidden[hidden.Length - 1].Output.Length / (inputDate.Length + 1);
             return FullLearn(minError);
         }
 
@@ -362,12 +355,12 @@ namespace Araneam
             do
             {
                 error = 0.0;
-                indexs = Statist.getRandomIndex(testDate.Length);
-                for (int i = 0; i < testDate.Length; i++)
+                indexs = Statist.getRandomIndex(inputDate.Length);
+                for (int i = 0; i < inputDate.Length; i++)
                 {
-                    error += Learn(testDate[indexs[i]], resultDate[indexs[i]]);
+                    error += Learn(inputDate[indexs[i]], resultDate[indexs[i]]);
                 }
-                error = Math.Sqrt(error) / testDate.Length;
+                error = Math.Sqrt(error) / inputDate.Length;
                 epoch++;
             } while (error > minError);
 
