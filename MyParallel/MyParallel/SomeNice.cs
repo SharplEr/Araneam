@@ -39,5 +39,12 @@ namespace MyParallel
             }
             return a;
         }
+
+        public static void let<T>(this IEnumerable<T> o, Action<T> f)
+        {
+            if (o == null) return;
+            foreach(T item in o)
+                if (item!=null) f(item);
+        }
     }
 }
