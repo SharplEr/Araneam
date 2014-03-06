@@ -38,6 +38,7 @@ namespace MyParallel
         protected AutoResetEvent[] ready;
         protected AutoResetEvent[] pause;
         protected bool exit = false;
+        protected bool deadEnd = false;
 
         /// <summary>
         /// Конструктор связывает обработчик с массивом
@@ -107,9 +108,9 @@ namespace MyParallel
         [MTAThreadAttribute]
         protected void Run()
         {
+            if (deadEnd) throw new Exception("Обработчик уже освобожден");
             if (tc > 1)
             {
-
                 WaitHandle.WaitAll(pause);
 
                 lock (go) Monitor.PulseAll(go);
@@ -177,6 +178,7 @@ namespace MyParallel
         /// </summary>
         public void Dispose()
         {
+            if (deadEnd) return;
             if (tc > 1)
             {
                 exit = true;
@@ -186,6 +188,7 @@ namespace MyParallel
                 for (int i = 0; i < Workers.Length; i++)
                     pause[i].Close();
             }
+            deadEnd = true;
         }
     }
 }

@@ -185,29 +185,8 @@ namespace Araneam
         /// </summary>
         public void Dispose()
         {
-            if (hidden != null)
-                for (int i = 0; i < hidden.Length; i++)
-                {
-                    if (hidden[i] != null)
-                        hidden[i].Dispose();
-                }
-
-            if (fixedLayers != null)
-                if (fixedLayers != hidden)
-                {
-                    bool flag = true;
-                    if (hidden != null)
-                    {
-                        for (int i = 0; i < fixedLayers.Length; i++)
-                            flag = flag && (fixedLayers[i] != hidden[i]);
-                    }
-                    if (flag)
-                        for (int i = 0; i < fixedLayers.Length; i++)
-                        {
-                            if (fixedLayers[i] != null)
-                                fixedLayers[i].Dispose();
-                        }
-                }
+            hidden.let((o) => o.Dispose());
+            fixedLayers.let((o) => o.Dispose()); 
         }
     }
 }
