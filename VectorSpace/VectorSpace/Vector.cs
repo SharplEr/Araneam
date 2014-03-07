@@ -277,21 +277,7 @@ namespace VectorSpace
         /// </summary>
         public Vector Normalization()
         {
-            double max = Math.Abs(element[0]);
-            double t;
-
-            for (int i = 1; i < element.Length; i++)
-            {
-                t = Math.Abs(element[i]);
-                if (max < t) max = t;
-            }
-
-            for (int i = 0; i < element.Length; i++)
-            {
-                element[i] /= max;
-            }
-
-            return this;
+            return this.Multiplication(1.0 / (double)this);
         }
 
         public override string ToString()
