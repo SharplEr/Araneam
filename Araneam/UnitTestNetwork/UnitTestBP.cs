@@ -15,10 +15,10 @@ namespace UnitTestNetwork
             public BPNW1()
                 : base(0.9, 1000, 2)
             {
-                hidden[0] = new NeuronLayer(2, 2, false, 0, "no");
+                layers[0] = new NeuronLayer(2, 2, false, 0, "no");
 
-                hidden[1] = new NeuronLayer(1, 2, false, 0, "no");
-                hidden[1].CalcInvers(hidden[0].WithThreshold);
+                layers[1] = new NeuronLayer(1, 2, false, 0, "no");
+                layers[1].CalcInvers(layers[0].WithThreshold);
             }
 
             public Vector[] LG(Vector e)
@@ -63,13 +63,13 @@ namespace UnitTestNetwork
                 : base(0.5, 100, 2)
             {
 
-                hidden[0] = new NeuronLayer(2, 3, true, 0, "no");
-                hidden[1] = new NeuronLayer(1, 3, false, 0, "no");
+                layers[0] = new NeuronLayer(2, 3, true, 0, "no");
+                layers[1] = new NeuronLayer(1, 3, false, 0, "no");
                 
-                hidden[0].NormalInitialize();
+                layers[0].NormalInitialize();
 
-                hidden[1].CalcInvers(hidden[0].WithThreshold);
-                hidden[1].NormalInitialize();
+                layers[1].CalcInvers(layers[0].WithThreshold);
+                layers[1].NormalInitialize();
             }
 
             public Vector[] LG(Vector e)
@@ -142,27 +142,27 @@ namespace UnitTestNetwork
                 : base(0.5, 100, 2)
             {
 
-                hidden[0] = new NeuronLayer(2, 3, true, 0, "tanh", 1.7159, 2.0/3.0);
-                hidden[1] = new NeuronLayer(3, 3, false, 0, "tanh", 1.7159, 2.0 / 3.0);
+                layers[0] = new NeuronLayer(2, 3, true, 0, "tanh", 1.7159, 2.0/3.0);
+                layers[1] = new NeuronLayer(3, 3, false, 0, "tanh", 1.7159, 2.0 / 3.0);
 
-                hidden[1].CalcInvers(hidden[0].WithThreshold);
+                layers[1].CalcInvers(layers[0].WithThreshold);
 
-                hidden[0].neuros[0].weight[0] = 1.0 / 2.0;
-                hidden[0].neuros[0].weight[1] = 1.0 / 3.0;
-                hidden[0].neuros[0].weight[2] = 1.0 / 4.0;
-                hidden[0].neuros[1].weight[0] = 1.0 / 5.0;
-                hidden[0].neuros[1].weight[1] = 1.0 / 6.0;
-                hidden[0].neuros[1].weight[2] = 1.0 / 7.0;
+                layers[0].neuros[0].weight[0] = 1.0 / 2.0;
+                layers[0].neuros[0].weight[1] = 1.0 / 3.0;
+                layers[0].neuros[0].weight[2] = 1.0 / 4.0;
+                layers[0].neuros[1].weight[0] = 1.0 / 5.0;
+                layers[0].neuros[1].weight[1] = 1.0 / 6.0;
+                layers[0].neuros[1].weight[2] = 1.0 / 7.0;
 
-                hidden[1].neuros[0].weight[0] = 1.0 / 8.0;
-                hidden[1].neuros[0].weight[1] = 1.0 / 9.0;
-                hidden[1].neuros[0].weight[2] = 1.0 / 10.0;
-                hidden[1].neuros[1].weight[0] = 1.0 / 11.0;
-                hidden[1].neuros[1].weight[1] = 1.0 / 12.0;
-                hidden[1].neuros[1].weight[2] = 1.0 / 13.0;
-                hidden[1].neuros[2].weight[0] = 1.0 / 14.0;
-                hidden[1].neuros[2].weight[1] = 1.0 / 15.0;
-                hidden[1].neuros[2].weight[2] = 1.0 / 16.0;
+                layers[1].neuros[0].weight[0] = 1.0 / 8.0;
+                layers[1].neuros[0].weight[1] = 1.0 / 9.0;
+                layers[1].neuros[0].weight[2] = 1.0 / 10.0;
+                layers[1].neuros[1].weight[0] = 1.0 / 11.0;
+                layers[1].neuros[1].weight[1] = 1.0 / 12.0;
+                layers[1].neuros[1].weight[2] = 1.0 / 13.0;
+                layers[1].neuros[2].weight[0] = 1.0 / 14.0;
+                layers[1].neuros[2].weight[1] = 1.0 / 15.0;
+                layers[1].neuros[2].weight[2] = 1.0 / 16.0;
             }
 
             public Vector[] LG(Vector e)
@@ -173,9 +173,9 @@ namespace UnitTestNetwork
 
             public Vector[] Der()
             {
-                Vector[] v = new Vector[hidden.Length];
+                Vector[] v = new Vector[layers.Length];
                 for (int i = 0; i < v.Length; i++)
-                    v[i] = hidden[i].CalcDer();
+                    v[i] = layers[i].CalcDer();
                 return v;
             }
         }

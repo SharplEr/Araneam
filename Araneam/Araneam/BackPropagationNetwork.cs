@@ -29,7 +29,7 @@ namespace Araneam
             rateStart = r;
             timeLearn = t;
 
-            hidden = new NeuronLayer[LayerCount];
+            layers = new NeuronLayer[LayerCount];
             fixedLayers = new NeuronLayer[LayerCount];
             LocalGrads = new Vector[LayerCount];
         }
@@ -71,20 +71,20 @@ namespace Araneam
             Vector t;
             TwoArray inv;
             
-            LocalGrads[hidden.Length - 1] = e.Multiplication(hidden[hidden.Length - 1].CalcDer());
+            LocalGrads[layers.Length - 1] = e.Multiplication(layers[layers.Length - 1].CalcDer());
 
-            for (l = hidden.Length - 2; l >= 0; l--)
+            for (l = layers.Length - 2; l >= 0; l--)
             {
-                LocalGrads[l] = hidden[l].CalcDer();
+                LocalGrads[l] = layers[l].CalcDer();
                 t = new Vector(LocalGrads[l].Length);
 
                 for (i = 0; i < t.Length; i++)
                 {
-                    inv = hidden[l + 1].InversIndex[i];
+                    inv = layers[l + 1].InversIndex[i];
                     t[i] = 0.0;
                     for (j = 0; j < inv.index.Length; j++)
                     {
-                        t[i] += hidden[l + 1].neuros[inv.index[j]].weight[inv.subIndex[j]] * LocalGrads[l + 1][inv.index[j]];
+                        t[i] += layers[l + 1].neuros[inv.index[j]].weight[inv.subIndex[j]] * LocalGrads[l + 1][inv.index[j]];
                     }
                 }
                 LocalGrads[l].Multiplication(t);
@@ -339,7 +339,7 @@ namespace Araneam
 
         public virtual LearnLog FullLearn()
         {
-            double minError = (double)hidden[hidden.Length - 1].Output.Length / (inputDate.Length + 1);
+            double minError = (double)layers[layers.Length - 1].Output.Length / (inputDate.Length + 1);
             return FullLearn(minError);
         }
 
@@ -372,7 +372,7 @@ namespace Araneam
 
         public double Learn(Vector x, Vector d, double r)
         {
-            if (hidden == null) throw new ArgumentNullException();
+            if (layers == null) throw new ArgumentNullException();
 
             double ans = 0.0;
 
@@ -387,9 +387,9 @@ namespace Araneam
             int max = Int32.MinValue;
             int min = Int32.MaxValue;
             int now;
-            for (int i = 0; i < hidden.Length; i++)
+            for (int i = 0; i < layers.Length; i++)
             {
-                now = hidden[i].Input.Length;
+                now = layers[i].Input.Length;
                 if (now > max) max = now;
                 if (now < min) min = now;
             }
@@ -402,10 +402,10 @@ namespace Araneam
 
             //Можно расспаралелить, так как корректировка не зависит от последовательности
 
-            for (int i = 0; i < hidden.Length; i++)
+            for (int i = 0; i < layers.Length; i++)
             {
-                p = (Math.Sqrt(hidden[i].Input.Length) * m + b);
-                hidden[i].Сorrection(LocalGrads[i].Multiplication(h / p));
+                p = (Math.Sqrt(layers[i].Input.Length) * m + b);
+                layers[i].Сorrection(LocalGrads[i].Multiplication(h / p));
             }
 
             step++;
@@ -414,7 +414,7 @@ namespace Araneam
 
         public override double Learn(Vector x, Vector d)
         {
-            if (hidden == null) throw new ArgumentNullException();
+            if (layers == null) throw new ArgumentNullException();
 
             double ans = 0.0;
 
@@ -429,9 +429,9 @@ namespace Araneam
             int max = Int32.MinValue;
             int min = Int32.MaxValue;
             int now;
-            for (int i = 0; i < hidden.Length; i++)
+            for (int i = 0; i < layers.Length; i++)
             {
-                now = hidden[i].Input.Length;
+                now = layers[i].Input.Length;
                 if (now > max) max = now;
                 if (now < min) min = now;
             }
@@ -444,10 +444,10 @@ namespace Araneam
 
             //Можно расспаралелить, так как корректировка не зависит от последовательности
             
-            for (int i = 0; i < hidden.Length; i++)
+            for (int i = 0; i < layers.Length; i++)
             {
-                p = (Math.Sqrt(hidden[i].Input.Length) * m + b);
-                hidden[i].Сorrection(LocalGrads[i].Multiplication(h / p));
+                p = (Math.Sqrt(layers[i].Input.Length) * m + b);
+                layers[i].Сorrection(LocalGrads[i].Multiplication(h / p));
             }
 
             step++;

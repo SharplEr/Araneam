@@ -28,7 +28,7 @@ namespace Araneam
         /// <summary>
         /// Скрытые слои
         /// </summary>
-        protected NeuronLayer[] hidden;
+        protected NeuronLayer[] layers;
 
         /// <summary>
         /// Де/сериализатор
@@ -60,8 +60,8 @@ namespace Araneam
             set
             {
                 maxThread = (value < 0) ? 0 : value;
-                for (int i = 0; i < hidden.Length; i++)
-                    hidden[i].ReSetWorker(maxThread);
+                for (int i = 0; i < layers.Length; i++)
+                    layers[i].ReSetWorker(maxThread);
             }
         }
 
@@ -73,11 +73,11 @@ namespace Araneam
         public Vector Calculation(Vector input)
         {
             input = input.CloneOk();
-            if (hidden == null) throw new ArgumentNullException();
-            for (int i = 0; i < hidden.Length; i++)
+            if (layers == null) throw new ArgumentNullException();
+            for (int i = 0; i < layers.Length; i++)
             {
-                hidden[i].Input = input;
-                input = hidden[i].Calc();
+                layers[i].Input = input;
+                input = layers[i].Calc();
             }
 
             return input.CloneOk();
@@ -121,19 +121,19 @@ namespace Araneam
             {
                 Network nw = (Network)deser.Deserialize(s);
                 //Высвобождение ресурсов занятыми потоками
-                if (hidden != null)
+                if (layers != null)
                 {
-                    for (int i = 0; i < hidden.Length; i++)
-                        this.hidden[i].Dispose();
+                    for (int i = 0; i < layers.Length; i++)
+                        this.layers[i].Dispose();
                 }
                 
-                this.hidden = nw.hidden;
+                this.layers = nw.layers;
                 this.step = nw.step;
                 
-                if (hidden != null)
+                if (layers != null)
                 {
-                    for (int i = 0; i < hidden.Length; i++)
-                        hidden[i].Refresh();
+                    for (int i = 0; i < layers.Length; i++)
+                        layers[i].Refresh();
                 }
                 return true;
             }
@@ -156,12 +156,12 @@ namespace Araneam
         /// </summary>
         public void Fix()
         {
-            if (hidden == null) return;
+            if (layers == null) return;
 
-            for (int i = 0; i < hidden.Length; i++)
+            for (int i = 0; i < layers.Length; i++)
             {
                 if (fixedLayers[i] != null) fixedLayers[i].Dispose();
-                NeuronLayer nl = hidden[i].CloneOk();
+                NeuronLayer nl = layers[i].CloneOk();
                 fixedLayers[i] = nl;
             }
         }
@@ -171,12 +171,12 @@ namespace Araneam
         /// </summary>
         public void ReFix()
         {
-            if ((fixedLayers == null) || (hidden == null)) return;
+            if ((fixedLayers == null) || (layers == null)) return;
 
-            for (int i = 0; i < hidden.Length; i++)
+            for (int i = 0; i < layers.Length; i++)
             {
-                hidden[i].Dispose();
-                hidden[i] = fixedLayers[i];
+                layers[i].Dispose();
+                layers[i] = fixedLayers[i];
             }
         }
 
@@ -185,7 +185,7 @@ namespace Araneam
         /// </summary>
         public void Dispose()
         {
-            hidden.let((o) => o.Dispose());
+            layers.let((o) => o.Dispose());
             fixedLayers.let((o) => o.Dispose()); 
         }
     }

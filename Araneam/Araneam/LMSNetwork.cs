@@ -35,8 +35,8 @@ namespace Araneam
         {
             rateStart = r;
             timeLearn = t;
-            hidden = new NeuronLayer[1];
-            hidden[0] = new NeuronLayer(n, indexs, false, 0, name, p);
+            layers = new NeuronLayer[1];
+            layers[0] = new NeuronLayer(n, indexs, false, 0, name, p);
             fixedLayers = new NeuronLayer[1];
         }
 
@@ -53,8 +53,8 @@ namespace Araneam
         {
             rateStart = r;
             timeLearn = t;
-            hidden = new NeuronLayer[1];
-            hidden[0] = new NeuronLayer(n, m, false, 0, name, p);
+            layers = new NeuronLayer[1];
+            layers[0] = new NeuronLayer(n, m, false, 0, name, p);
             fixedLayers = new NeuronLayer[1];
         }
 
@@ -64,7 +64,7 @@ namespace Araneam
             Vector errorSignal = d - y;
             double ans = (double)errorSignal;
 
-            hidden[0].Сorrection(errorSignal.Multiplication(rateStart / (1.0 + (double)step / timeLearn)));
+            layers[0].Сorrection(errorSignal.Multiplication(rateStart / (1.0 + (double)step / timeLearn)));
             
             step++;
             return ans;
