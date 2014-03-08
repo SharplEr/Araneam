@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using VectorSpace;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Diagnostics;
 using MyParallel;
 
 namespace Araneam

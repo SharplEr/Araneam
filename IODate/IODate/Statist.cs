@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VectorSpace;
 
 namespace IODate
@@ -34,6 +30,15 @@ namespace IODate
         public static double CalcQError(int n, double D, double a)
         {
             return D / (1 - a) / n;
+        }
+
+        public static double ExactDifference(double x, double ex, double y, double ey)
+        {
+            double t = x - y;
+            double et = Math.Sqrt(ex * ex + ey * ey);
+            double ans = Math.Abs(t) - et;
+            if (ans < 0) return 0.0;
+            return ans * Math.Sign(t);
         }
 
         /// <summary>

@@ -234,7 +234,6 @@ namespace VectorSpace
             return this;
         }
 
-        //!
         public Vector Set(Vector v)
         {
             if (element.Length < 50)

@@ -1,7 +1,5 @@
 ﻿using System;
 using VectorSpace;
-using System.Diagnostics;
-using System.Collections.Generic;
 using MyParallel;
 
 namespace Araneam

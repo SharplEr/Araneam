@@ -71,6 +71,7 @@
     <Compile Include="ParallelLambda.cs" />
     <Compile Include="ParallelWorker.cs" />
     <Compile Include="ParallelWorkerT.cs" />
+    <Compile Include="ParallelWorkerWithProgress.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SomeNice.cs" />
   </ItemGroup>
