@@ -9,7 +9,7 @@ namespace UnitTestNetwork
     public class UnitTestNeuron
     {
         [TestMethod]
-        public void TestNeuronClone()
+        public void Test_NeuronClone()
         {
             const int n = 5;
             Neuron neuron = new Neuron(n, Math.Sin);

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using VectorSpace;
-using IODate;
+using IOData;
 using MyParallel;
 
 namespace Araneam
@@ -109,10 +109,9 @@ namespace Araneam
             int count = 0;
             //m=5//10
             int max = 20;
-
+            indexs = Statist.getRandomIndex(inputDate.Length, rnd);
             for (int i = 0; i < inputDate.Length; i++)
             {
-                indexs = Statist.getRandomIndex(inputDate.Length, rnd);
                 int k = indexs[i];
                 Learn(inputDate[k], resultDate[k], rats[k]);
             }
@@ -234,21 +233,20 @@ namespace Araneam
         }
 
 
-        public virtual void NewLearn()
+        public virtual LearnLog NewLearn(bool flag, int max)
         {
             Random rnd = new Random();
-            int epoch = 0;
-
+            int epoch = 1;
+            
             double[] rats = ratios.CloneOk<double[]>();
 
             step = 0;
 
             int[] indexs;
             int mmm = -1;
-
+            indexs = Statist.getRandomIndex(inputDate.Length, rnd);
             for (int i = 0; i < inputDate.Length; i++)
             {
-                indexs = Statist.getRandomIndex(inputDate.Length, rnd);
                 int k = indexs[i];
                 Learn(inputDate[k], resultDate[k], rats[k]);
             }
@@ -319,7 +317,6 @@ namespace Araneam
                         if (((mmm == i) && (rats[l] < 1.0)) || ((mmm != i) && (rats[l]) == 1.0))
                             rats[l] = ratios[l] / maxError * errors[i];
                         else rats[l] *= errors[i] / maxError;
-
                         l++;
                     }
                 }
@@ -333,7 +330,18 @@ namespace Araneam
                     rats[i] /= maxrat;
 
                 epoch++;
-            } while (step<100000);
+            } while (epoch < max);
+            
+            if (flag)
+            {
+                calcDate = Calculation(inputDate);
+                double err = 0.0;
+                for (int i = 0; i < calcDate.Length; i++)
+                    err += Math.Sqrt((double)(calcDate[i] - resultDate[i]));
+                err /= calcDate.Length;
+                return new LearnLog(step, epoch, err);
+            }
+            else return new LearnLog(step, epoch);
         }
 
         public virtual LearnLog FullLearn()

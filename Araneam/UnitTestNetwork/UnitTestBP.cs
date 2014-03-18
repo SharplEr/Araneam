@@ -29,7 +29,7 @@ namespace UnitTestNetwork
         }
 
         [TestMethod]
-        public void TestBackPropagationLocalGrad()
+        public void Test_BackPropagationLocalGrad()
         {
             BPNW1 nw = new BPNW1();
             
@@ -80,7 +80,7 @@ namespace UnitTestNetwork
         }
 
         [TestMethod]
-        public void TestBackPropagationXORLearn()
+        public void Test_BackPropagationXORLearn()
         {
             BPNW2 nw = new BPNW2();
 
@@ -181,7 +181,7 @@ namespace UnitTestNetwork
         }
 
         [TestMethod]
-        public void TestBackPropagationWork()
+        public void Test_BackPropagationWork()
         {
             BPNW3 nw = new BPNW3();
             Vector x = new Vector(3);

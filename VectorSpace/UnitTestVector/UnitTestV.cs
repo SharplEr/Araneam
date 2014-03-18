@@ -9,7 +9,7 @@ namespace UnitTestVector
     public class UnitTestV
     {
         [TestMethod]
-        public void TestVectorSumOne()
+        public void Test_Vector_SumOne()
         {
             Vector v1 = new Vector(1);
             Vector v2 = new Vector(1);
@@ -20,7 +20,7 @@ namespace UnitTestVector
         }
 
         [TestMethod]
-        public void TestVectorModul()
+        public void Test_Vector_Modul()
         {
             Vector v = new Vector(11);
             v[0] = 123456789.0;
@@ -43,7 +43,7 @@ namespace UnitTestVector
         }
 
         [TestMethod]
-        public void TestVectorSum()
+        public void Test_VectorSum()
         {
             const int n = 5;
             Vector v1 = new Vector(n);
@@ -64,7 +64,7 @@ namespace UnitTestVector
         }
 
         [TestMethod]
-        public void TestVectorInitialization()
+        public void Test_Vector_Initialization()
         {
             const int n = 5;
             Vector v = new Vector(n, (j) => j);
@@ -78,7 +78,7 @@ namespace UnitTestVector
         }
 
         [TestMethod]
-        public void TestVectorClone()
+        public void Test_Vector_Clone()
         {
             const int n = 5;
             Vector v1 = new Vector(n, (j) => j);
@@ -95,7 +95,7 @@ namespace UnitTestVector
         }
 
         [TestMethod]
-        public void TestVectorMulOne()
+        public void Test_Vector_MulOne()
         {
             Vector v1 = new Vector(1);
 
@@ -105,7 +105,7 @@ namespace UnitTestVector
         }
 
         [TestMethod]
-        public void TestVectorMulScal()
+        public void Test_Vector_MulScal()
         {
             const int n = 5;
             Vector v1 = new Vector(n);
@@ -124,7 +124,7 @@ namespace UnitTestVector
         }
 
         [TestMethod]
-        public void TestVectorMul()
+        public void Test_Vector_Mul()
         {
             const int n = 5;
             Vector v1 = new Vector(n, (i)=>i);
@@ -147,7 +147,7 @@ namespace UnitTestVector
         }
 
         [TestMethod]
-        public void TestVectorMulMatrix()
+        public void Test_Vector_MulMatrix()
         {
             Vector v = new Vector(3);
             v[0] = 29;

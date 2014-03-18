@@ -12,7 +12,7 @@ namespace UnitTestNetwork
     public class UnitTestLMS
     {
         [TestMethod]
-        public void TestLMSLearn()
+        public void Test_LMSLearn()
         {
             LMSNetwork nw = new LMSNetwork(0.9, 100, 1, 2, "no");
             Vector x = new Vector(2, (j) => 1.0);
@@ -36,7 +36,7 @@ namespace UnitTestNetwork
         }
 
         [TestMethod]
-        public void TestLMSFix()
+        public void Test_LMSFix()
         {
             double yPred = 0.0, yPost = 0.0;
             new Thread(() =>
@@ -74,7 +74,7 @@ namespace UnitTestNetwork
         }
 
         [TestMethod]
-        public void TestLMSSaveLoad()
+        public void Test_LMSSaveLoad()
         {
             bool save, load;
             save = load = false;

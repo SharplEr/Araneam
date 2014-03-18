@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using IODate;
+using IOData;
 using System.IO;
 
 namespace UnitTestIODate
@@ -9,7 +9,7 @@ namespace UnitTestIODate
     public class UnitTestCSV
     {
         [TestMethod]
-        public void TestCSVRead()
+        public void Test_CSVRead()
         {
             const string name = @".\xyu.csv";
             const string some1 = @"LSD,Кавай,MDMA";
@@ -42,7 +42,7 @@ namespace UnitTestIODate
         }
 
         [TestMethod]
-        public void TestCSVReadTestCorrect()
+        public void Test_CSVRead_TestCorrect()
         {
             const string name = @".\xyu.csv";
             const string some1 = @"LSD,Кавай,MDMA";
@@ -59,7 +59,7 @@ namespace UnitTestIODate
 
 
         [TestMethod]
-        public void TestCSVReadTestWrong()
+        public void Test_CSVRead_TestWrong()
         {
             const string name = @".\xyu.csv";
             const string some1 = @"LSD,Кавай,MDMA";

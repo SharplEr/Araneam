@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using IODate;
+using IOData;
 using VectorSpace;
 
 namespace UnitTestIODate
@@ -9,7 +9,7 @@ namespace UnitTestIODate
     public class UnitTestStatist
     {
         [TestMethod]
-        public void TestStatistGetRandomIndex()
+        public void Test_Statist_GetRandomIndex()
         {
             Random rnd = new Random();
             const int n = 13;
@@ -41,7 +41,7 @@ namespace UnitTestIODate
         }
 
         [TestMethod]
-        public void TestStatistNormalization()
+        public void Test_Statist_Normalization()
         {
 
             Vector[] matrix = new Vector[2];
@@ -63,6 +63,15 @@ namespace UnitTestIODate
             some[1] = 2.5;
             f(some);
             Assert.IsTrue((some[0] == 0.5) && (some[1] == -0.5), "Возвращает функцию которая, не нормализует");
+        }
+
+        [TestMethod]
+        public void Test_Statist_Correlation()
+        {
+            double[] x = new double[] {1, 2, 3, 4, 5 };
+            double[] y = new double[] { 2, 4, 6, 8, 10 };
+
+            Assert.AreEqual(1, Statist.Correlation(x, y));
         }
     }
 }

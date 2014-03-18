@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace IODate
+namespace IOData
 {
     /*
      * Общие пояснения для тех, кто попытается разобраться:

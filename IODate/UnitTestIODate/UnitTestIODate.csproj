@@ -25,7 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x64</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -70,8 +70,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UnitTestDateAnalysis.cs" />
-    <Compile Include="UnitTestDateInfo.cs" />
+    <Compile Include="UnitDateConverter.cs" />
+    <Compile Include="UnitTestDataFile.cs" />
     <Compile Include="UnitTestStatist.cs" />
     <Compile Include="UnitTestCSV.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -81,9 +81,9 @@
       <Project>{82c4c097-83df-4c8a-acf7-bd4cd7fbdbc9}</Project>
       <Name>VectorSpace</Name>
     </ProjectReference>
-    <ProjectReference Include="..\IODate\IODate.csproj">
+    <ProjectReference Include="..\IODate\IOData.csproj">
       <Project>{8471fc16-ba93-417c-adbc-637139501cc8}</Project>
-      <Name>IODate</Name>
+      <Name>IOData</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

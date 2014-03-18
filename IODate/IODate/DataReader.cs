@@ -1,7 +1,7 @@
 ﻿using System;
 using VectorSpace;
 
-namespace IODate
+namespace IOData
 {
     /*
      * Общие пояснения для тех, кто попытается разобраться:
@@ -13,9 +13,9 @@ namespace IODate
     /// <summary>
     /// Класс предназначенный для считывания данных обучения из csv файла (одного)
     /// </summary>
-    public class DateReader
+    public class DataReader
     {
-        DateInfo info;
+        DataInfo info;
         string[] allTags;
         string[] resultTags;
         string[] testTags;
@@ -40,8 +40,8 @@ namespace IODate
         /// <param name="dTags">Имя колонок с дискретными именными значениями</param>
         /// <param name="conv">Дополнительное преобразование входных данных</param>
         /// <param name="td">Преобразование из строки в число для непрерывных значений</param>
-        public DateReader(
-            DateInfo inf,
+        public DataReader(
+            DataInfo inf,
             string[] aTags,
             string[] rTags,
             string[] tTags,

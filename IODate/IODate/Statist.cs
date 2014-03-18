@@ -1,7 +1,7 @@
 ﻿using System;
 using VectorSpace;
 
-namespace IODate
+namespace IOData
 {
     /// <summary>
     /// Набор статистических функций
@@ -54,8 +54,6 @@ namespace IODate
             else if (m == 1) return (1 >> n) - 1;
             else return Guess(m - 1, n - 1) + Guess(m, n - 1);
         }
-
-        static object goRnd = new object();
 
         /// <summary>
         /// Возвращает массив случайных индексов от 0 до n-1
@@ -123,6 +121,46 @@ namespace IODate
                 b >>= 1;
             }
             return re;
+        }
+
+        public static double Avg(double[] x)
+        {
+            double ans = 0.0;
+            for (int i = 0; i < x.Length; i++)
+                ans += x[i];
+            return ans / x.Length;
+        }
+
+        public static double Correlation(double[] x, double[] y)
+        {
+            if (x.Length != y.Length) throw new ArgumentException();
+            double ax = 0.0;
+            double ay = 0.0;
+
+            for(int i =0; i<x.Length; i++)
+            {
+                ax += x[i];
+                ay += y[i];
+            }
+
+            ax /= x.Length;
+            ay /= y.Length;
+
+            double xy = 0;
+            double qx = 0;
+            double qy = 0;
+            double tx;
+            double ty;
+            for (int i = 0; i < x.Length; i++)
+            {
+                tx = (x[i] - ax);
+                ty = (y[i] - ay);
+                xy += tx*ty;
+                qx+=tx*tx;
+                qy += ty*ty;
+            }
+
+            return xy/Math.Sqrt(qx*qy);
         }
 
         /// <summary>

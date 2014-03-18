@@ -11,7 +11,7 @@ namespace UnitTestNetwork
     public class UnitTestLayer
     {
         [TestMethod]
-        public void TestLayerInvers()
+        public void Test_LayerInvers()
         {
             Vector v = new Vector(4);
             int[][] inp = new int[2][];
@@ -54,7 +54,7 @@ namespace UnitTestNetwork
         }
 
         [TestMethod]
-        public void TestLayerCalc()
+        public void Test_LayerCalc()
         {
             Vector v = new Vector(4);
             int[][] inp = new int[2][];
@@ -117,7 +117,7 @@ namespace UnitTestNetwork
         }
 
         [TestMethod]
-        public void TestLayerConstructor()
+        public void Test_LayerConstructor()
         {
             NeuronLayer nl = new NeuronLayer(2, 3, false, 0, "no");
 
@@ -142,7 +142,7 @@ namespace UnitTestNetwork
         }
 
         [TestMethod]
-        public void TestLayerCalcDer()
+        public void Test_LayerCalcDer()
         {
             Vector v = new Vector(4);
             int[][] inp = new int[2][];
@@ -171,7 +171,7 @@ namespace UnitTestNetwork
         }
 
         [TestMethod]
-        public void TestLayerClone()
+        public void Test_LayerClone()
         {
             const int n = 3;
             const int m = 2;
