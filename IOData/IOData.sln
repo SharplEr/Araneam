@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows Desktop
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestIODate", "UnitTestIODate\UnitTestIODate.csproj", "{52C608BD-51E9-4016-ADE5-004A6DE681C4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestIOData", "UnitTestIOData\UnitTestIOData.csproj", "{52C608BD-51E9-4016-ADE5-004A6DE681C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IODate", "IODate\IODate.csproj", "{8471FC16-BA93-417C-ADBC-637139501CC8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IOData", "IOData\IOData.csproj", "{8471FC16-BA93-417C-ADBC-637139501CC8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
