@@ -4,6 +4,7 @@ using VectorSpace;
 using Araneam;
 using System.Threading;
 using MyParallel;
+using ArrayHelper;
 
 namespace UnitTestNetwork
 {

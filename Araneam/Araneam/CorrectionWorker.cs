@@ -15,7 +15,7 @@ namespace Araneam
 
         public void Run(Vector r)
         {
-            if (r.Length != vector.Length) throw new ArgumentException("Bad correction vector");
+            if (r.Length != vector.Length) throw new ArgumentException("Bad correction spectrum");
             rate = r.element;
             Run();
         }

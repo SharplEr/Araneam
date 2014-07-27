@@ -4,6 +4,7 @@ using System.Linq;
 using VectorSpace;
 using IOData;
 using MyParallel;
+using ArrayHelper;
 
 namespace Araneam
 {
@@ -343,6 +344,118 @@ namespace Araneam
             }
             else return new LearnLog(step, epoch);
         }
+
+        public virtual LearnLog NewLearn(bool flag, int max, double[] rating)
+        {
+            Random rnd = new Random();
+            int epoch = 1;
+
+            double[] rats = ratios.CloneOk<double[]>();
+
+            step = 0;
+
+            int[] indexs;
+            int mmm = -1;
+            indexs = Statist.getRandomIndex(inputDate.Length, rnd);
+            for (int i = 0; i < inputDate.Length; i++)
+            {
+                int k = indexs[i];
+                Learn(inputDate[k], resultDate[k], rats[k]*rating[k]);
+            }
+
+            Vector[] calcDate = Calculation(inputDate);
+            double[] errors = new double[classCount.Length];
+            double maxError = 0.0;
+            int l = 0;
+            for (int i = 0; i < errors.Length; i++)
+            {
+                errors[i] = 0.0;
+                int k = classCount[i];
+                for (int j = 0; j < k; j++)
+                {
+                    errors[i] += (double)(calcDate[j + l] - resultDate[j + l]);
+                }
+                errors[i] /= k;
+                l += k;
+                if (maxError < errors[i]) maxError = errors[i];
+            }
+
+            l = 0;
+            for (int i = 0; i < classCount.Length; i++)
+            {
+                for (int j = 0; j < classCount[i]; j++)
+                {
+                    rats[l] = rats[l] / maxError * errors[i];
+                    l++;
+                }
+            }
+
+            do
+            {
+                indexs = Statist.getRandomIndex(inputDate.Length, rnd);
+                int k;
+
+                for (int i = 0; i < inputDate.Length; i++)
+                {
+                    k = indexs[i];
+                    Learn(inputDate[k], resultDate[k], rats[k]*rating[k]);
+                }
+
+                calcDate = Calculation(inputDate);
+                maxError = -1;
+                l = 0;
+                for (int i = 0; i < errors.Length; i++)
+                {
+                    errors[i] = 0.0;
+                    int m = classCount[i];
+                    for (int j = 0; j < m; j++)
+                    {
+                        errors[i] += Math.Sqrt((double)(calcDate[j + l] - resultDate[j + l]));
+                    }
+                    errors[i] /= m;
+                    l += m;
+                    if (maxError < errors[i])
+                    {
+                        maxError = errors[i];
+                        mmm = i;
+                    }
+                }
+
+                l = 0;
+                for (int i = 0; i < classCount.Length; i++)
+                {
+                    for (int j = 0; j < classCount[i]; j++)
+                    {
+                        if (((mmm == i) && (rats[l] < 1.0)) || ((mmm != i) && (rats[l]) == 1.0))
+                            rats[l] = ratios[l] / maxError * errors[i];
+                        else rats[l] *= errors[i] / maxError;
+                        l++;
+                    }
+                }
+
+                double maxrat = 0.0;
+
+                for (int i = 0; i < rats.Length; i++)
+                    if (maxrat < rats[i]) maxrat = rats[i];
+
+                for (int i = 0; i < rats.Length; i++)
+                    rats[i] /= maxrat;
+
+                epoch++;
+            } while (epoch < max);
+
+            if (flag)
+            {
+                calcDate = Calculation(inputDate);
+                double err = 0.0;
+                for (int i = 0; i < calcDate.Length; i++)
+                    err += Math.Sqrt((double)(calcDate[i] - resultDate[i]));
+                err /= calcDate.Length;
+                return new LearnLog(step, epoch, err);
+            }
+            else return new LearnLog(step, epoch);
+        }
+
 
         public virtual LearnLog FullLearn()
         {

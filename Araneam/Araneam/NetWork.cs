@@ -3,6 +3,7 @@ using VectorSpace;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using MyParallel;
+using ArrayHelper;
 
 namespace Araneam
 {

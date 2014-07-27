@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VectorSpace;
 using MyParallel;
+using ArrayHelper;
 
 namespace UnitTestVector
 {

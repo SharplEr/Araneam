@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Globalization;
 using System.IO;
 using IOData;
 using VectorSpace;
@@ -80,7 +81,6 @@ namespace UnitTestIODate
                                                 "A,B,0, A",
                                                 "B,A,2, B",
                                                 "B,B,7, B"};
-
             try
             {
                 StreamWriter writer = new StreamWriter(name);
@@ -131,6 +131,130 @@ namespace UnitTestIODate
             Assert.AreEqual(0, InputData[1][2]);
             Assert.AreEqual(0, InputData[2][2]);
             Assert.AreEqual(1, InputData[3][2]);
+        }
+
+        [TestMethod]
+        public void Test_DataFile_getOnlyDiscrete()
+        {
+            const string name = @".\xyu8.csv";
+            string[] some = new string[]{"mmm,sss,ddd,rrr",
+                                                "A, B, B, 1",
+                                                "A, B, A, -1",
+                                                "B, A, B, 1",
+                                                "B, B, C, -1"};
+
+            try
+            {
+                StreamWriter writer = new StreamWriter(name);
+                for (int i = 0; i < some.Length; i++)
+                    writer.WriteLine(some[i]);
+                writer.Close();
+            }
+            catch
+            {
+                Assert.Fail("Не удается предварительно записать данные");
+            }
+
+            var data = DataFile.getOnlyDiscrete(new string[] { name }, new string[] { "mmm", "sss", "ddd", "rrr" });
+
+            Assert.AreEqual(4, data.Length);
+
+            Assert.AreEqual(0, data[0][0]);
+            Assert.AreEqual(0, data[0][1]);
+            Assert.AreEqual(0, data[0][2]);
+            Assert.AreEqual(0, data[0][3]);
+
+            Assert.AreEqual(0, data[1][0]);
+            Assert.AreEqual(0, data[1][1]);
+            Assert.AreEqual(1, data[1][2]);
+            Assert.AreEqual(1, data[1][3]);
+
+            Assert.AreEqual(1, data[2][0]);
+            Assert.AreEqual(1, data[2][1]);
+            Assert.AreEqual(0, data[2][2]);
+            Assert.AreEqual(0, data[2][3]);
+
+            Assert.AreEqual(1, data[3][0]);
+            Assert.AreEqual(0, data[3][1]);
+            Assert.AreEqual(2, data[3][2]);
+            Assert.AreEqual(1, data[3][3]);
+        }
+
+        [TestMethod]
+        public void Test_DataFile_getOnlyСontinuous()
+        {
+            const string name = @".\xyu8.csv";
+            string[] some = new string[]{"mmm,sss,ddd",
+                                                "4, 8, 0",
+                                                "2, 4, 4.4",
+                                                "3, 2, 3.3",
+                                                "0, 0, 2.2"};
+            try
+            {
+                StreamWriter writer = new StreamWriter(name);
+                for (int i = 0; i < some.Length; i++)
+                    writer.WriteLine(some[i]);
+                writer.Close();
+            }
+            catch
+            {
+                Assert.Fail("Не удается предварительно записать данные");
+            }
+
+            var data = DataFile.getOnlyСontinuous(new string[] { name }, new string[] { "mmm", "sss", "ddd" }, (x) => { return Convert.ToDouble(x, CultureInfo.GetCultureInfo("en-US")); });
+
+            Assert.AreEqual(4, data.Length);
+
+            Assert.AreEqual(1, data[0][0], 0.0001);
+            Assert.AreEqual(1, data[0][1], 0.0001);
+            Assert.AreEqual(-1, data[0][2], 0.0001);
+
+            Assert.AreEqual(0, data[1][0], 0.0001);
+            Assert.AreEqual(0, data[1][1], 0.0001);
+            Assert.AreEqual(1, data[1][2], 0.0001);
+
+            Assert.AreEqual(0.5, data[2][0], 0.0001);
+            Assert.AreEqual(-0.5, data[2][1], 0.0001);
+            Assert.AreEqual(0.5, data[2][2], 0.0001);
+
+            Assert.AreEqual(-1, data[3][0], 0.0001);
+            Assert.AreEqual(-1, data[3][1], 0.0001);
+            Assert.AreEqual(0, data[3][2], 0.0001);
+
+            Assert.AreEqual(1, data[0][3], 0.0001);
+            Assert.AreEqual(1, data[1][3], 0.0001);
+            Assert.AreEqual(1, data[2][3], 0.0001);
+        }
+
+        [TestMethod]
+        public void Test_DataFile_getOnlyResult()
+        {
+            const string name = @".\xyu9.csv";
+            string[] some = new string[]{"mmm,sss,ddd,rrr",
+                                                "4, 8, 0, A",
+                                                "2, 4, 4.4, B",
+                                                "3, 2, 3.3, B",
+                                                "0, 0, 2.2, A"};
+            try
+            {
+                StreamWriter writer = new StreamWriter(name);
+                for (int i = 0; i < some.Length; i++)
+                    writer.WriteLine(some[i]);
+                writer.Close();
+            }
+            catch
+            {
+                Assert.Fail("Не удается предварительно записать данные");
+            }
+
+            var data = DataFile.getOnlyResult(new string[] { name }, "rrr");
+
+            Assert.AreEqual(4, data.Length);
+
+            Assert.AreEqual(0, data[0].Number);
+            Assert.AreEqual(1, data[1].Number);
+            Assert.AreEqual(1, data[2].Number);
+            Assert.AreEqual(0, data[3].Number);
         }
     }
 }

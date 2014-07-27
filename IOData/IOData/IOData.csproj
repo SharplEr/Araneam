@@ -49,7 +49,11 @@
     <Compile Include="CSVReader.cs" />
     <Compile Include="DataConverter.cs" />
     <Compile Include="DataFile.cs" />
+    <Compile Include="FullData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MixData.cs" />
+    <Compile Include="Result.cs" />
+    <Compile Include="Results.cs" />
     <Compile Include="Statist.cs" />
     <Compile Include="TagsExtension.cs" />
   </ItemGroup>
@@ -57,6 +61,10 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ArrayHelper\ArrayHelper.csproj">
+      <Project>{7c6d1a70-8e63-4c6c-8d2e-eb3a529c198b}</Project>
+      <Name>ArrayHelper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\MyParallel\MyParallel\MyParallel.csproj">
       <Project>{458ccdbc-bf99-4b55-8044-926c317943a0}</Project>
       <Name>MyParallel</Name>

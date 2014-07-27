@@ -208,14 +208,5 @@ namespace IOData
                 }
             };
         }
-
-        /// <summary>
-        /// Инициализация массива объектов
-        /// </summary>
-        public static void done<T>(this T[] arr) where T: new()
-        {
-            for (int i = 0; i < arr.Length; i++)
-                arr[i] = new T();
-        }
     }
 }

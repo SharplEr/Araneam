@@ -73,5 +73,20 @@ namespace UnitTestIODate
 
             Assert.AreEqual(1, Statist.Correlation(x, y));
         }
+
+        [TestMethod]
+        public void Test_Statist_ExactDifference()
+        {
+            double x = Statist.ExactDifference(1, 1, 2, 1.5);
+            Assert.AreEqual(0.0, x, "Не находит нулевое расстояние");
+            x = Statist.ExactDifference(2, 1.5, 1, 1);
+            Assert.AreEqual(0.0, x, "Не работает нулевое расстояние в обратную сторону");
+
+            x = Statist.ExactDifference(1, Math.Sqrt(7), 10, Math.Sqrt(9));
+            Assert.AreEqual(-5.0, x, 0.0001,"Неверно находит расстояние");
+
+            x = Statist.ExactDifference(10, Math.Sqrt(7), 1, Math.Sqrt(9));
+            Assert.AreEqual(5.0, x, 0.0001, "Неверно находит расстояние в обратную сторону");
+        }
     }
 }

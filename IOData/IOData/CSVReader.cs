@@ -131,5 +131,16 @@ namespace IOData
                 return s;
             }
         }
+
+        public string[] this[string key]
+        {
+            get
+            {
+                string[] strs = new string[countLine];
+                for(int i = 0; i < countLine; i++)
+                    strs[i] = allElement[i][map[key.ToUpper()]];
+                return strs;
+            }
+        }
     }
 }

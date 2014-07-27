@@ -80,6 +80,7 @@
     <Compile Include="InversHessian.cs" />
     <Compile Include="Vector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ZMatrix.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\MyParallel\MyParallel\MyParallel.csproj">

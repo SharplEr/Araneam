@@ -84,6 +84,10 @@
     <Compile Include="Two.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ArrayHelper\ArrayHelper.csproj">
+      <Project>{7c6d1a70-8e63-4c6c-8d2e-eb3a529c198b}</Project>
+      <Name>ArrayHelper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\IOData\IOData\IOData.csproj">
       <Project>{8471fc16-ba93-417c-adbc-637139501cc8}</Project>
       <Name>IOData</Name>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using VectorSpace;
 
@@ -49,6 +50,13 @@ namespace IOData
             return new Tuple<Vector[], Vector[]>(InputData, OutputData);
         }
 
+        /*!!!!1
+         * 
+         * Что за string to int? нумерация должна быть автоматическая!111 
+         * 
+         * 
+         *!111111!1 
+        */
         public static Tuple<int[][], int[][]> getDiscrete(string[] fileNames, string[] InputTags, string[] OutputTags, string[] СontinuousTags, Func<string, double> ToDouble, Func<string, int> ToInt, int min)
         {
             string[] AllTags = InputTags.Union(OutputTags).ToArray();
@@ -90,6 +98,69 @@ namespace IOData
             }
 
             return new Tuple<int[][], int[][]>(InputData, OutputData);
+        }
+
+        public static Vector[] getOnlyСontinuous(string[] fileNames, string[] Tags, Func<string, double> ToDouble)
+        {
+            CSVReader reader = new CSVReader(Tags, fileNames);
+            if (!reader.Test()) throw new ArgumentException("Bad files.");
+
+            Vector[] InputData = new Vector[reader.countLine];
+
+            for (int i = 0; i < reader.countLine; i++)
+                    InputData[i] = new Vector(Tags.Length, (j)=>ToDouble(reader[i, Tags[j]]), 1.0);
+
+            InputData.Normalization(1.0);
+
+            return InputData;
+        }
+
+        public static int[][] getOnlyDiscrete(string[] fileNames, string[] Tags)
+        {
+            CSVReader reader = new CSVReader(Tags, fileNames);
+            if (!reader.Test()) throw new ArgumentException("Bad files.");
+
+            int[][] InputData = new int[reader.countLine][];
+
+            Func<string, int>[] ToInts = new Func<string,int>[Tags.Length];
+
+            for (int i = 0; i < Tags.Length; i++)
+                ToInts[i] = DataConverter.NumericOfString(reader[Tags[i]]);
+
+            for (int i = 0; i < reader.countLine; i++)
+            {
+                InputData[i] = new int[Tags.Length];
+
+                for (int j = 0; j < Tags.Length; j++)
+                    InputData[i][j] = ToInts[j](reader[i, Tags[j]]);
+            }
+
+            return InputData;
+        }
+
+        public static Results getOnlyResult(string[] fileNames, string Tag)
+        {
+            CSVReader reader = new CSVReader(new string[]{Tag}, fileNames);
+            if (!reader.Test()) throw new ArgumentException("Bad files.");
+
+            
+            int[] r = new int[reader.countLine];
+            int max = 0;
+            string[] strs = reader[Tag];
+            List<string> num = new List<string>();
+
+            for (int i = 0; i < strs.Length; i++)
+            {
+                if (!num.Contains(strs[i]))
+                    num.Add(strs[i]);
+                r[i] = num.IndexOf(strs[i]);
+            }
+
+            max = num.Count;
+
+            Results results = new Results((i) => new Result(r[i], max), reader.countLine);
+
+            return results;
         }
     }
 }

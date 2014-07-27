@@ -1,6 +1,7 @@
 ﻿using System;
 using VectorSpace;
 using MyParallel;
+using ArrayHelper;
 
 namespace Araneam
 {

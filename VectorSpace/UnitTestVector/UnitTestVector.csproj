@@ -77,6 +77,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ArrayHelper\ArrayHelper.csproj">
+      <Project>{7c6d1a70-8e63-4c6c-8d2e-eb3a529c198b}</Project>
+      <Name>ArrayHelper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\MyParallel\MyParallel\MyParallel.csproj">
       <Project>{458ccdbc-bf99-4b55-8044-926c317943a0}</Project>
       <Name>MyParallel</Name>

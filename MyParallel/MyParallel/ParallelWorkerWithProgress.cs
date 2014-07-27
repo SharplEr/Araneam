@@ -156,6 +156,9 @@ namespace MyParallel
             }
         }
 
+        /// <summary>
+        /// Сложение всех прогрессов отдельных потоков
+        /// </summary>
         protected void sum(object o)
         {
             double t = 0.0;

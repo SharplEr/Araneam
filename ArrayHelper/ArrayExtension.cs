@@ -1,10 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace MyParallel
+namespace ArrayHelper
 {
-    public static class SomeNice
+    public static class ArrayExtension
     {
+        /// <summary>
+        /// Инициализация массива объектов
+        /// </summary>
+        public static void done<T>(this T[] arr) where T : new()
+        {
+            for (int i = 0; i < arr.Length; i++)
+                arr[i] = new T();
+        }
+
+        public static T[] ToArray<T>(this Func<int, T> f, int n)
+        {
+            T[] ans = new T[n];
+            for (int i = 0; i < n; i++)
+                ans[i] = f(i);
+            return ans;
+        }
+
         /// <summary>
         /// Переводит массив типа T в массив типа U
         /// </summary>
@@ -40,8 +60,8 @@ namespace MyParallel
         public static void let<T>(this IEnumerable<T> o, Action<T> f)
         {
             if (o == null) return;
-            foreach(T item in o)
-                if (item!=null) f(item);
+            foreach (T item in o)
+                if (item != null) f(item);
         }
     }
 }

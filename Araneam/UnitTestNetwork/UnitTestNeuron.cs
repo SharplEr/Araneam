@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Araneam;
 using MyParallel;
+using ArrayHelper;
 
 namespace UnitTestNetwork
 {
