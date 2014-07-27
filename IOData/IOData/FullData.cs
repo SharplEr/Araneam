@@ -109,16 +109,30 @@ namespace IOData
             output = DataFile.getOnlyResult(fileNames, OutputTag);
         }
 
-        FullData(MixData[] mi, Vector[] ci, int[][] di)
+        FullData(MixData[] mi, Vector[] ci, int[][] di, Results r)
         {
             mixInput = mi.CloneOk<MixData>();
             if (ci != null) continuousInput = ci.CloneOk<Vector>();
             if (di != null) discreteInput = di.CloneOk<int[]>();
+            output = r.CloneOk();
+        }
+
+        FullData(MixData[] mi, Vector[] ci, int[][] di, Results r, int[] indexer)
+        {
+            mixInput = mi.CloneShuffle<MixData>(indexer);
+            if (ci != null) continuousInput = ci.CloneShuffle<Vector>(indexer);
+            if (di != null) discreteInput = di.CloneShuffle<int[]>(indexer);
+            output = r.CloneShuffle(indexer);
         }
 
         public Object Clone()
         {
-            return new FullData(mixInput, continuousInput, discreteInput);
+            return new FullData(mixInput, continuousInput, discreteInput, output);
+        }
+
+        public FullData CloneShuffle(int[] indexer)
+        {
+            return new FullData(mixInput, continuousInput, discreteInput, output, indexer);
         }
     }
 }

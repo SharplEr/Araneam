@@ -57,6 +57,16 @@ namespace ArrayHelper
             return a;
         }
 
+        public static T[] CloneShuffle<T>(this T[] o, int[] indexer) where T:ICloneable
+        {
+            T[] a = new T[indexer.Length];
+
+            for (int i = 0; i < a.Length; i++)
+                a[i] = (T)o[indexer[i]].Clone();
+
+            return a;
+        }
+
         public static void let<T>(this IEnumerable<T> o, Action<T> f)
         {
             if (o == null) return;

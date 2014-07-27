@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VectorSpace;
+using ArrayHelper;
 
 namespace IOData
 {
@@ -12,7 +13,7 @@ namespace IOData
      * +1 в элементе i - обозначает принадлежность к i классу
      * только один элемент равен +1, остальные равны -1.
     */
-    public class Result
+    public class Result: ICloneable
     {
         //Номер класса
         int? number;
@@ -75,7 +76,19 @@ namespace IOData
 
             max = s.Length;
         }
-        
+
+        Result(Result r)
+        {
+            number = r.number;
+            max = r.max;
+            spectrum = r.spectrum.CloneOk();
+        }
+
+        public Object Clone()
+        {
+            return new Result(this);
+        }
+
         public static Boolean operator ==(Result r1, Result r2)
         {
             return r1.Number == r2.Number;   
@@ -85,5 +98,6 @@ namespace IOData
         {
             return r1.Number != r2.Number;   
         }
+
     }
 }
