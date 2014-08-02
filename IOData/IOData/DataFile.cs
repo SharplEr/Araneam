@@ -142,8 +142,7 @@ namespace IOData
         {
             CSVReader reader = new CSVReader(new string[]{Tag}, fileNames);
             if (!reader.Test()) throw new ArgumentException("Bad files.");
-
-            
+        
             int[] r = new int[reader.countLine];
             int max = 0;
             string[] strs = reader[Tag];
@@ -162,5 +161,7 @@ namespace IOData
 
             return results;
         }
+
+        //list equivalents
     }
 }

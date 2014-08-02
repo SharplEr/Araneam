@@ -23,6 +23,8 @@ namespace IOData
         //Число классов, то есть длина спектра
         int max;
 
+        Object bloker = new Object();
+
         public int MaxNumber
         {
             get
@@ -33,16 +35,18 @@ namespace IOData
         {
             get
             {
-                if (number == null)
+                lock (bloker)
                 {
-                    for (int i = 0; i < spectrum.Length; i++)
-                        if (spectrum[i] == 1.0) 
-                        {
-                            number = i;
-                            break;
-                        }
+                    if (number == null)
+                    {
+                        for (int i = 0; i < spectrum.Length; i++)
+                            if (spectrum[i] == 1.0)
+                            {
+                                number = i;
+                                break;
+                            }
+                    }
                 }
-
                 return number.Value;
             }
         }
@@ -51,9 +55,11 @@ namespace IOData
         {
             get
             {
-                if (spectrum == null)
-                    spectrum = new Vector(max, (i) => (i != number) ? -1.0 : 1.0);
-
+                lock (bloker)
+                {
+                    if (spectrum == null)
+                        spectrum = new Vector(max, (i) => (i != number) ? -1.0 : 1.0);
+                }
                 return spectrum;
             }
         }
@@ -70,11 +76,32 @@ namespace IOData
             max = maxN;
         }
 
+        //Можно разрешать конфликт двумя способами. 1. Максимальный элемент и есть няшка. 2. Элемент ближайший к 1 и есть няшка.
+        //Поскольку жизнь не справедлива хуй знает что лучше.
         public Result(Vector s)
         {
-            spectrum = s;
-
             max = s.Length;
+            /*//Первый вариант, логичный но меньше подходит смыслу обучения нейронной сети
+            int maxi = 0;
+            double maxz = s[0];
+            for (int i = 1; i < max; i++)
+                if (maxz < s[i])
+                {
+                    maxi = i;
+                    maxz = s[i];
+                }
+            */
+            
+            int maxi = 0;
+            double maxEquals = Math.Abs(1.0 - s[0]);
+            for (int i = 1; i < max; i++)
+                if (maxEquals > Math.Abs(1.0-s[i]))
+                {
+                    maxi = i;
+                    maxEquals = Math.Abs(1.0 - s[i]);
+                }
+            
+            spectrum = new Vector(max, (i) => (i != maxi) ? -1.0 : 1.0);
         }
 
         Result(Result r)

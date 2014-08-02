@@ -8,8 +8,10 @@ using ArrayHelper;
 
 namespace IOData
 {
-    public class FullData: ICloneable
+    public class FullData
     {
+        Object blokerContinuous = new Object();
+        Object blokerDiscrete = new Object();
         MixData[] mixInput;
 
         public MixData[] MixInput
@@ -26,26 +28,29 @@ namespace IOData
         {
             get
             {
-                if (continuousInput == null)
+                lock (blokerContinuous)
                 {
-                    continuousInput = new Vector[mixInput.Length];
-
-                    Func<int, double>[] fs = new Func<int,double>[MixInput[0].discrete.Length];
-
-                    for (int i = 0; i < fs.Length; i++)
-                        fs[i] = DataConverter.DiscreteToСontinuous(new ArrayShall<int>((j) => MixInput[j].discrete[i], MixInput[0].discrete.Length), output);
-
-                    for (int i = 0; i < continuousInput.Length; i++)
+                    if (continuousInput == null)
                     {
-                        continuousInput[i] = new Vector(mixInput[0].continuous.Length + fs.Length);
+                        continuousInput = new Vector[mixInput.Length];
 
-                        for (int j = 0; j < mixInput[0].continuous.Length; j++)
-                            continuousInput[i][j] = mixInput[i].continuous[j];
+                        Func<int, double>[] fs = new Func<int, double>[MixInput[0].discrete.Length];
 
-                        for (int j = mixInput[0].continuous.Length; j < continuousInput[i].Length; j++)
-                            continuousInput[i][j] = fs[j - mixInput[0].continuous.Length](mixInput[i].discrete[j - mixInput[0].continuous.Length]);
+                        for (int i = 0; i < fs.Length; i++)
+                            fs[i] = DataConverter.DiscreteToСontinuous(new ArrayShall<int>((j) => MixInput[j].discrete[i], MixInput.Length), output);
+
+                        for (int i = 0; i < continuousInput.Length; i++)
+                        {
+                            continuousInput[i] = new Vector(mixInput[0].continuous.Length + fs.Length);
+
+                            for (int j = 0; j < mixInput[0].continuous.Length; j++)
+                                continuousInput[i][j] = mixInput[i].continuous[j];
+
+                            for (int j = mixInput[0].continuous.Length; j < continuousInput[i].Length; j++)
+                                continuousInput[i][j] = fs[j - mixInput[0].continuous.Length](mixInput[i].discrete[j - mixInput[0].continuous.Length]);
+                        }
+                        //continuousInput.Normalization(1.0);
                     }
-                    
                 }
                 return continuousInput;
             }
@@ -57,24 +62,27 @@ namespace IOData
         {
             get
             {
-                if (discreteInput == null)
+                lock (blokerDiscrete)
                 {
-                    discreteInput = new int[mixInput.Length][];
-
-                    Func<double, int>[] fs = new Func<double, int>[MixInput[0].continuous.Length];
-
-                    for (int i = 0; i < fs.Length; i++)
-                        fs[i] = DataConverter.СontinuousToDiscrete(new ArrayShall<double>((j) => mixInput[j].continuous[i], mixInput[0].continuous.Length), 3);
-
-                    for (int i = 0; i < discreteInput.Length; i++)
+                    if (discreteInput == null)
                     {
-                        discreteInput[i] = new int[mixInput[0].continuous.Length + fs.Length];
+                        discreteInput = new int[mixInput.Length][];
 
-                        for (int j = 0; j < mixInput[0].continuous.Length; j++)
-                            discreteInput[i][j] = fs[j](mixInput[i].continuous[j]);
+                        Func<double, int>[] fs = new Func<double, int>[MixInput[0].continuous.Length];
 
-                        for (int j = mixInput[0].continuous.Length; j < discreteInput[i].Length; j++)
-                            discreteInput[i][j] = mixInput[i].discrete[j - mixInput[0].continuous.Length];
+                        for (int i = 0; i < fs.Length; i++)
+                            fs[i] = DataConverter.СontinuousToDiscrete(new ArrayShall<double>((j) => mixInput[j].continuous[i], mixInput.Length), 3);
+
+                        for (int i = 0; i < discreteInput.Length; i++)
+                        {
+                            discreteInput[i] = new int[mixInput[0].continuous.Length + fs.Length];
+
+                            for (int j = 0; j < mixInput[0].continuous.Length; j++)
+                                discreteInput[i][j] = fs[j](mixInput[i].continuous[j]);
+
+                            for (int j = mixInput[0].continuous.Length; j < discreteInput[i].Length; j++)
+                                discreteInput[i][j] = mixInput[i].discrete[j - mixInput[0].continuous.Length];
+                        }
                     }
                 }
                 return discreteInput;
@@ -89,6 +97,20 @@ namespace IOData
             {
                 return output;
             }
+        }
+
+        int dimension;
+
+        public int Dimension
+        {
+            get
+            { return dimension; }
+        }
+
+        public int Length
+        {
+            get
+            { return mixInput.Length; }
         }
 
         public FullData(string[] fileNames, string[] InputTags, string OutputTag, string[] СontinuousTags, Func<string, double> ToDouble)
@@ -107,6 +129,8 @@ namespace IOData
                 mixInput[i] = new MixData(cd[i], dd[i]);
 
             output = DataFile.getOnlyResult(fileNames, OutputTag);
+
+            dimension = mixInput[0].continuous.Length + mixInput[0].discrete.Length;
         }
 
         FullData(MixData[] mi, Vector[] ci, int[][] di, Results r)
@@ -115,6 +139,7 @@ namespace IOData
             if (ci != null) continuousInput = ci.CloneOk<Vector>();
             if (di != null) discreteInput = di.CloneOk<int[]>();
             output = r.CloneOk();
+            dimension = mixInput[0].continuous.Length + mixInput[0].discrete.Length;
         }
 
         FullData(MixData[] mi, Vector[] ci, int[][] di, Results r, int[] indexer)
@@ -123,16 +148,7 @@ namespace IOData
             if (ci != null) continuousInput = ci.CloneShuffle<Vector>(indexer);
             if (di != null) discreteInput = di.CloneShuffle<int[]>(indexer);
             output = r.CloneShuffle(indexer);
-        }
-
-        public Object Clone()
-        {
-            return new FullData(mixInput, continuousInput, discreteInput, output);
-        }
-
-        public FullData CloneShuffle(int[] indexer)
-        {
-            return new FullData(mixInput, continuousInput, discreteInput, output, indexer);
+            dimension = mixInput[0].continuous.Length + mixInput[0].discrete.Length;
         }
     }
 }

@@ -14,6 +14,11 @@ namespace IOData
 
         int maxNumber;
 
+        public int MaxNumber
+        {
+            get { return maxNumber; }
+        }
+
         public Results(Func<int, Result> f, int n)
         {
             items = new Result[n];
@@ -62,6 +67,48 @@ namespace IOData
         public Results CloneShuffle(int[] indexer)
         {
             return new Results((i) => items[indexer[i]].CloneOk(), indexer.Length);
+        }
+
+        int[] counts;
+
+        //Число примеров принадлежащих разным классам
+        public int[] Counts
+        {
+            get
+            {
+                if (counts == null)
+                {
+                    counts = new int[maxNumber];
+                    for (int i = 0; i < items.Length; i++)
+                        counts[items[i].Number]++;
+                }
+                return counts;
+            }
+        }
+
+        double equable = Double.NaN;
+
+        /// <summary>
+        /// Отношение числа самого частовстречаемого класса, к самому редковстречаемому.
+        /// </summary>
+        public double Equable
+        {
+            get
+            {
+                if (Double.IsNaN(equable))
+                {
+                    int max = Counts[0];
+                    int min = Counts[0];
+                    for (int i = 1; i < Counts.Length; i++)
+                    {
+                        if (max < Counts[i]) max = Counts[i];
+                        if (min > Counts[i]) min = Counts[i];
+                    }
+                    if (min == 0) equable = Double.PositiveInfinity;
+                    else equable = max / min;
+                }
+                return equable;
+            }
         }
     }
 }

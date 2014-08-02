@@ -174,7 +174,7 @@ namespace IOData
             {
                 if (input[i] > max) max = input[i];
             }
-
+            max++;
             int[] counts = new int[max];
             Dictionary<int, double> dict = new Dictionary<int, double>();
 
@@ -187,7 +187,12 @@ namespace IOData
             {
                 t = input[i];
                 counts[t]++;
-                dict[t] += 2.0 * (output[t].Number - (maxR - 1.0) / 2.0) / (maxR - 1);
+                dict[t] += 2.0 * (output[i].Number - (maxR - 1) / 2.0) / (maxR - 1);
+            }
+
+            for (int i = 0; i < counts.Length; i++)
+            {
+                dict[i] /= counts[i];
             }
 
             List<int> sorted = (from kv in dict
