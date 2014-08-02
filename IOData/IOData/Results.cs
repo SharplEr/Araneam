@@ -71,7 +71,9 @@ namespace IOData
 
         int[] counts;
 
-        //Число примеров принадлежащих разным классам
+        /// <summary>
+        /// Число примеров принадлежащих разным классам.
+        /// </summary>
         public int[] Counts
         {
             get
