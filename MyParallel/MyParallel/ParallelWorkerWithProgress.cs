@@ -186,9 +186,15 @@ namespace MyParallel
                 exit = true;
                 Run(System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
                 for (int i = 0; i < Workers.Length; i++)
+                {
                     ready[i].Close();
+                    ready[i].Dispose();
+                }
                 for (int i = 0; i < Workers.Length; i++)
+                {
                     pause[i].Close();
+                    pause[i].Dispose();
+                }
             }
             timer.Dispose();
             deadEnd = true;
