@@ -28,15 +28,17 @@ namespace IOData
         {
             try
             {
-                StreamReader reader = new StreamReader(name);
                 List<string> ans = new List<string>();
                 string s;
-                do
+                using (StreamReader reader = new StreamReader(name))
                 {
-                    s = reader.ReadLine();
-                    if (s != null) ans.Add(s);
-                } while (s != null);
-                reader.Close();
+                    do
+                    {
+                        s = reader.ReadLine();
+                        if (s != null) ans.Add(s);
+                    } while (s != null);
+                    reader.Close();
+                }
                 allElement = new string[ans.Count - 1][];
 
                 countLine = allElement.Length;
