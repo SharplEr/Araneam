@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace IOData
@@ -13,6 +14,16 @@ namespace IOData
                 ans.Remove(t2[i]);
 
             return ans.ToArray();
+        }
+
+        public static Boolean Mask(this int[] discrete, Tuple<int, int>[] mask)
+        {
+            Boolean ans = false;
+            int i = 0;
+            while ((i < mask.Length) && (ans = discrete[mask[i].Item1] == mask[i].Item2))
+                i++;
+
+            return ans;
         }
     }
 }

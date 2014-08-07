@@ -32,7 +32,7 @@ namespace IOData
         {
             Boolean ans = false;
             int i = 0;
-            while ((i < mask.Length) && (ans = continuous[mask[i].Item1] == mask[i].Item2))
+            while ((i < mask.Length) && (ans = discrete[mask[i].Item1] == mask[i].Item2))
                 i++;
             
             return ans;
