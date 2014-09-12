@@ -22,7 +22,7 @@ namespace IOData
         readonly public int countLine;
         readonly public int lineLength;
 
-        static Action<string, SystemException> OnError;
+        static Action<string, SystemException> OnError = (x, y) => Console.WriteLine(x);
 
         public CSVReader(string name)
         {

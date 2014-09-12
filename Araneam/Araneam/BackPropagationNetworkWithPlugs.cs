@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using VectorSpace;
+using System.Text;
+using System.Threading.Tasks;
 using IOData;
-using MyParallel;
+using VectorSpace;
 using ArrayHelper;
+using MyParallel;
 
 namespace Araneam
 {
-    /// <summary>
-    /// Представление многослойного персептрона с алгоритмом обратного распространения
-    /// </summary>
     [Serializable]
-    public class BackPropagationNetwork: Network
+    public class BackPropagationNetworkWithPlugs<T>: NetworkWithPlugins<T>
     {
         protected Vector[] LocalGrads = null;
 
@@ -20,21 +19,12 @@ namespace Araneam
         double timeLearn;
 
         protected Vector[] inputDate = null;
+        protected T[] inputIntDate = null;
         protected Vector[] resultDate = null;
         double[] ratios;
         int[] classCount;
 
-        public BackPropagationNetwork(double r, double t, int LayerCount)
-        {
-            rateStart = r;
-            timeLearn = t;
-
-            layers = new NeuronLayer[LayerCount];
-            fixedLayers = new NeuronLayer[LayerCount];
-            LocalGrads = new Vector[LayerCount];
-        }
-
-        public BackPropagationNetwork(double r, double t, int[] LayerCounts, int inputDem, string name, params double[] k)
+        public BackPropagationNetworkWithPlugs(Plug<T>[] plugs, double r, double t, int[] LayerCounts, int inputDem, string name, params double[] k): base(plugs)
         {
             rateStart = r;
             timeLearn = t;
@@ -42,21 +32,71 @@ namespace Araneam
             layers = new NeuronLayer[LayerCounts.Length];
             fixedLayers = new NeuronLayer[LayerCounts.Length];
             LocalGrads = new Vector[LayerCounts.Length];
+            if (plugs.Length>0)
+            layers[0] = new NeuronLayer(LayerCounts[0], inputDem + plugs[0].Dimension, true, 1, name, k);
+            else
+                layers[0] = new NeuronLayer(LayerCounts[0], inputDem, true, 1, name, k);
+            layers[0].NormalInitialize();
 
+            for (int i = 1; i < LayerCounts.Length; i++)
+            {
+                if (i < plugs.Length)
+                    layers[i] = new NeuronLayer(LayerCounts[i], LayerCounts[i - 1] + 1 + plugs[i].Dimension, i < LayerCounts.Length - 1, 1, name, k);
+                else
+                    layers[i] = new NeuronLayer(LayerCounts[i], LayerCounts[i - 1] + 1, i < LayerCounts.Length - 1, 1, name, k);
+
+                layers[i].NormalInitialize();
+            }
+
+            for (int i = 1; i < LayerCounts.Length; i++)
+            {
+                if (i < plugs.Length)
+                    layers[i].CalcInvers(1 + plugs[i].Dimension);
+                else
+                    layers[i].CalcInvers(1);
+            }
+
+            /*
             layers[0] = new NeuronLayer(LayerCounts[0], inputDem, true, 1, name, k);
             layers[0].NormalInitialize();
 
             for (int i = 1; i < LayerCounts.Length; i++)
             {
-                layers[i] = new NeuronLayer(LayerCounts[i], LayerCounts[i - 1] + 1, i < LayerCounts.Length - 1, 1, name, k);
+                if (i<=plugs.Length)
+                    layers[i] = new NeuronLayer(LayerCounts[i], LayerCounts[i-1]+1+plugs[i-1].Dimension, i<LayerCounts.Length-1, 1, name, k);
+
+                else
+                    layers[i] = new NeuronLayer(LayerCounts[i], LayerCounts[i - 1] + 1, i < LayerCounts.Length - 1, 1, name, k);
+
                 layers[i].NormalInitialize();
             }
 
             for (int i = 1; i < LayerCounts.Length; i++)
-                layers[i].CalcInvers(true);
+            {
+                if (i <= plugs.Length)
+                    layers[i].CalcInvers(1 + plugs[i - 1].Dimension);
+                else
+                    layers[i].CalcInvers(1);
+            }
+             */
         }
 
-        public void AddTestDate(Vector[] tests, Vector[] results, int[] cc)
+        /*
+        public Vector Calculation(MixData data)
+        {
+            return Calculation(data.continuous, data.discrete);
+        }
+
+        public Vector[] Calculation(MixData[] input)
+        {
+            Vector[] ans = new Vector[input.Length];
+
+            for (int i = 0; i < ans.Length; i++)
+                ans[i] = Calculation(input[i].continuous, input[i].discrete);
+            return ans;
+        }*/
+
+        public void AddTestDate(Vector[] tests, T[] inputs, Vector[] results, int[] cc)
         {
             classCount = cc.CloneOk<int[]>();
             int max = 0;
@@ -85,6 +125,11 @@ namespace Araneam
             t = results.ToList();
             if (resultDate != null) t.AddRange(resultDate);
             resultDate = t.ToArray();
+
+            List<T> tt = inputs.ToList();
+
+            if (inputIntDate != null) tt.AddRange(inputIntDate);
+            inputIntDate = tt.ToArray();
         }
 
         protected void setLocalGrads(Vector e)
@@ -137,10 +182,10 @@ namespace Araneam
             for (int i = 0; i < inputDate.Length; i++)
             {
                 int k = indexs[i];
-                Learn(inputDate[k], resultDate[k], rats[k]);
+                Learn(inputDate[k], inputIntDate[k], resultDate[k], rats[k]);
             }
 
-            Vector[] calcDate = Calculation(inputDate);
+            Vector[] calcDate = Calculation(inputDate, inputIntDate);
             double[] errors = new double[classCount.Length];
             double maxError = 0.0;
             int l = 0;
@@ -175,10 +220,10 @@ namespace Araneam
                 for (int i = 0; i < finish; i++)
                 {
                     k = indexs[i];
-                    Learn(inputDate[k], resultDate[k], rats[k]);
+                    Learn(inputDate[k], inputIntDate[k], resultDate[k], rats[k]);
                 }
 
-                calcDate = Calculation(inputDate);
+                calcDate = Calculation(inputDate, inputIntDate);
                 maxError = -1;
                 l = 0;
                 for (int i = 0; i < errors.Length; i++)
@@ -225,7 +270,7 @@ namespace Araneam
                 for (int i = finish; i < inputDate.Length; i++)
                 {
                     k = indexs[i];
-                    eee = ratios[k]*(double)(resultDate[k] - Calculation(inputDate[k]));
+                    eee = ratios[k] * (double)(resultDate[k] - Calculation(inputDate[k], inputIntDate[k]));
                     eee = Math.Sqrt(eee);
                     error += eee;
                 }
@@ -246,7 +291,7 @@ namespace Araneam
             ReFix();
             if (flag)
             {
-                calcDate = Calculation(inputDate);
+                calcDate = Calculation(inputDate, inputIntDate);
                 double err=0.0;
                 for (int i = 0; i < calcDate.Length; i++)
                     err += Math.Sqrt((double)(calcDate[i] - resultDate[i]));
@@ -272,10 +317,10 @@ namespace Araneam
             for (int i = 0; i < inputDate.Length; i++)
             {
                 int k = indexs[i];
-                Learn(inputDate[k], resultDate[k], rats[k]);
+                Learn(inputDate[k], inputIntDate[k], resultDate[k], rats[k]);
             }
 
-            Vector[] calcDate = Calculation(inputDate);
+            Vector[] calcDate = Calculation(inputDate, inputIntDate);
             double[] errors = new double[classCount.Length];
             double maxError = 0.0;
             int l = 0;
@@ -310,10 +355,10 @@ namespace Araneam
                 for (int i = 0; i < inputDate.Length; i++)
                 {
                     k = indexs[i];
-                    Learn(inputDate[k], resultDate[k], rats[k]);
+                    Learn(inputDate[k], inputIntDate[k], resultDate[k], rats[k]);
                 }
 
-                calcDate = Calculation(inputDate);
+                calcDate = Calculation(inputDate, inputIntDate);
                 maxError = -1;
                 l = 0;
                 for (int i = 0; i < errors.Length; i++)
@@ -358,7 +403,7 @@ namespace Araneam
             
             if (flag)
             {
-                calcDate = Calculation(inputDate);
+                calcDate = Calculation(inputDate, inputIntDate);
                 double err = 0.0;
                 for (int i = 0; i < calcDate.Length; i++)
                     err += Math.Sqrt((double)(calcDate[i] - resultDate[i]));
@@ -383,10 +428,10 @@ namespace Araneam
             for (int i = 0; i < inputDate.Length; i++)
             {
                 int k = indexs[i];
-                Learn(inputDate[k], resultDate[k], rats[k]*rating[k]);
+                Learn(inputDate[k], inputIntDate[k], resultDate[k], rats[k] * rating[k]);
             }
 
-            Vector[] calcDate = Calculation(inputDate);
+            Vector[] calcDate = Calculation(inputDate, inputIntDate);
             double[] errors = new double[classCount.Length];
             double maxError = 0.0;
             int l = 0;
@@ -421,10 +466,10 @@ namespace Araneam
                 for (int i = 0; i < inputDate.Length; i++)
                 {
                     k = indexs[i];
-                    Learn(inputDate[k], resultDate[k], rats[k]*rating[k]);
+                    Learn(inputDate[k], inputIntDate[k], resultDate[k], rats[k] * rating[k]);
                 }
 
-                calcDate = Calculation(inputDate);
+                calcDate = Calculation(inputDate, inputIntDate);
                 maxError = -1;
                 l = 0;
                 for (int i = 0; i < errors.Length; i++)
@@ -469,7 +514,7 @@ namespace Araneam
 
             if (flag)
             {
-                calcDate = Calculation(inputDate);
+                calcDate = Calculation(inputDate, inputIntDate);
                 double err = 0.0;
                 for (int i = 0; i < calcDate.Length; i++)
                     err += Math.Sqrt((double)(calcDate[i] - resultDate[i]));
@@ -504,7 +549,7 @@ namespace Araneam
                 indexs = Statist.getRandomIndex(inputDate.Length, rnd);
                 for (int i = 0; i < inputDate.Length; i++)
                 {
-                    error += Learn(inputDate[indexs[i]], resultDate[indexs[i]]);
+                    error += Learn(inputDate[indexs[i]], inputIntDate[indexs[i]], resultDate[indexs[i]]);
                 }
                 error = Math.Sqrt(error) / inputDate.Length;
                 epoch++;
@@ -513,13 +558,13 @@ namespace Araneam
             return new LearnLog(step, epoch, error);
         }
 
-        public double Learn(Vector x, Vector d, double r)
+        public double Learn(Vector x, T xmix, Vector d, double r)
         {
             if (layers == null) throw new ArgumentNullException();
 
             double ans = 0.0;
 
-            Vector y = Calculation(x);
+            Vector y = Calculation(x, xmix);
             Vector errorSignal = d - y;
             ans = (double)errorSignal;
 
@@ -555,13 +600,13 @@ namespace Araneam
             return ans;
         }
 
-        public override double Learn(Vector x, Vector d)
+        public override double Learn(Vector x, T xmix, Vector d)
         {
             if (layers == null) throw new ArgumentNullException();
 
             double ans = 0.0;
 
-            Vector y = Calculation(x);
+            Vector y = Calculation(x, xmix);
             Vector errorSignal = d - y;
             ans = (double)errorSignal;
 

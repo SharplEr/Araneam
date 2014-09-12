@@ -206,7 +206,7 @@ namespace UnitTestNetwork
             new Thread(() => t1 = nl.Calc()).InMTA();
 
             for (int i = 0; i < t1.Length; i++)
-                Assert.AreNotEqual(t2[i], t1[i], "Вычисления сломались");
+                Assert.AreNotEqual(t2[i], t1[i], "Вычисления сломались 1");
 
             new Thread(()=> nl.Dispose()).InMTA();
 
@@ -217,7 +217,7 @@ namespace UnitTestNetwork
             Assert.AreNotEqual(null, t2, "После высвобождение оригинала сломался потомок");
 
             for (int i = 0; i < t1.Length; i++)
-                Assert.AreNotEqual(t1[i], t2[i], "Вычисления сломались");
+                Assert.AreNotEqual(t1[i], t2[i], "Вычисления сломались 2");
         }
     }
 }

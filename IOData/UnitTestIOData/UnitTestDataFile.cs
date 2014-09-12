@@ -155,7 +155,7 @@ namespace UnitTestIODate
                 Assert.Fail("Не удается предварительно записать данные");
             }
 
-            var data = DataFile.getOnlyDiscrete(new string[] { name }, new string[] { "mmm", "sss", "ddd", "rrr" });
+            var data = DataFile.getOnlyDiscrete(new string[] { name }, new string[] { "mmm", "sss", "ddd", "rrr" }).Item1;
 
             Assert.AreEqual(4, data.Length);
 

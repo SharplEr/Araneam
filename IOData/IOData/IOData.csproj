@@ -54,7 +54,6 @@
     <Compile Include="MixData.cs" />
     <Compile Include="Result.cs" />
     <Compile Include="Results.cs" />
-    <Compile Include="SigmentInputData.cs" />
     <Compile Include="Statist.cs" />
     <Compile Include="TagsExtension.cs" />
   </ItemGroup>

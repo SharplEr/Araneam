@@ -1,5 +1,6 @@
 ﻿using System;
 using VectorSpace;
+using ArrayHelper;
 
 namespace IOData
 {
@@ -26,14 +27,22 @@ namespace IOData
         /// <param name="n">Число испытаний</param>
         /// <param name="D">Дисперсия</param>
         /// <param name="a">доверительная вероятность</param>
-        /// <returns></returns>
         public static double CalcQError(int n, double D, double a)
         {
             return D / (1 - a) / n;
         }
-
+        
+        /// <summary>
+        /// Гарантированное растояние
+        /// </summary>
+        /// <param name="x">первая величина</param>
+        /// <param name="ex">ошибка первой величины</param>
+        /// <param name="y">вторая величина</param>
+        /// <param name="ey">ошибка второй величины</param>
         public static double ExactDifference(double x, double ex, double y, double ey)
         {
+            if (Double.IsNaN(x) || Double.IsNaN(y) || Double.IsNaN(ex) || Double.IsNaN(ey)
+                || Double.IsInfinity(x) || Double.IsInfinity(y) || Double.IsInfinity(ex) || Double.IsInfinity(ey)) return Double.PositiveInfinity;
             double t = x - y;
             double et = Math.Sqrt(ex * ex + ey * ey);
             double ans = Math.Abs(t) - et;
@@ -75,6 +84,83 @@ namespace IOData
             }
 
             return ans;
+        }
+
+        public static double Entropy(int[] counts)
+        {
+            int length = 0;
+            for (int i = 0; i < counts.Length; i++)
+                length += counts[i];
+
+            return Entropy(counts, length);
+        }
+
+        public static double Entropy(int[] counts, int length)
+        {
+            double ans = 0.0;
+            double p;
+
+            for (int i = 0; i < counts.Length; i++)
+            {
+                if (counts[i] == 0) continue;
+                p = (double)counts[i] / length;
+                ans -= p * Math.Log(p, 2);
+            }
+
+            return ans;
+        }
+
+        public static double Gain(int[] counts, int length, int[]baseCounts, int baseLength)
+        {
+            double baseEntropy = Entropy(baseCounts, baseLength);
+
+            double entropy = Entropy(counts, length);
+
+            int[] antiCounts = (int[])baseCounts.Clone();
+
+            for (int i = 0; i < antiCounts.Length; i++)
+                antiCounts[i] -= counts[i];
+
+            int antiLength = baseLength-length;
+
+            double antiEntropy = Entropy(antiCounts, antiLength);
+
+            return baseEntropy - (length * entropy + antiLength * antiEntropy) / baseLength;
+        }
+
+        public static double GainRatio(int[] counts, int length, int[] baseCounts, int baseLength)
+        {
+            double baseEntropy = Entropy(baseCounts, baseLength);
+
+            double entropy = Entropy(counts, length);
+
+            int[] antiCounts = (int[])baseCounts.Clone();
+
+            for (int i = 0; i < antiCounts.Length; i++)
+                antiCounts[i] -= counts[i];
+
+            int antiLength = baseLength - length;
+
+            double antiEntropy = Entropy(antiCounts, antiLength);
+
+            double gain = baseEntropy - (length * entropy + antiLength * antiEntropy) / baseLength;
+
+            double split = 0;
+            double p;
+
+            if (length > 0)
+            {
+                p = (double)length / baseLength;
+                split -= p * Math.Log(p, 2);
+            }
+
+            if (antiLength > 0)
+            {
+                p = (double)antiLength / baseLength;
+                split -= p * Math.Log(p, 2);
+            }
+
+            return gain/split;
         }
 
         public static int[] FisherShuffle(int k, int n, Random r)

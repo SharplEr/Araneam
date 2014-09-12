@@ -41,6 +41,7 @@ namespace ArrayHelper
         /// </summary>
         public static T CloneOk<T>(this T o) where T : ICloneable
         {
+            if (o == null) return default(T);
             return (T)o.Clone();
         }
 

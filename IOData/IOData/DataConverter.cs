@@ -7,7 +7,7 @@ namespace IOData
 {
     public static class DataConverter
     {
-        public static Func<string, int> NumericOfString(string[] input)
+        public static Func<string, int> NumericOfString(string[] input, out int max)
         {
             if (input == null) throw new NullReferenceException();
             List<string> strs = new List<string>();
@@ -15,6 +15,8 @@ namespace IOData
             for (int i = 0; i < input.Length; i++)
                 if (!strs.Contains(input[i]))
                     strs.Add(input[i]);
+            
+            max = strs.Count;
 
             return (x) => { return strs.IndexOf(x); };
         }

@@ -10,6 +10,7 @@ namespace IOData
 {
     public class FullData
     {
+        //Почекать потокобезопасность!
         Object blokerContinuous = new Object();
         Object blokerDiscrete = new Object();
         MixData[] mixInput;
@@ -113,13 +114,18 @@ namespace IOData
             { return mixInput.Length; }
         }
 
+        public int[] maxdiscretePart;
+
         public FullData(string[] fileNames, string[] InputTags, string OutputTag, string[] СontinuousTags, Func<string, double> ToDouble)
         {
             string[] DiscreteTags = InputTags.Remove(СontinuousTags);
 
             Vector[] cd = DataFile.getOnlyСontinuous(fileNames, СontinuousTags, ToDouble);
 
-            int[][] dd = DataFile.getOnlyDiscrete(fileNames, DiscreteTags);
+            var tempdd = DataFile.getOnlyDiscrete(fileNames, DiscreteTags);
+
+            int[][] dd = tempdd.Item1;
+            maxdiscretePart = tempdd.Item2;
 
             if (cd.Length != dd.Length) throw new ArgumentOutOfRangeException();
 
@@ -142,13 +148,12 @@ namespace IOData
             dimension = mixInput[0].continuous.Length + mixInput[0].discrete.Length;
         }
 
-        FullData(MixData[] mi, Vector[] ci, int[][] di, Results r, int[] indexer)
+        public FullData(FullData data, int[] indexer)
         {
-            mixInput = mi.CloneShuffle<MixData>(indexer);
-            if (ci != null) continuousInput = ci.CloneShuffle<Vector>(indexer);
-            if (di != null) discreteInput = di.CloneShuffle<int[]>(indexer);
-            output = r.CloneShuffle(indexer);
-            dimension = mixInput[0].continuous.Length + mixInput[0].discrete.Length;
+            mixInput = data.mixInput.CloneShuffle(indexer);
+            output = data.output.CloneShuffle(indexer);
+            dimension = data.dimension;
         }
+
     }
 }

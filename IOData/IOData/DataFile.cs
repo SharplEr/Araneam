@@ -115,7 +115,7 @@ namespace IOData
             return InputData;
         }
 
-        public static int[][] getOnlyDiscrete(string[] fileNames, string[] Tags)
+        public static Tuple<int[][], int[]> getOnlyDiscrete(string[] fileNames, string[] Tags)
         {
             CSVReader reader = new CSVReader(Tags, fileNames);
             if (!reader.Test()) throw new ArgumentException("Bad files.");
@@ -124,8 +124,9 @@ namespace IOData
 
             Func<string, int>[] ToInts = new Func<string,int>[Tags.Length];
 
+            int[] maxs = new int[Tags.Length];
             for (int i = 0; i < Tags.Length; i++)
-                ToInts[i] = DataConverter.NumericOfString(reader[Tags[i]]);
+                ToInts[i] = DataConverter.NumericOfString(reader[Tags[i]], out maxs[i]);
 
             for (int i = 0; i < reader.countLine; i++)
             {
@@ -135,7 +136,7 @@ namespace IOData
                     InputData[i][j] = ToInts[j](reader[i, Tags[j]]);
             }
 
-            return InputData;
+            return new Tuple<int[][],int[]>(InputData, maxs);
         }
 
         public static Results getOnlyResult(string[] fileNames, string Tag)

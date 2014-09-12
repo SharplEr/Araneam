@@ -7,20 +7,7 @@ using ArrayHelper;
 
 namespace Araneam
 {
-    /*
-     * Общие пояснения для тех, кто попытается разобраться:
-     * 0) Базовый класс для нейронных сетей
-     * 1) Для реализации достаточно реализовать метод Learn()
-     *      Смотри пример в LMSNetwork - это однослойный персептрон.
-     * 2!) Работа должна производиться в многопоточном апартаменте, потому что см. класс NeuronLayer
-     * 3!) После завершения работы необходимо вызвать метод Dispose() - это вызовет Dispose() во всех слоях
-     * 4) Для любой реализации этого класс достаточно вызвать метод Calculation() - для обработки входных данных.
-    */
-    /// <summary>
-    /// Представление нейронной сети
-    /// </summary>
-    [Serializable]
-    public abstract class Network
+    public abstract class NetworkWithPlugins<T>
     {
         /// <summary>
         /// Скрытые слои
@@ -62,31 +49,51 @@ namespace Araneam
             }
         }
 
+        protected Plug<T>[] plugins;
+
+        public NetworkWithPlugins(Plug<T>[] plugs)
+        {
+            this.plugins = plugs;
+        }
+
         /// <summary>
         /// Обработка входного сигнала
         /// </summary>
         /// <param name="input">Входной сигнал</param>
         /// <returns>Выходной сигнал</returns>
-        public Vector Calculation(Vector input)
+        public Vector Calculation(Vector input, T yetInput)
         {
-            input = input.CloneOk();
+            //input = input.CloneOk();
             if (layers == null) throw new ArgumentNullException();
+
+            Vector v1 = input.CloneOk(), v2;
             for (int i = 0; i < layers.Length; i++)
             {
+                if ((i < plugins.Length) && (plugins[i] != null) && (plugins[i].Dimension > 0))
+                {
+                    v2 = plugins[i].Calc(yetInput);
+                    input = new Vector(v1.Length + v2.Length);
+                    for (int j = 0; j < v1.Length; j++)
+                        input[j] = v1[j];
+                    for (int j = v1.Length; j < v1.Length + v2.Length; j++)
+                        input[j] = v2[j - v1.Length];
+                }
+                else
+                    input = v1;
+
                 layers[i].Input = input;
-                input = layers[i].Calc();
+                v1 = layers[i].Calc();
             }
 
-            return input.CloneOk();
+            return v1.CloneOk();
         }
 
-        public Vector[] Calculation(Vector[] input)
+        public Vector[] Calculation(Vector[] input, T[] yetInput)
         {
             Vector[] ans = new Vector[input.Length];
 
             for (int i = 0; i < ans.Length; i++)
-                ans[i] = Calculation(input[i]);
-
+                ans[i] = Calculation(input[i], yetInput[i]);
             return ans;
         }
 
@@ -117,17 +124,17 @@ namespace Araneam
         {
             try
             {
-                Network nw = (Network)deser.Deserialize(s);
+                NetworkWithPlugins<T> nw = (NetworkWithPlugins<T>)deser.Deserialize(s);
                 //Высвобождение ресурсов занятыми потоками
                 if (layers != null)
                 {
                     for (int i = 0; i < layers.Length; i++)
                         this.layers[i].Dispose();
                 }
-                
+
                 this.layers = nw.layers;
                 this.step = nw.step;
-                
+
                 if (layers != null)
                 {
                     for (int i = 0; i < layers.Length; i++)
@@ -147,7 +154,7 @@ namespace Araneam
         /// <param name="x">Входной сигнал (не должен быть изменен)</param>
         /// <param name="d">Желаемый отклик</param>
         /// <returns>Квадрат сигнала ошибки</returns>
-        public abstract double Learn(Vector x, Vector d);
+        public abstract double Learn(Vector x, T yetx, Vector d);
 
         /// <summary>
         /// Сохранение в памяти текущего состояния сети
@@ -193,7 +200,7 @@ namespace Araneam
         public void Dispose()
         {
             layers.let((o) => o.Dispose());
-            fixedLayers.let((o) => o.Dispose()); 
+            fixedLayers.let((o) => o.Dispose());
         }
     }
 }

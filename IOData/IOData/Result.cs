@@ -86,7 +86,7 @@ namespace IOData
                     maxi = i;
                     maxz = s[i];
                 }
-            */
+  */
             
             int maxi = 0;
             double maxEquals = Math.Abs(1.0 - s[0]);
@@ -96,7 +96,7 @@ namespace IOData
                     maxi = i;
                     maxEquals = Math.Abs(1.0 - s[i]);
                 }
-            
+
             spectrum = new Vector(max, (i) => (i != maxi) ? -1.0 : 1.0);
         }
 

@@ -16,7 +16,7 @@ namespace Araneam
      *              Что в свою очеред можно проверить по свойству WithThreshold.
      * 4) Для вычисления выполните следующие команды
      *  4.1) Присвойте входной вектор свойству Input.
-     *  4.2) Вызовете метод Calc() - он вернут результирующий вектор
+     *  4.2) Вызовете метод Calc() - он вернет результирующий вектор
      * 5) Для обучения требуется выполнить полностью пунты 4 а затем вызвать метод Сorrection(Vector).
     */
 
@@ -204,6 +204,43 @@ namespace Araneam
                     if (k != inv.Length)
                     {
                         //номер нейрона
+                        inv[k].index.Add(i);
+                        //номер весов в нейроне
+                        inv[k].subIndex.Add(j);
+                    }
+                }
+
+            inversIndex = new TwoArray[inv.Length];
+            for (i = 0; i < inv.Length; i++)
+            {
+                inversIndex[i] = new TwoArray(inv[i].index.ToArray(), inv[i].subIndex.ToArray());
+            }
+        }
+
+        /// <summary>
+        /// Расчет матрицы связи каждого входного сигнала с синапсами нейрона
+        /// </summary>
+        /// <param name="missLast">Пропускать ли несколько последних входов, если они не обучаемая часть</param>
+        public void CalcInvers(int missLast)
+        {
+            if (inputLength == 0) throw new ArgumentOutOfRangeException("Вход не может быть нулевым, назначте вход или используйте другой конструктор");
+            TwoList[] inv;
+            inv = new TwoList[inputLength - missLast];
+            int i, j;
+
+            for (i = 0; i < inv.Length; i++)
+            {
+                inv[i] = new TwoList();
+            }
+            int k;
+
+            for (i = 0; i < neuros.Length; i++)
+                for (j = 0; j < inputIndex[i].Length; j++)
+                {
+                    k = inputIndex[i][j];
+                    if (k < inv.Length)
+                    {
+                        //номер нейрона
                         //номер весов в нейроне
                         inv[k].index.Add(i);
                         inv[k].subIndex.Add(j);
@@ -298,7 +335,8 @@ namespace Araneam
             for (int i = 0; i < neuros.Length; i++)
             {
                 x = 1.0 / (Math.Sqrt(neuros[i].Length));
-                neuros[i].weight.SetRandom(-x, x);
+                neuros[i].weight.SetRandomAroundZero(x, x / 100);
+                //neuros[i].weight.SetRandom(-x, x);
             }
         }
 
@@ -338,11 +376,19 @@ namespace Araneam
 
             nl.inputLength = inputLength;
             if (inversIndex != null)
-                nl.CalcInvers(inversIndex.Length!=inputLength);
+                //было inversIndex.Length!=inputLength
+                nl.CalcInvers(inputLength - inversIndex.Length);
 
             nl.SetWorker(threadCount);
 
             return nl;
+        }
+
+        public bool haveNaN()
+        {
+            for (int i = 0; i < neuros.Length; i++)
+                if (neuros[i].haveNaN()) return true;
+            return false;
         }
 
         /// <summary>

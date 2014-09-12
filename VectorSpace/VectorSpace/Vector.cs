@@ -272,6 +272,38 @@ namespace VectorSpace
         }
 
         /// <summary>
+        /// Заполняет случайными координатами от a
+        /// </summary>
+        public Vector SetRandomAroundZero(double a)
+        {
+            Random r = new Random();
+
+            for (int i = 0; i < element.Length; i++) element[i] = 2 * a * r.NextDouble() - a;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Заполняет случайными координатами от a
+        /// </summary>
+        public Vector SetRandomAroundZero(double a, double epsilon)
+        {
+            Random r = new Random();
+
+            double b = a - epsilon;
+            double t;
+
+            for (int i = 0; i < element.Length; i++)
+            {
+                t = 2 * b * r.NextDouble() - b;
+                if (t >= 0) element[i] = t + epsilon;
+                element[i] = t - epsilon;
+            }
+
+            return this;
+        }
+
+        /// <summary>
         /// Нормализует вектор (каждая координата будет от -1 до 1)
         /// </summary>
         public Vector Normalization()
