@@ -9,12 +9,13 @@ namespace Araneam
      *      Так же он позволяет удобнее создавать функции активации "на лету" используя только их псевдоним
      *          и параметры.
      *      Список всех доступных таким образом функций активации можно найти в структуре Activation.
+     * 1) По сути он с Activation образует паттерн фабрика.
     */ 
     [Serializable]
     /// <summary>
     /// Инкапсулирует информацию о функции активации
     /// </summary>
-    public class FuncInfo
+    public class FuncFactory
     {
         /// <summary>
         /// Имя класса функций
@@ -35,7 +36,7 @@ namespace Araneam
         [NonSerialized]
         public Func<double, double> df;
 
-        public FuncInfo(string nm, params double[] p)
+        public FuncFactory(string nm, params double[] p)
         {
             name = nm;
             param = p;

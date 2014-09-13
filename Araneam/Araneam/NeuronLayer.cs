@@ -77,7 +77,7 @@ namespace Araneam
         { get { return withThreshold; } }
 
         #region Информация необходимая для загрузки сети с диска
-        readonly FuncInfo fi;
+        readonly FuncFactory fi;
         #endregion
 
         #region Группа параллельных обработчиков
@@ -92,7 +92,7 @@ namespace Araneam
         /// <summary>
         /// Внутренний конструктор для метода Copy
         /// </summary>
-        NeuronLayer(int n, int[][] indexs, bool useThreshold, int count, FuncInfo f)
+        NeuronLayer(int n, int[][] indexs, bool useThreshold, int count, FuncFactory f)
         {
             fi = f;
             withThreshold = useThreshold;
@@ -116,7 +116,7 @@ namespace Araneam
         /// <param name="p">Параметры функци активации</param>
         public NeuronLayer(int n, int[][] indexs, bool useThreshold, int count, string name, params Double[] p)
         {
-            fi = new FuncInfo(name, p);
+            fi = new FuncFactory(name, p);
             withThreshold = useThreshold;
 
             neuros = new Neuron[n];
@@ -144,7 +144,7 @@ namespace Araneam
         {
             withThreshold = useThreshold;
             inputLength = m;
-            fi = new FuncInfo(name, p);
+            fi = new FuncFactory(name, p);
 
             neuros = new Neuron[n];
 

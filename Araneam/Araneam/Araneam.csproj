@@ -73,7 +73,7 @@
     <Compile Include="BackPropagationNetwork.cs" />
     <Compile Include="BackPropagationNetworkWithPlugs.cs" />
     <Compile Include="CorrectionWorker.cs" />
-    <Compile Include="FuncInfo.cs" />
+    <Compile Include="FuncFactory.cs" />
     <Compile Include="LearnLog.cs" />
     <Compile Include="LMSNetwork.cs" />
     <Compile Include="NetWork.cs" />
