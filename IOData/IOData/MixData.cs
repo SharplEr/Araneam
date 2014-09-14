@@ -12,6 +12,7 @@ namespace IOData
     /// <summary>
     /// Класс для представления смешанных данных
     /// </summary>
+    [Serializable]
     public class MixData: ICloneable
     {
         public Vector continuous;

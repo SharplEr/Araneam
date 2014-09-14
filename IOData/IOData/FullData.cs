@@ -8,6 +8,7 @@ using ArrayHelper;
 
 namespace IOData
 {
+    [Serializable]
     public class FullData
     {
         //Почекать потокобезопасность!
@@ -154,6 +155,5 @@ namespace IOData
             output = data.output.CloneShuffle(indexer);
             dimension = data.dimension;
         }
-
     }
 }
