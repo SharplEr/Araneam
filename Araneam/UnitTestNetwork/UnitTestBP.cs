@@ -89,16 +89,16 @@ namespace UnitTestNetwork
             Vector[] d = new Vector[4];
 
             x[0] = new Vector(3);
-            x[0][0] = 0;
-            x[0][1] = 0;
+            x[0][0] = -1;
+            x[0][1] = -1;
             x[0][2] = 1;
             x[1] = new Vector(3);
-            x[1][0] = 0;
+            x[1][0] = -1;
             x[1][1] = 1;
             x[1][2] = 1;
             x[2] = new Vector(3);
             x[2][0] = 1;
-            x[2][1] = 0;
+            x[2][1] = -1;
             x[2][2] = 1;
             x[3] = new Vector(3);
             x[3][0] = 1;
@@ -106,19 +106,19 @@ namespace UnitTestNetwork
             x[3][2] = 1;
 
             d[0] = new Vector(1);
-            d[0][0] = 0;
+            d[0][0] = -1;
             d[1] = new Vector(1);
             d[1][0] = 1;
             d[2] = new Vector(1);
             d[2][0] = 1;
             d[3] = new Vector(1);
-            d[3][0] = 0;
+            d[3][0] = -1;
 
             Vector[] y = new Vector[4];
 
             new Thread(() =>
                 {
-                    for (int i = 0; i < 4*10; i++)
+                    for (int i = 0; i < 4*100; i++)
                     {
                         nw.Learn(x[i % 4], d[i % 4]);
                     }
@@ -134,6 +134,153 @@ namespace UnitTestNetwork
             for (int i = 0; i < 4; i++)
             {
                 Assert.AreEqual(d[i][0], y[i][0], 0.001, "Сеть не обучается. Пример с ошибкой {0}", i);
+            }
+        }
+
+        [TestMethod]
+        public void Test_BackPropagationEaseLearn()
+        {
+            BPNW2 nw = new BPNW2();
+
+            const int m = 2;
+
+            Vector[] x = new Vector[m];
+            Vector[] d = new Vector[m];
+
+            x[0] = new Vector(3);
+            x[0][0] = -1;
+            x[0][1] = -1;
+            x[0][2] = 1;
+            x[1] = new Vector(3);
+            x[1][0] = 1;
+            x[1][1] = 1;
+            x[1][2] = 1;
+
+            d[0] = new Vector(1);
+            d[0][0] = -1;
+            d[1] = new Vector(1);
+            d[1][0] = 1;
+
+            Vector[] y = new Vector[m];
+
+            new Thread(() =>
+            {
+                for (int i = 0; i < m * 20; i++)
+                {
+                    nw.Learn(x[i % m], d[i % m]);
+                }
+
+                for (int i = 0; i < m; i++)
+                {
+                    y[i] = nw.Calculation(x[i]).CloneOk();
+                }
+
+                nw.Dispose();
+            }).InMTA();
+
+            for (int i = 0; i < m; i++)
+            {
+                Assert.AreEqual(d[i][0], y[i][0], 0.001, "Сеть не обучается. Пример с ошибкой {0}", i);
+            }
+        }
+
+        [TestMethod]
+        public void Test_BackPropagationEaseLearn2()
+        {
+            BPNW2 nw = new BPNW2();
+
+            const int m = 2;
+
+            Vector[] x = new Vector[m];
+            Vector[] d = new Vector[m];
+
+            x[0] = new Vector(3);
+            x[0][0] = 0;
+            x[0][1] = 0;
+            x[0][2] = 1;
+            x[1] = new Vector(3);
+            x[1][0] = 1;
+            x[1][1] = 1;
+            x[1][2] = 1;
+
+            d[0] = new Vector(1);
+            d[0][0] = -1;
+            d[1] = new Vector(1);
+            d[1][0] = 1;
+
+            Vector[] y = new Vector[m];
+
+            new Thread(() =>
+            {
+                for (int i = 0; i < m * 30; i++)
+                {
+                    nw.Learn(x[i % m], d[i % m]);
+                }
+
+                for (int i = 0; i < m; i++)
+                {
+                    y[i] = nw.Calculation(x[i]).CloneOk();
+                }
+
+                nw.Dispose();
+            }).InMTA();
+
+            for (int i = 0; i < m; i++)
+            {
+                Assert.AreEqual(d[i][0], y[i][0], 0.01, "Сеть не обучается. Пример с ошибкой {0}", i);
+            }
+        }
+
+        [TestMethod]
+        public void Test_BackPropagationEaseLearn3()
+        {
+            BPNW2 nw = new BPNW2();
+
+            const int m = 3;
+
+            Vector[] x = new Vector[m];
+            Vector[] d = new Vector[m];
+
+            x[0] = new Vector(3);
+            x[0][0] = 0;
+            x[0][1] = 0;
+            x[0][2] = 1;
+            x[1] = new Vector(3);
+            x[1][0] = 1;
+            x[1][1] = 1;
+            x[1][2] = 1;
+            x[2] = new Vector(3);
+            x[2][0] = 1;
+            x[2][1] = 0;
+            x[2][2] = 1;
+
+            d[0] = new Vector(1);
+            d[0][0] = -1;
+            d[1] = new Vector(1);
+            d[1][0] = 1;
+            d[2] = new Vector(1);
+            d[2][0] = 0;
+
+            Vector[] y = new Vector[m];
+
+            new Thread(() =>
+            {
+                for (int i = 0; i < m * 25; i++)
+                {
+                    nw.Learn(x[i % m], d[i % m]);
+                }
+
+                for (int i = 0; i < m; i++)
+                {
+                    y[i] = nw.Calculation(x[i]).CloneOk();
+                }
+
+                nw.Dispose();
+            }).InMTA();
+
+            for (int i = 0; i < m; i++)
+            {
+                Assert.AreEqual(d[i][0], y[i][0], 0.01, "Сеть не обучается. Пример с ошибкой {0}", i);
             }
         }
 
