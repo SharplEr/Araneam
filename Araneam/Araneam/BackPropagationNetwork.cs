@@ -569,6 +569,7 @@ namespace Araneam
 
             double h = rateStart / (1.0 + (double)(step) / timeLearn);
 
+            //Проблемный кусок!!!
             int max = Int32.MinValue;
             int min = Int32.MaxValue;
             int now;
@@ -580,17 +581,28 @@ namespace Araneam
             }
 
             double t = Math.Sqrt(min);
-            double m = 1.0 / (Math.Sqrt(max) - t);
+            double m;
+            if (min != max)
+                m = 1.0 / (Math.Sqrt(max) - t);
+            else m = 0;
             double b = 1.0 - t * m;
 
             double p;
+            //Проблемный кусок!!!
 
             //Можно расспаралелить, так как корректировка не зависит от последовательности
             
             for (int i = 0; i < layers.Length; i++)
             {
-                p = (Math.Sqrt(layers[i].Input.Length) * m + b);
-                layers[i].Сorrection(LocalGrads[i].Multiplication(h / p));
+                if (min != max)
+                {
+                    p = (Math.Sqrt(layers[i].Input.Length) * m + b);
+                    layers[i].Сorrection(LocalGrads[i].Multiplication(h / p));
+                }
+                else
+                {
+                    layers[i].Сorrection(LocalGrads[i].Multiplication(h));
+                }
             }
 
             step++;
