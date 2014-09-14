@@ -118,7 +118,7 @@ namespace UnitTestNetwork
 
             new Thread(() =>
                 {
-                    for (int i = 0; i < 100; i++)
+                    for (int i = 0; i < 4*10; i++)
                     {
                         nw.Learn(x[i % 4], d[i % 4]);
                     }
@@ -198,9 +198,9 @@ namespace UnitTestNetwork
 
             new Thread(() => y = nw.Calculation(x)).InMTA();
 
-            Assert.AreEqual(0.1437,y[0], 0.0002);
-            Assert.AreEqual(0.1075, y[1], 0.0002);
-            Assert.AreEqual(0.08586, y[2], 0.0002);
+            Assert.AreEqual(0.1247,y[0], 0.0002);
+            Assert.AreEqual(0.0928, y[1], 0.0002);
+            Assert.AreEqual(0.0739, y[2], 0.0002);
 
             Vector[] der = nw.Der();
 
@@ -208,12 +208,12 @@ namespace UnitTestNetwork
             Assert.AreEqual(2, der[0].Length);
             Assert.AreEqual(3, der[1].Length);
 
-            Assert.AreEqual(1.059997, der[0][0], 0.0001);
+            Assert.AreEqual(1.06, der[0][0], 0.0001);
             Assert.AreEqual(1.1339, der[0][1], 0.0001);
 
-            Assert.AreEqual(1.1358, der[1][0], 0.001);
-            Assert.AreEqual(1.13937, der[1][1], 0.001);
-            Assert.AreEqual(1.141, der[1][2], 0.001);
+            Assert.AreEqual(1.1379, der[1][0], 0.001);
+            Assert.AreEqual(1.1406, der[1][1], 0.001);
+            Assert.AreEqual(1.1418, der[1][2], 0.001);
 
             Vector e = d - y;
 
@@ -223,11 +223,11 @@ namespace UnitTestNetwork
             Assert.AreEqual(2, lg[0].Length);
             Assert.AreEqual(3, lg[1].Length);
 
-            Assert.AreEqual(0.10423, lg[0][0], 0.001);
-            Assert.AreEqual(0.10095, lg[0][1], 0.001);
-            Assert.AreEqual(0.4047, lg[1][0], 0.001);
-            Assert.AreEqual(0.3333, lg[1][1], 0.001);
-            Assert.AreEqual(0.2443, lg[1][2], 0.001);   
+            Assert.AreEqual(0.10988, lg[0][0], 0.001);
+            Assert.AreEqual(0.10641, lg[0][1], 0.001);
+            Assert.AreEqual(0.4270, lg[1][0], 0.001);
+            Assert.AreEqual(0.3503, lg[1][1], 0.001);
+            Assert.AreEqual(0.2581, lg[1][2], 0.001);   
         }
     }
 }
