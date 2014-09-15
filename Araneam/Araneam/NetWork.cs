@@ -152,8 +152,29 @@ namespace Araneam
         /// </summary>
         /// <param name="x">Входной сигнал (не должен быть изменен)</param>
         /// <param name="d">Желаемый отклик</param>
-        /// <returns>Квадрат сигнала ошибки</returns>
+        /// <returns>Квадрат сигнала ошибки до обучения</returns>
         public abstract double Learn(Vector x, Vector d);
+
+        
+        public abstract double Learn(Vector x, Vector d, double r);
+
+        /// <summary>
+        /// Обучение сети
+        /// </summary>
+        /// <param name="x">Входной сигнал (не должен быть изменен)</param>
+        /// <param name="d">Желаемый отклик</param>
+        /// <returns>Квадрат сигнала ошибки после обучения</returns>
+        public double LearnWithNewError(Vector x, Vector d)
+        {
+            Learn(x, d);
+            return (double)(d - Calculation(x));
+        }
+
+        public double LearnWithNewError(Vector x, Vector d, double r)
+        {
+            Learn(x, d, r);
+            return (double)(d - Calculation(x));
+        }
 
         /// <summary>
         /// Сохранение в памяти текущего состояния сети

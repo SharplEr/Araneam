@@ -66,5 +66,17 @@ namespace Araneam
             step++;
             return ans;
         }
+
+        public override double Learn(Vector x, Vector d, double r)
+        {
+            Vector y = Calculation(x);
+            Vector errorSignal = d - y;
+            double ans = (double)errorSignal;
+
+            layers[0].Сorrection(errorSignal.Multiplication(r*rateStart / (1.0 + (double)step / timeLearn)));
+
+            step++;
+            return ans;
+        }
     }
 }
