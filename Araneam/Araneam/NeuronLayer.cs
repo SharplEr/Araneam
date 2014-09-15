@@ -89,6 +89,8 @@ namespace Araneam
         NeurosCalcWorker Calcer;
         #endregion
 
+
+        Random random = new Random();
         /// <summary>
         /// Внутренний конструктор для метода Copy
         /// </summary>
@@ -335,7 +337,7 @@ namespace Araneam
             for (int i = 0; i < neuros.Length; i++)
             {
                 x = 1.0 / (Math.Sqrt(neuros[i].Length));
-                neuros[i].weight.SetRandomAroundZero(x, x / 100);
+                neuros[i].weight.SetRandomAroundZero(x, x / 100, random);
                 //neuros[i].weight.SetRandom(-x, x);
             }
         }
