@@ -61,7 +61,7 @@ namespace UnitTestNetwork
         class BPNW2 : BackPropagationNetwork
         {
             public BPNW2()
-                : base(0.5, 100, 2)
+                : base(0.5, 1000, 2)
             {
 
                 layers[0] = new NeuronLayer(2, 3, true, 0, "no");
@@ -120,7 +120,7 @@ namespace UnitTestNetwork
                 {
                     for (int i = 0; i < 4*100; i++)
                     {
-                        nw.Learn(x[i % 4], d[i % 4]);
+                        nw.Learn(x[(7 * i + 3) % 4], d[(7 * i + 3) % 4]);
                     }
 
                     for (int i = 0; i < 4; i++)
@@ -165,7 +165,7 @@ namespace UnitTestNetwork
 
             new Thread(() =>
             {
-                for (int i = 0; i < m * 20; i++)
+                for (int i = 0; i < m * 30; i++)
                 {
                     nw.Learn(x[i % m], d[i % m]);
                 }
@@ -186,53 +186,6 @@ namespace UnitTestNetwork
 
         [TestMethod]
         public void Test_BackPropagationEaseLearn2()
-        {
-            BPNW2 nw = new BPNW2();
-
-            const int m = 2;
-
-            Vector[] x = new Vector[m];
-            Vector[] d = new Vector[m];
-
-            x[0] = new Vector(3);
-            x[0][0] = 0;
-            x[0][1] = 0;
-            x[0][2] = 1;
-            x[1] = new Vector(3);
-            x[1][0] = 1;
-            x[1][1] = 1;
-            x[1][2] = 1;
-
-            d[0] = new Vector(1);
-            d[0][0] = -1;
-            d[1] = new Vector(1);
-            d[1][0] = 1;
-
-            Vector[] y = new Vector[m];
-
-            new Thread(() =>
-            {
-                for (int i = 0; i < m * 30; i++)
-                {
-                    nw.Learn(x[i % m], d[i % m]);
-                }
-
-                for (int i = 0; i < m; i++)
-                {
-                    y[i] = nw.Calculation(x[i]).CloneOk();
-                }
-
-                nw.Dispose();
-            }).InMTA();
-
-            for (int i = 0; i < m; i++)
-            {
-                Assert.AreEqual(d[i][0], y[i][0], 0.01, "Сеть не обучается. Пример с ошибкой {0}", i);
-            }
-        }
-
-        [TestMethod]
-        public void Test_BackPropagationEaseLearn3()
         {
             BPNW2 nw = new BPNW2();
 
@@ -281,6 +234,122 @@ namespace UnitTestNetwork
             for (int i = 0; i < m; i++)
             {
                 Assert.AreEqual(d[i][0], y[i][0], 0.01, "Сеть не обучается. Пример с ошибкой {0}", i);
+            }
+        }
+
+        [TestMethod]
+        public void Test_BackPropagationLinearLearn()
+        {
+            Random r = new Random();
+
+            BPNW2 nw = new BPNW2();
+
+            const int m = 10;
+
+            Vector[] y = new Vector[m];
+
+            new Thread(() =>
+            {
+                for (int i = 0; i < m * 100; i++)
+                {
+                    Vector x = new Vector(3, (j)=>r.NextDouble(), 1);
+                    Vector d = new Vector(1);
+                    d[0] = x[0] + x[1];
+                    nw.Learn(x, d);
+                }
+
+                for (int i = 0; i < m; i++)
+                {
+                    Vector x = new Vector(3, (j) => r.NextDouble(), 1);
+                    Vector d = new Vector(1);
+                    d[0] = x[0] + x[1];
+                    y[i] = d-nw.Calculation(x);
+                }
+
+                nw.Dispose();
+            }).InMTA();
+
+            for (int i = 0; i < m; i++)
+            {
+                Assert.AreEqual(0, y[i][0], 0.01, "Сеть не обучается. Пример с ошибкой {0}", i);
+            }
+        }
+
+        [TestMethod]
+        public void Test_BackPropagationLinearLearn2()
+        {
+            Random r = new Random();
+
+            BPNW2 nw = new BPNW2();
+
+            const int m = 10;
+
+            Vector[] y = new Vector[m];
+
+            new Thread(() =>
+            {
+                for (int i = 0; i < m * 100; i++)
+                {
+                    Vector x = new Vector(3, (j) => r.NextDouble()*2-1, 1);
+                    Vector d = new Vector(1);
+                    d[0] = (x[0] * Math.PI + x[1]*Math.E) / 3.0;
+                    nw.Learn(x, d);
+                }
+
+                for (int i = 0; i < m; i++)
+                {
+                    Vector x = new Vector(3, (j) => r.NextDouble()*2-1, 1);
+                    Vector d = new Vector(1);
+                    d[0] = (x[0] * Math.PI + x[1] * Math.E) / 3.0;
+                    y[i] = d - nw.Calculation(x);
+                }
+
+                nw.Dispose();
+            }).InMTA();
+
+            for (int i = 0; i < m; i++)
+            {
+                Assert.AreEqual(0, y[i][0], 0.01, "Сеть не обучается. Пример с ошибкой {0}", i);
+            }
+        }
+
+        [TestMethod]
+        public void Test_BackPropagationNonLinearLearn()
+        {
+            Random r = new Random();
+
+            BPNW2 nw = new BPNW2();
+
+            const int m = 10;
+
+            Vector[] y = new Vector[m];
+
+            new Thread(() =>
+            {
+                for (int i = 0; i < m * 100000; i++)
+                {
+                    Vector x = new Vector(3, (j) => r.NextDouble() * 2 - 1, 1);
+                    Vector d = new Vector(1);
+                    d[0] = Math.Sin(x[0]) + Math.Cos(x[1]);
+                    //d[0] = (Math.Sin(x[0]) * Math.PI + Math.Cos(x[1]) * Math.E) / 3.0;
+                    nw.Learn(x, d);
+                }
+
+                for (int i = 0; i < m; i++)
+                {
+                    Vector x = new Vector(3, (j) => r.NextDouble() * 2 - 1, 1);
+                    Vector d = new Vector(1);
+                    d[0] = Math.Sin(x[0]) + Math.Cos(x[1]);
+                    //d[0] = (Math.Sin(x[0]) * Math.PI + Math.Cos(x[1]) * Math.E) / 3.0;
+                    y[i] = d - nw.Calculation(x);
+                }
+
+                nw.Dispose();
+            }).InMTA();
+
+            for (int i = 0; i < m; i++)
+            {
+                Assert.AreEqual(0, y[i][0], 0.01, "Сеть не обучается. Пример с ошибкой {0}", i);
             }
         }
 
