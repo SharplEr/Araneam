@@ -43,6 +43,9 @@ namespace Araneam
 
         protected int maxThread = 0;
 
+        [NonSerialized]
+        protected Random random = new Random();
+
         /// <summary>
         /// Свойство, задающее максимальное число потоков на слое. Может быть динамически изменено во время работы сети.
         /// Значение 0 соответствет автоматическому определению всех доступных ядер.
@@ -133,6 +136,9 @@ namespace Araneam
                     for (int i = 0; i < layers.Length; i++)
                         layers[i].Refresh();
                 }
+
+                //Можно и не делать так, но пусть с новой загрузкой -- начнется новая жизнь)
+                random = new Random();
                 return true;
             }
             catch

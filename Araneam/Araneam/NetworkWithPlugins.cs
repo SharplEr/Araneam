@@ -51,6 +51,8 @@ namespace Araneam
 
         protected Plug<T>[] plugins;
 
+        protected Random random = new Random();
+
         public NetworkWithPlugins(Plug<T>[] plugs)
         {
             this.plugins = plugs;

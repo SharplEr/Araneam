@@ -67,10 +67,10 @@ namespace UnitTestNetwork
                 layers[0] = new NeuronLayer(2, 3, true, 0, "no");
                 layers[1] = new NeuronLayer(1, 3, false, 0, "no");
                 
-                layers[0].NormalInitialize();
+                layers[0].NormalInitialize(random);
 
                 layers[1].CalcInvers(layers[0].WithThreshold);
-                layers[1].NormalInitialize();
+                layers[1].NormalInitialize(random);
             }
 
             public Vector[] LG(Vector e)
@@ -165,7 +165,7 @@ namespace UnitTestNetwork
 
             new Thread(() =>
             {
-                for (int i = 0; i < m * 30; i++)
+                for (int i = 0; i < m * 35; i++)
                 {
                     nw.Learn(x[i % m], d[i % m]);
                 }
@@ -326,7 +326,7 @@ namespace UnitTestNetwork
 
             new Thread(() =>
             {
-                for (int i = 0; i < m * 100000; i++)
+                for (int i = 0; i < m * 10000; i++)
                 {
                     Vector x = new Vector(3, (j) => r.NextDouble() * 2 - 1, 1);
                     Vector d = new Vector(1);

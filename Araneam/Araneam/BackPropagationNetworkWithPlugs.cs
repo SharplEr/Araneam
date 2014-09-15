@@ -36,7 +36,7 @@ namespace Araneam
             layers[0] = new NeuronLayer(LayerCounts[0], inputDem + plugs[0].Dimension, true, 1, name, k);
             else
                 layers[0] = new NeuronLayer(LayerCounts[0], inputDem, true, 1, name, k);
-            layers[0].NormalInitialize();
+            layers[0].NormalInitialize(random);
 
             for (int i = 1; i < LayerCounts.Length; i++)
             {
@@ -45,7 +45,7 @@ namespace Araneam
                 else
                     layers[i] = new NeuronLayer(LayerCounts[i], LayerCounts[i - 1] + 1, i < LayerCounts.Length - 1, 1, name, k);
 
-                layers[i].NormalInitialize();
+                layers[i].NormalInitialize(random);
             }
 
             for (int i = 1; i < LayerCounts.Length; i++)

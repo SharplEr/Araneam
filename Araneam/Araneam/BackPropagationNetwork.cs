@@ -44,12 +44,12 @@ namespace Araneam
             LocalGrads = new Vector[LayerCounts.Length];
 
             layers[0] = new NeuronLayer(LayerCounts[0], inputDem, true, 1, name, k);
-            layers[0].NormalInitialize();
+            layers[0].NormalInitialize(random);
 
             for (int i = 1; i < LayerCounts.Length; i++)
             {
                 layers[i] = new NeuronLayer(LayerCounts[i], LayerCounts[i - 1] + 1, i < LayerCounts.Length - 1, 1, name, k);
-                layers[i].NormalInitialize();
+                layers[i].NormalInitialize(random);
             }
 
             for (int i = 1; i < LayerCounts.Length; i++)
@@ -593,7 +593,7 @@ namespace Araneam
             //Можно расспаралелить, так как корректировка не зависит от последовательности
             
             for (int i = 0; i < layers.Length; i++)
-            {
+            {   
                 if (min != max)
                 {
                     p = (Math.Sqrt(layers[i].Input.Length) * m + b);

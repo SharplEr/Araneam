@@ -174,12 +174,13 @@ namespace UnitTestNetwork
         [TestMethod]
         public void Test_LayerClone()
         {
+            Random r = new Random();
             const int n = 3;
             const int m = 2;
 
             NeuronLayer nl = new NeuronLayer(n, m, false, 0, "sigmoid", 0.5);
 
-            nl.NormalInitialize();
+            nl.NormalInitialize(r);
 
             new Thread(() => nl.Input = new Vector(m, j => j + 1)).InMTA();
 
@@ -201,7 +202,7 @@ namespace UnitTestNetwork
             for (int i = 0; i < t1.Length; i++)
                 Assert.AreEqual(t1[i], t2[i], "Неверно вычисляет после клонирования");
 
-            nl.NormalInitialize();
+            nl.NormalInitialize(r);
 
             new Thread(() => t1 = nl.Calc()).InMTA();
 
