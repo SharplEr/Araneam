@@ -86,6 +86,25 @@ namespace IOData
             return ans;
         }
 
+        /// <summary>
+        /// Перемешивает массив индексов 2-х мерного массива
+        /// </summary>
+        public static void shuffle2DIndex(Tuple<int,int>[] indexes, Random r)
+        {
+
+            int k;
+
+            Tuple<int, int> t;
+
+            for (int i = indexes.Length - 1; i >= 0; i--)
+            {
+                k = r.Next(i);
+                t = indexes[i];
+                indexes[i] = indexes[k];
+                indexes[k] = t;
+            }
+        }
+
         public static double Entropy(int[] counts)
         {
             int length = 0;
