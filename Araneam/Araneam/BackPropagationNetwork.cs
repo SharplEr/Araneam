@@ -513,7 +513,7 @@ namespace Araneam
             return new LearnLog(step, epoch, error);
         }
 
-        public double Learn(Vector x, Vector d, double r)
+        public override double Learn(Vector x, Vector d, double r)
         {
             if (layers == null) throw new ArgumentNullException();
 
@@ -563,13 +563,13 @@ namespace Araneam
 
             Vector y = Calculation(x);
             Vector errorSignal = d - y;
+
             ans = (double)errorSignal;
 
             setLocalGrads(errorSignal);
 
             double h = rateStart / (1.0 + (double)(step) / timeLearn);
 
-            //Проблемный кусок!!!
             int max = Int32.MinValue;
             int min = Int32.MaxValue;
             int now;
@@ -588,10 +588,8 @@ namespace Araneam
             double b = 1.0 - t * m;
 
             double p;
-            //Проблемный кусок!!!
 
             //Можно расспаралелить, так как корректировка не зависит от последовательности
-            
             for (int i = 0; i < layers.Length; i++)
             {   
                 if (min != max)

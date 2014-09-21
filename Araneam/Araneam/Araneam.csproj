@@ -76,7 +76,10 @@
     <Compile Include="FuncFactory.cs" />
     <Compile Include="LearnLog.cs" />
     <Compile Include="LMSNetwork.cs" />
+    <Compile Include="ILocalGradient.cs" />
+    <Compile Include="LocalGradient.cs" />
     <Compile Include="NetWork.cs" />
+    <Compile Include="ClassificationNetwork.cs" />
     <Compile Include="NeuronLayer.cs" />
     <Compile Include="Neuron.cs" />
     <Compile Include="NeurosCalc.cs" />
@@ -89,6 +92,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SetInputWorker.cs" />
+    <Compile Include="Simple.cs" />
+    <Compile Include="Simples.cs" />
     <Compile Include="Two.cs" />
   </ItemGroup>
   <ItemGroup>

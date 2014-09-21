@@ -313,12 +313,30 @@ namespace UnitTestNetwork
             }
         }
 
+        class BPNW4 : BackPropagationNetwork
+        {
+            public BPNW4()
+                : base(0.5, 100000, 3)
+            {
+                layers[0] = new NeuronLayer(10, 3, true, 0, "tanh", 1.7159, 2.0 / 3.0);
+                layers[1] = new NeuronLayer(3, 11, true, 0, "tanh", 1.7159, 2.0 / 3.0);
+                layers[2] = new NeuronLayer(1, 4, false, 0, "tanh", 1.7159, 2.0 / 3.0);
+
+                layers[0].NormalInitialize(random);
+                layers[1].NormalInitialize(random);
+                layers[2].NormalInitialize(random);
+
+                layers[1].CalcInvers(layers[0].WithThreshold);
+                layers[2].CalcInvers(layers[1].WithThreshold);
+            }
+        }
+
         [TestMethod]
         public void Test_BackPropagationNonLinearLearn()
         {
             Random r = new Random();
 
-            BPNW2 nw = new BPNW2();
+            BPNW4 nw = new BPNW4();
 
             const int m = 10;
 
@@ -326,7 +344,7 @@ namespace UnitTestNetwork
 
             new Thread(() =>
             {
-                for (int i = 0; i < m * 10000; i++)
+                for (int i = 0; i < m * 100000; i++)
                 {
                     Vector x = new Vector(3, (j) => r.NextDouble() * 2 - 1, 1);
                     Vector d = new Vector(1);
@@ -349,7 +367,7 @@ namespace UnitTestNetwork
 
             for (int i = 0; i < m; i++)
             {
-                Assert.AreEqual(0, y[i][0], 0.01, "Сеть не обучается. Пример с ошибкой {0}", i);
+                Assert.AreEqual(0, y[i][0], 0.05, "Сеть не обучается. Пример с ошибкой {0}", i);
             }
         }
 

@@ -55,46 +55,7 @@ namespace Araneam
                 else
                     layers[i].CalcInvers(1);
             }
-
-            /*
-            layers[0] = new NeuronLayer(LayerCounts[0], inputDem, true, 1, name, k);
-            layers[0].NormalInitialize();
-
-            for (int i = 1; i < LayerCounts.Length; i++)
-            {
-                if (i<=plugs.Length)
-                    layers[i] = new NeuronLayer(LayerCounts[i], LayerCounts[i-1]+1+plugs[i-1].Dimension, i<LayerCounts.Length-1, 1, name, k);
-
-                else
-                    layers[i] = new NeuronLayer(LayerCounts[i], LayerCounts[i - 1] + 1, i < LayerCounts.Length - 1, 1, name, k);
-
-                layers[i].NormalInitialize();
-            }
-
-            for (int i = 1; i < LayerCounts.Length; i++)
-            {
-                if (i <= plugs.Length)
-                    layers[i].CalcInvers(1 + plugs[i - 1].Dimension);
-                else
-                    layers[i].CalcInvers(1);
-            }
-             */
         }
-
-        /*
-        public Vector Calculation(MixData data)
-        {
-            return Calculation(data.continuous, data.discrete);
-        }
-
-        public Vector[] Calculation(MixData[] input)
-        {
-            Vector[] ans = new Vector[input.Length];
-
-            for (int i = 0; i < ans.Length; i++)
-                ans[i] = Calculation(input[i].continuous, input[i].discrete);
-            return ans;
-        }*/
 
         public void AddTestDate(Vector[] tests, T[] inputs, Vector[] results, int[] cc)
         {
