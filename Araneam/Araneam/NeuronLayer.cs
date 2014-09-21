@@ -179,6 +179,13 @@ namespace Araneam
             return new Vector(neuros.Length).Set(i => fi.df(Output[i]));
         }
 
+        public Vector CalcDer(Vector v)
+        {
+            if (fi.df == null) throw new ArgumentNullException("Функция активации не имеет производной.");
+            if (v.Length != neuros.Length) throw new ArgumentNullException("Плохой вектор");
+            return v.Set(i => fi.df(Output[i]));
+        }
+
         /// <summary>
         /// Расчет матрицы связи каждого входного сигнала с синапсами нейрона
         /// </summary>

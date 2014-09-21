@@ -87,18 +87,34 @@ namespace Araneam
             resultDate = t.ToArray();
         }
 
+        Vector[] tempforlg;
+
         protected void setLocalGrads(Vector e)
         {
             int l, i, j, k;
             Vector t;
             TwoArray inv;
             
-            LocalGrads[layers.Length - 1] = e.Multiplication(layers[layers.Length - 1].CalcDer());
+            if (tempforlg==null)
+            {
+                tempforlg = new Vector[layers.Length-1];
+                for (i = 0; i < tempforlg.Length; i++)
+                    tempforlg[i] = new Vector(layers[i].neuros.Length);
+            }
+
+            if (LocalGrads[layers.Length - 1] == null)
+                LocalGrads[layers.Length - 1] = e.Multiplication(layers[layers.Length - 1].CalcDer());
+            else
+                layers[layers.Length - 1].CalcDer(LocalGrads[layers.Length - 1]).Multiplication(e);
 
             for (l = layers.Length - 2; l >= 0; l--)
             {
-                LocalGrads[l] = layers[l].CalcDer();
-                t = new Vector(LocalGrads[l].Length);
+                if (LocalGrads[l] == null)
+                    LocalGrads[l] = layers[l].CalcDer();
+                else
+                    layers[l].CalcDer(LocalGrads[l]);
+
+                t = tempforlg[l];
 
                 for (i = 0; i < t.Length; i++)
                 {
