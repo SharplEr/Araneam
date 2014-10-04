@@ -344,7 +344,7 @@ namespace UnitTestNetwork
 
             new Thread(() =>
             {
-                for (int i = 0; i < m * 100000; i++)
+                for (int i = 0; i < m * 100; i++)
                 {
                     Vector x = new Vector(3, (j) => r.NextDouble() * 2 - 1, 1);
                     Vector d = new Vector(1);

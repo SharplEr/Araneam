@@ -41,8 +41,27 @@ namespace IOData
         /// <param name="ey">ошибка второй величины</param>
         public static double ExactDifference(double x, double ex, double y, double ey)
         {
-            if (Double.IsNaN(x) || Double.IsNaN(y) || Double.IsNaN(ex) || Double.IsNaN(ey)
-                || Double.IsInfinity(x) || Double.IsInfinity(y) || Double.IsInfinity(ex) || Double.IsInfinity(ey)) return Double.PositiveInfinity;
+            //Приравниваем NaN к -бесконечности.
+            bool NinfX = Double.IsNegativeInfinity(x) || !Double.IsInfinity(ex) || Double.IsNaN(x) || Double.IsNaN(ex);
+            bool NinfY = Double.IsNegativeInfinity(y) || !Double.IsInfinity(ey) || Double.IsNaN(y) || Double.IsNaN(ey);
+
+            if (NinfX)
+                if (NinfY) return 0.0;
+                else return Double.PositiveInfinity;
+            else
+                if (NinfX) return Double.NegativeInfinity;
+
+            bool PinfX = Double.IsPositiveInfinity(x) || !Double.IsInfinity(ex);
+            bool PinfY = Double.IsPositiveInfinity(y) || !Double.IsInfinity(ey);
+
+            if (PinfX)
+                if (PinfY) return 0.0;  //Будем считать, что бесконечности одного порядка
+                else return Double.NegativeInfinity;
+            else
+                if (PinfY) return Double.PositiveInfinity;
+
+           // if (Double.IsNaN(x) || Double.IsNaN(y) || Double.IsNaN(ex) || Double.IsNaN(ey)
+            //    || Double.IsInfinity(x) || Double.IsInfinity(y) || Double.IsInfinity(ex) || Double.IsInfinity(ey)) return Double.PositiveInfinity;
             double t = x - y;
             double et = Math.Sqrt(ex * ex + ey * ey);
             double ans = Math.Abs(t) - et;

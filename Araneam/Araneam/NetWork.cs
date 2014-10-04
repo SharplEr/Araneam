@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using MyParallel;
 using ArrayHelper;
+using System.Collections.Generic;
 
 namespace Araneam
 {
@@ -212,6 +213,22 @@ namespace Araneam
             for (int i = 0; i < layers.Length; i++)
                 if (layers[i].haveNaN()) return true;
             return false;
+        }
+
+        public int[] UnusedInput( double min)
+        {
+            NeuronLayer l = layers[0];
+            double[] weights = new double[l.Input.Length];
+            List<int> ans = new List<int>();
+
+            for (int i = 0; i < l.InputIndex.Length; i++)
+                for (int j = 0; j < l.InputIndex[i].Length; j++)
+                    weights[l.InputIndex[i][j]] += Math.Abs(l.neuros[i].weight[j]);
+
+            for (int i = 0; i < weights.Length; i++)
+                if (weights[i] < min) ans.Add(i);
+
+            return ans.ToArray();
         }
 
         /// <summary>

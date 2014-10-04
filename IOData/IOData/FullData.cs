@@ -154,6 +154,7 @@ namespace IOData
             mixInput = data.mixInput.CloneShuffle(indexer);
             output = data.output.CloneShuffle(indexer);
             dimension = data.dimension;
+            maxdiscretePart = data.maxdiscretePart;
         }
     }
 }
