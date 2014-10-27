@@ -6,7 +6,8 @@ using IOData;
 
 namespace UnitTestNetwork
 {
-    [TestClass]
+    
+    //[TestClass]
     public class UnitTest1
     {
         public class plgConst : Plug<object>

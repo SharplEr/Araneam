@@ -12,7 +12,7 @@ namespace UnitTestIODate
         {
             string[] input = new string[] { "A", "B", "A", "A", "B", "C", "C", "C", "A", "C" };
             double[] output = new double[] { 1,   1,   1,  -1,  -1,  -1,  -1,   1,   1,  -1};
-            double[] right = new double[] {  2,   1,   2,   2,   1,   0,   0,   0,   2,   0 };
+            double[] right = new double[] { 0.5, 0, 0.5, 0.5, 0, -0.5, -0.5, -0.5, 0.5, -0.5 };
             Func<string, double> f = DataConverter.DiscreteToСontinuous(input, output);
 
             double[] result = new double[input.Length];

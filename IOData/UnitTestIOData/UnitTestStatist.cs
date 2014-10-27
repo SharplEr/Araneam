@@ -87,6 +87,15 @@ namespace UnitTestIODate
 
             x = Statist.ExactDifference(10, Math.Sqrt(7), 1, Math.Sqrt(9));
             Assert.AreEqual(5.0, x, 0.0001, "Неверно находит расстояние в обратную сторону");
+
+            x = Statist.ExactDifference(1, Math.Sqrt(7), 100, Double.NaN);
+            Assert.IsTrue(x>0, "Неверно определяет предпочтения-1");
+
+            x = Statist.ExactDifference(100, Double.NaN, 1, 2);
+            Assert.IsTrue(x < 0, "Неверно определяет предпочтения-2");
+
+            x = Statist.ExactDifference(Double.PositiveInfinity, Double.NaN, Double.NegativeInfinity, 2);
+            Assert.IsTrue(x == 0.0, "Не сравнивает два худших результата");
         }
     }
 }

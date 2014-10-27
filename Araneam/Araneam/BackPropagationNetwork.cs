@@ -257,6 +257,7 @@ namespace Araneam
                 else count++;
 
                 epoch++;
+                step += inputDate.Length;
             } while (count<max);
             //Нармировать r!!11
             ReFix();
@@ -370,6 +371,7 @@ namespace Araneam
                     rats[i] /= maxrat;
 
                 epoch++;
+                step += inputDate.Length;
             } while (epoch < max);
             
             if (flag)
@@ -567,7 +569,7 @@ namespace Araneam
                 layers[i].Сorrection(LocalGrads[i].Multiplication(h / p));
             }
 
-            step++;
+            //step++;
             return ans;
         }
 
@@ -619,7 +621,59 @@ namespace Araneam
                 }
             }
 
-            step++;
+            //step++;
+            return ans;
+        }
+
+        public double Learn(Vector x, Vector d, bool flag)
+        {
+            if (layers == null) throw new ArgumentNullException();
+
+            double ans = 0.0;
+
+            Vector y = Calculation(x);
+            Vector errorSignal = d - y;
+
+            ans = (double)errorSignal;
+
+            setLocalGrads(errorSignal);
+
+            double h = rateStart / (1.0 + (double)(step) / timeLearn);
+
+            int max = Int32.MinValue;
+            int min = Int32.MaxValue;
+            int now;
+            for (int i = 0; i < layers.Length; i++)
+            {
+                now = layers[i].Input.Length;
+                if (now > max) max = now;
+                if (now < min) min = now;
+            }
+
+            double t = Math.Sqrt(min);
+            double m;
+            if (min != max)
+                m = 1.0 / (Math.Sqrt(max) - t);
+            else m = 0;
+            double b = 1.0 - t * m;
+
+            double p;
+
+            //Можно расспаралелить, так как корректировка не зависит от последовательности
+            for (int i = 0; i < layers.Length; i++)
+            {
+                if (min != max)
+                {
+                    p = (Math.Sqrt(layers[i].Input.Length) * m + b);
+                    layers[i].Сorrection(LocalGrads[i].Multiplication(h / p));
+                }
+                else
+                {
+                    layers[i].Сorrection(LocalGrads[i].Multiplication(h));
+                }
+            }
+
+            if (flag) step++;
             return ans;
         }
     }

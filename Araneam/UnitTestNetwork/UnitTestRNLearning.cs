@@ -106,8 +106,8 @@ namespace UnitTestNetwork
         {
             RNNetwork network = new RNNetwork();
 
-            double x = 0.7;
-            int s = 3;
+            //double x = 0.7;
+            //int s = 3;
             int[] maxs = new int[] { 2, 2, 2, 2 };
 
             MixData[] data = new MixData[10];
