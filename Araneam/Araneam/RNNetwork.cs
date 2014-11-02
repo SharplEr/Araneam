@@ -24,7 +24,9 @@ namespace Araneam
         /// Слои N-части
         /// </summary>
         protected NLayer[] NLayers;
-    
+
+        protected double xcret = 4.05;
+
         public RNNetwork()
         {
         
@@ -60,10 +62,10 @@ namespace Araneam
         /// <summary>
         /// Обучение сети
         /// </summary>
-        public void Learning(MixData[] input, Results results, int[] maxs, int s, double x, int one, int two, int epo)
+        public void Learning(MixData[] input, Results results, int[] maxs, int s, double x, int one, int two, int epo, double xxx)
         {
             //Обучение N-части
-
+            xcret = xxx;
             //Cоздание начального списка вхождений
             List<int>[][] rootList = new List<int>[maxs.Length][];
             for (int i = 0; i < maxs.Length; i++)
@@ -276,6 +278,7 @@ namespace Araneam
             pii.AddRange(nii);
 
             int[] counts = new int[] { count, results.Length - count };
+
             double a = 1.7159, b = 2.0 / 3.0;
 
             network = new BackPropagationNetworkWithPlugs<int[]>(NLayers, 0.01, 2800, new int[] {one, two, 2 }, input[0].continuous.Length, "tanh", a, b);
@@ -312,7 +315,7 @@ namespace Araneam
 
             double t = Math.Abs((x * x - y * y) / (x * y));
 
-            double ans = Math.Tanh(t/4.05);
+            double ans = Math.Tanh(t/xcret);
 
             return new Tuple<double,int>(ans,cls);;
         }
