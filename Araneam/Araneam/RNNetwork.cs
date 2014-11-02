@@ -278,7 +278,7 @@ namespace Araneam
             int[] counts = new int[] { count, results.Length - count };
             double a = 1.7159, b = 2.0 / 3.0;
 
-            network = new BackPropagationNetworkWithPlugs<int[]>(NLayers, 0.21, 500, new int[] {one, two, 2 }, input[0].continuous.Length, "tanh", a, b);
+            network = new BackPropagationNetworkWithPlugs<int[]>(NLayers, 0.01, 2800, new int[] {one, two, 2 }, input[0].continuous.Length, "tanh", a, b);
 
             network.AddTestDate(pvsi.ToArray(), pii.ToArray(), pvso.ToArray(), counts);
             network.NewLearn(false, epo);
