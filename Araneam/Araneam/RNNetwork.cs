@@ -19,7 +19,6 @@ namespace Araneam
         /// </summary>
         protected BackPropagationNetworkWithPlugs<int[]> network;
 
-
         /// <summary>
         /// Слои N-части
         /// </summary>
@@ -172,6 +171,7 @@ namespace Araneam
                 }
 
                 t++;
+                if (allNode[t].Count > 15000) Console.WriteLine("Ахтунг! Для слоя {0} групп {1}. Тред {2}", t, allNode[t].Count, System.Threading.Thread.CurrentThread.Name);
 
                 for (int i = 0; i < allNode[t].Count; i++)
                 {
