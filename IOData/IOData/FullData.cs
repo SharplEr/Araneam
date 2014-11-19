@@ -117,7 +117,19 @@ namespace IOData
 
         public int[] maxdiscretePart;
 
+        public FullData(string settingFile, Func<string, double> ToDouble)
+        {
+            var x = DataFile.LoadDataInfo(settingFile);
+
+            Set(x.Item1, x.Item2, x.Item3, x.Item4, ToDouble);
+        }
+
         public FullData(string[] fileNames, string[] InputTags, string OutputTag, string[] СontinuousTags, Func<string, double> ToDouble)
+        {
+            Set(fileNames, InputTags, OutputTag, СontinuousTags, ToDouble);
+        }
+
+        protected void Set(string[] fileNames, string[] InputTags, string OutputTag, string[] СontinuousTags, Func<string, double> ToDouble)
         {
             string[] DiscreteTags = InputTags.Remove(СontinuousTags);
 
@@ -137,7 +149,7 @@ namespace IOData
 
             output = DataFile.getOnlyResult(fileNames, OutputTag);
 
-            dimension = mixInput[0].continuous.Length + mixInput[0].discrete.Length;
+            dimension = mixInput[0].continuous.Length + mixInput[0].discrete.Length;           
         }
 
         FullData(MixData[] mi, Vector[] ci, int[][] di, Results r)

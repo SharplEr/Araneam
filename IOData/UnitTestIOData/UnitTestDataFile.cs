@@ -256,5 +256,120 @@ namespace UnitTestIODate
             Assert.AreEqual(1, data[2].Number);
             Assert.AreEqual(0, data[3].Number);
         }
+
+        [TestMethod]
+        public void Test_DataFile_LoadDataInfo()
+        {
+            const string name = @".\xyu10.csv";
+
+            StreamWriter writer = new StreamWriter(name);
+
+            writer.WriteLine(@"C:\Users\sharp_000\Downloads.txt");
+            writer.WriteLine(@"C:\Users\sharp_000\Dropbox.txt");
+            writer.WriteLine("");
+            writer.WriteLine(@"MDMA");
+            writer.WriteLine(@"LSD");
+            writer.WriteLine(@"2C-B");
+            writer.WriteLine("");
+            writer.WriteLine(@"2C-B");
+            writer.WriteLine("");
+            writer.WriteLine(@"Old");
+            writer.Close();
+            writer.Dispose();
+
+            StreamReader reader = new StreamReader(name);
+
+            var ans = DataFile.LoadDataInfo(reader);
+            reader.Close();
+            reader.Dispose();
+
+            Assert.AreEqual(ans.Item1.Length, 2);
+            Assert.AreEqual(ans.Item1[0], @"C:\Users\sharp_000\Downloads.txt");
+            Assert.AreEqual(ans.Item1[1], @"C:\Users\sharp_000\Dropbox.txt");
+
+            Assert.AreEqual(ans.Item2.Length, 3);
+            Assert.AreEqual(ans.Item2[0], @"MDMA");
+            Assert.AreEqual(ans.Item2[1], @"LSD");
+            Assert.AreEqual(ans.Item2[2], @"2C-B");
+
+            Assert.AreEqual(ans.Item3, @"Old");
+
+            Assert.AreEqual(ans.Item4.Length, 1);
+            Assert.AreEqual(ans.Item4[0], @"2C-B");
+        }
+
+        [TestMethod]
+        public void Test_DataFile_LoadDataInfo2()
+        {
+            const string name = @".\xyu10.csv";
+
+            StreamWriter writer = new StreamWriter(name);
+
+            writer.WriteLine(@"C:\Users\sharp_000\Downloads.txt");
+            writer.WriteLine(@"C:\Users\sharp_000\Dropbox.txt");
+            writer.WriteLine("");
+            writer.WriteLine(@"MDMA");
+            writer.WriteLine(@"LSD");
+            writer.WriteLine(@"2C-B");
+            writer.WriteLine("");
+            writer.WriteLine("");
+            writer.WriteLine(@"Old");
+            writer.Close();
+            writer.Dispose();
+
+            StreamReader reader = new StreamReader(name);
+
+            var ans = DataFile.LoadDataInfo(reader);
+            reader.Close();
+            reader.Dispose();
+
+            Assert.AreEqual(ans.Item1.Length, 2);
+            Assert.AreEqual(ans.Item1[0], @"C:\Users\sharp_000\Downloads.txt");
+            Assert.AreEqual(ans.Item1[1], @"C:\Users\sharp_000\Dropbox.txt");
+
+            Assert.AreEqual(ans.Item2.Length, 3);
+            Assert.AreEqual(ans.Item2[0], @"MDMA");
+            Assert.AreEqual(ans.Item2[1], @"LSD");
+            Assert.AreEqual(ans.Item2[2], @"2C-B");
+
+            Assert.AreEqual(ans.Item3, @"Old");
+
+            Assert.AreEqual(ans.Item4.Length, 0);
+        }
+
+        [TestMethod]
+        public void Test_DataFile_LoadDataInfo3()
+        {
+            const string name = @".\xyu10.csv";
+
+            StreamWriter writer = new StreamWriter(name);
+
+            writer.WriteLine(@"C:\Users\sharp_000\Downloads.txt");
+            writer.WriteLine(@"C:\Users\sharp_000\Dropbox.txt");
+            writer.WriteLine("");
+            writer.WriteLine(@"MDMA");
+            writer.WriteLine(@"LSD");
+            writer.WriteLine(@"2C-B");
+            writer.WriteLine("");
+            writer.WriteLine("");
+            writer.WriteLine(@"Old");
+            writer.Close();
+            writer.Dispose();
+
+            var ans = DataFile.LoadDataInfo(name);
+
+            Assert.AreEqual(ans.Item1.Length, 2);
+            Assert.AreEqual(ans.Item1[0], @"C:\Users\sharp_000\Downloads.txt");
+            Assert.AreEqual(ans.Item1[1], @"C:\Users\sharp_000\Dropbox.txt");
+
+            Assert.AreEqual(ans.Item2.Length, 3);
+            Assert.AreEqual(ans.Item2[0], @"MDMA");
+            Assert.AreEqual(ans.Item2[1], @"LSD");
+            Assert.AreEqual(ans.Item2[2], @"2C-B");
+
+            Assert.AreEqual(ans.Item3, @"Old");
+
+            Assert.AreEqual(ans.Item4.Length, 0);
+        }
     }
 }
