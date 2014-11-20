@@ -99,7 +99,6 @@ namespace IOData
                 if (f == null) throw new IOException("В искомом файле не найден класс наследующий IToDouble");
                 return new Tuple<string[], string[], string, string[], Func<string, double>>(fileNames.ToArray(), inputTags.ToArray(), outputTag, continuousTags.ToArray(), f);
             }
-            
         }
 
         public static Vector[] getOnlyСontinuous(string[] fileNames, string[] Tags, Func<string, double> ToDouble)

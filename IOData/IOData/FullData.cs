@@ -117,11 +117,11 @@ namespace IOData
 
         public int[] maxdiscretePart;
 
-        public FullData(string settingFile, Func<string, double> ToDouble)
+        public FullData(string settingFile)
         {
             var x = DataFile.LoadDataInfo(settingFile);
 
-            Set(x.Item1, x.Item2, x.Item3, x.Item4, ToDouble);
+            Set(x.Item1, x.Item2, x.Item3, x.Item4, x.Item5);
         }
 
         public FullData(string[] fileNames, string[] InputTags, string OutputTag, string[] СontinuousTags, Func<string, double> ToDouble)
