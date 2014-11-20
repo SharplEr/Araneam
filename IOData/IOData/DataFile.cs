@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using System.Reflection;
 using VectorSpace;
 
 namespace IOData
 {
     public static class DataFile
     {
-        public static Tuple<string[], string[], string, string[]> LoadDataInfo(string file)
+        public static Tuple<string[], string[], string, string[], Func<string, double>> LoadDataInfo(string file)
         {
             StreamReader reader = null;
             try
@@ -30,7 +31,8 @@ namespace IOData
             }
 
         }
-        public static Tuple<string[], string[], string, string[]> LoadDataInfo(StreamReader reader)
+
+        public static Tuple<string[], string[], string, string[], Func<string, double>> LoadDataInfo(StreamReader reader)
         {
             string s = reader.ReadLine();
 
@@ -72,7 +74,32 @@ namespace IOData
 
             if (String.IsNullOrWhiteSpace(outputTag)) throw new IOException("Неверный формат файла! Должно быть выходное значение!");
 
-            return new Tuple<string[], string[], string, string[]>(fileNames.ToArray(), inputTags.ToArray(), outputTag, continuousTags.ToArray());
+            if (reader.EndOfStream)
+            {
+                return new Tuple<string[], string[], string, string[], Func<string, double>>(fileNames.ToArray(), inputTags.ToArray(), outputTag, continuousTags.ToArray(), (x)=>Convert.ToDouble(x));
+            }
+
+            reader.ReadLine();
+            s = reader.ReadLine();
+            if ((s == "standard") || (String.IsNullOrWhiteSpace(s)))
+                return new Tuple<string[], string[], string, string[], Func<string, double>>(fileNames.ToArray(), inputTags.ToArray(), outputTag, continuousTags.ToArray(), (x) => Convert.ToDouble(x));
+            else
+            {
+                Assembly a = Assembly.LoadFrom(@s);
+                Func<string, double> f = null;
+
+                foreach (Type t in a.GetExportedTypes())
+                {
+                    if (typeof(IToDouble).IsAssignableFrom(t))
+                    {
+                        f = (Func<string, double>)t.GetMethod("ToDouble").CreateDelegate(typeof(Func<string, double>));
+                        break;
+                    }
+                }
+                if (f == null) throw new IOException("В искомом файле не найден класс наследующий IToDouble");
+                return new Tuple<string[], string[], string, string[], Func<string, double>>(fileNames.ToArray(), inputTags.ToArray(), outputTag, continuousTags.ToArray(), f);
+            }
+            
         }
 
         public static Vector[] getOnlyСontinuous(string[] fileNames, string[] Tags, Func<string, double> ToDouble)

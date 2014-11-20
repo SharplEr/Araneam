@@ -50,6 +50,7 @@
     <Compile Include="DataConverter.cs" />
     <Compile Include="DataFile.cs" />
     <Compile Include="FullData.cs" />
+    <Compile Include="IToDouble.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MixData.cs" />
     <Compile Include="Result.cs" />
