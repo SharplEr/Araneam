@@ -7,10 +7,13 @@ using System.Threading.Tasks;
 namespace IOData
 {
 
-    public static class IToDouble
+    public class IToDouble
     {
         //!!В случае изменения имени требуется внести изменение в DataFile.cs
-        public static Func<string, double> ToDouble;
+        public static double ToDouble(string s)
+        {
+            return Convert.ToDouble(s);
+        }
     }
 
 }

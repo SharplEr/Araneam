@@ -29,9 +29,8 @@ namespace IOData
                 }
                 throw new IOException("Не удается считать файл!");
             }
-
         }
-
+        
         public static Tuple<string[], string[], string, string[], Func<string, double>> LoadDataInfo(StreamReader reader)
         {
             string s = reader.ReadLine();
@@ -76,26 +75,37 @@ namespace IOData
 
             if (reader.EndOfStream)
             {
-                return new Tuple<string[], string[], string, string[], Func<string, double>>(fileNames.ToArray(), inputTags.ToArray(), outputTag, continuousTags.ToArray(), (x)=>Convert.ToDouble(x));
+                return new Tuple<string[], string[], string, string[], Func<string, double>>(fileNames.ToArray(), inputTags.ToArray(), outputTag, continuousTags.ToArray(), Convert.ToDouble);
             }
 
             reader.ReadLine();
             s = reader.ReadLine();
             if ((s == "standard") || (String.IsNullOrWhiteSpace(s)))
-                return new Tuple<string[], string[], string, string[], Func<string, double>>(fileNames.ToArray(), inputTags.ToArray(), outputTag, continuousTags.ToArray(), (x) => Convert.ToDouble(x));
+                return new Tuple<string[], string[], string, string[], Func<string, double>>(fileNames.ToArray(), inputTags.ToArray(), outputTag, continuousTags.ToArray(), Convert.ToDouble);
             else
             {
                 Assembly a = Assembly.LoadFrom(@s);
+                s = reader.ReadLine();//Имя класса преобразования
                 Func<string, double> f = null;
 
-                foreach (Type t in a.GetExportedTypes())
-                {
-                    if (typeof(IToDouble).IsAssignableFrom(t))
+                if (String.IsNullOrWhiteSpace(s))
+                    foreach (Type t in a.GetExportedTypes())
                     {
-                        f = (Func<string, double>)t.GetMethod("ToDouble").CreateDelegate(typeof(Func<string, double>));
-                        break;
+                        if (typeof(IToDouble).IsAssignableFrom(t))
+                        {
+                            f = (Func<string, double>)t.GetMethod("ToDouble").CreateDelegate(typeof(Func<string, double>));
+                            break;
+                        }
                     }
-                }
+                else
+                    foreach (Type t in a.GetExportedTypes())
+                    {
+                        if (typeof(IToDouble).IsAssignableFrom(t) && (s == t.Name))
+                        {
+                            f = (Func<string, double>)t.GetMethod("ToDouble").CreateDelegate(typeof(Func<string, double>));
+                            break;
+                        }
+                    }
                 if (f == null) throw new IOException("В искомом файле не найден класс наследующий IToDouble");
                 return new Tuple<string[], string[], string, string[], Func<string, double>>(fileNames.ToArray(), inputTags.ToArray(), outputTag, continuousTags.ToArray(), f);
             }
