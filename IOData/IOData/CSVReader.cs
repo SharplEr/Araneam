@@ -120,7 +120,8 @@ namespace IOData
             for (int i = 0; i < allElement.Length; i++)
             {
                 flag = (lineLength == allElement[i].Length);
-                if (!flag) break;
+                if (!flag) 
+                    break;
             }
             return flag;
         }
@@ -141,6 +142,17 @@ namespace IOData
                 string[] strs = new string[countLine];
                 for(int i = 0; i < countLine; i++)
                     strs[i] = allElement[i][map[key.ToUpper()]];
+                return strs;
+            }
+        }
+
+        public string[] this[int index, string[] tags]
+        {
+            get
+            {
+                string[] strs = new string[lineLength];
+                for (int i = 0; i < lineLength; i++)
+                    strs[i] = allElement[index][map[tags[i].ToUpper()]];
                 return strs;
             }
         }

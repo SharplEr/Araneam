@@ -43,8 +43,8 @@ namespace IOData
         {
             //Приравниваем NaN к минус бесконечности.
 
-            bool NinfX = Double.IsNegativeInfinity(x) || Double.IsInfinity(ex) || Double.IsNaN(x) || Double.IsNaN(ex);
-            bool NinfY = Double.IsNegativeInfinity(y) || Double.IsInfinity(ey) || Double.IsNaN(y) || Double.IsNaN(ey);
+            bool NinfX = Double.IsNegativeInfinity(x) || Double.IsInfinity(ex) || Double.IsNaN(x);
+            bool NinfY = Double.IsNegativeInfinity(y) || Double.IsInfinity(ey) || Double.IsNaN(y);
 
             if (NinfX)
                 if (NinfY) return 0.0; //Будем считать, что бесконечности одного порядка
@@ -61,10 +61,9 @@ namespace IOData
             else
                 if (PinfY) return Double.NegativeInfinity;
 
-           // if (Double.IsNaN(x) || Double.IsNaN(y) || Double.IsNaN(ex) || Double.IsNaN(ey)
-            //    || Double.IsInfinity(x) || Double.IsInfinity(y) || Double.IsInfinity(ex) || Double.IsInfinity(ey)) return Double.PositiveInfinity;
             double t = x - y;
-            double et = Math.Sqrt(ex * ex + ey * ey);
+
+            double et = (Double.IsNaN(ex) || Double.IsNaN(ey)) ? 0.0 : Math.Sqrt(ex * ex + ey * ey);
             double ans = Math.Abs(t) - et;
             if (ans < 0) return 0.0;
             return ans * Math.Sign(t);
@@ -332,6 +331,50 @@ namespace IOData
                     else v[i] = 2.0 * (v[i] - maxs[i]) / t + 1;
                 }
             };
+        }
+
+        /// <summary>
+        /// Возвращает массив индексов от 0 до заданного числа
+        /// </summary>
+        /// <param name="length">Длина</param>
+        public static int[] GetIndex(int length)
+        {
+            int[] ans = new int[length];
+
+            for (int i = 0; i < ans.Length; i++)
+                ans[i] = i;
+
+            return ans;
+        }
+
+        public static int[] GetIndexFromTo(int s, int f)
+        {
+            int[] ans = new int[f-s];
+
+            for (int i = 0; i < ans.Length; i++)
+                ans[i] = s+i;
+
+            return ans;
+        }
+
+        /// <summary>
+        /// Возвращает массив индексов с пропуском
+        /// </summary>
+        /// <param name="length">Общая длина массива индексов</param>
+        /// <param name="exept">Исключаемый индекс</param>
+        public static int[] GetIndex(int length, int exept)
+        {
+            if (exept >= length) return GetIndex(length);
+
+            int[] ans = new int[length];
+
+            for (int i = 0; i < exept; i++)
+                ans[i] = i;
+
+            for (int i = exept+1; i <= length; i++)
+                ans[i-1] = i;
+
+            return ans;
         }
     }
 }

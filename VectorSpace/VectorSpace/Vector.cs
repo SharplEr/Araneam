@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+//using Yeppp;
 
 namespace VectorSpace
 {
@@ -143,6 +144,7 @@ namespace VectorSpace
             double ans = 0.0;
             fixed (double* pv0 = v.element)
             {
+                //ans = Yeppp.Core.SumSquares_V64f_S64f(pv0, v.Length);
                 double* pv = pv0;
                 double* pend = pv0 + v.Length;
                 double t;
@@ -172,8 +174,11 @@ namespace VectorSpace
         /// </summary>
         public unsafe Vector Multiplication(Double k)
         {
+            
             fixed (double* pv0 = this.element)
             {
+                //Yeppp.Core.Multiply_IV64fS64f_IV64f(pv0, k, this.Length);
+                
                 double* pv = pv0;
                 double* pend = pv0 + this.Length;
 
@@ -186,8 +191,14 @@ namespace VectorSpace
             return this;
         }
         
-        public Vector Multiplication(Vector v)
+        public unsafe Vector Multiplication(Vector v)
         {
+            /*
+            fixed (double* pvf = this.element, pvs = v.element)
+            {
+                Yeppp.Core.Multiply_IV64fV64f_IV64f(pvf, pvs, this.Length);
+            }*/
+            
             for (int i = 0; i < element.Length; i++) element[i] = v[i] * element[i];
 
             return this;
@@ -197,6 +208,8 @@ namespace VectorSpace
         {
             fixed (double* pthis = element, pv = v.element)
             {
+                //Yeppp.Core.Add_IV64fV64f_IV64f(pthis, pv, this.Length);
+
                 double* pend = pthis + element.Length;
                 double* tt = pthis, tv = pv;
                 while (tt < pend)
@@ -215,6 +228,8 @@ namespace VectorSpace
 
             fixed (double* pv0 = this.element)
             {
+                //Yeppp.Core.Add_IV64fS64f_IV64f(pv0, x, this.Length);
+                
                 double* pv = pv0;
                 double* pend = pv0 + this.Length;
 
@@ -327,6 +342,30 @@ namespace VectorSpace
         public Vector Normalization()
         {
             return this.Multiplication(1.0 / (double)this);
+        }
+
+        public Vector InvPer()
+        {
+            double sum = element[0];
+            for (int i = 1; i < element.Length; i++)
+                sum += element[i];
+
+            double a = 2.0 / element.Length;
+
+            for (int i = 0; i < element.Length; i++)
+                element[i] = a - element[i] / sum;
+
+            return this;
+        }
+
+        public Vector AddThreshold(double threshold)
+        {
+            Vector m = new Vector(2);
+
+            m[0] = (Math.Sign(threshold) - element[0]) * Math.Abs(threshold);
+            m[1] = (-Math.Sign(threshold) - element[1]) * Math.Abs(threshold);
+
+            return this.Addication(m);
         }
 
         public override string ToString()

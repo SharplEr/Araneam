@@ -8,6 +8,10 @@ using ArrayHelper;
 
 namespace IOData
 {
+    /*
+     Добавить класс преобразователей, генерирование преобразователей, отправка в конструктор преобразователей!
+     * !!!! ну или забей)
+     * */
     [Serializable]
     public class FullData
     {
@@ -77,18 +81,25 @@ namespace IOData
 
                         for (int i = 0; i < discreteInput.Length; i++)
                         {
-                            discreteInput[i] = new int[mixInput[0].continuous.Length + fs.Length];
+                            discreteInput[i] = new int[mixInput[0].discrete.Length + fs.Length];
 
-                            for (int j = 0; j < mixInput[0].continuous.Length; j++)
+                            for (int j = 0; j < fs.Length; j++)
                                 discreteInput[i][j] = fs[j](mixInput[i].continuous[j]);
 
-                            for (int j = mixInput[0].continuous.Length; j < discreteInput[i].Length; j++)
-                                discreteInput[i][j] = mixInput[i].discrete[j - mixInput[0].continuous.Length];
+                            for (int j = fs.Length; j < discreteInput[i].Length; j++)
+                                discreteInput[i][j] = mixInput[i].discrete[j - fs.Length];
                         }
                     }
                 }
                 return discreteInput;
             }
+        }
+
+        String[][] stringInput;
+
+        public String[][] StringInput
+        {
+            get { return stringInput; }
         }
 
         Results output;
@@ -121,15 +132,15 @@ namespace IOData
         {
             var x = DataFile.LoadDataInfo(settingFile);
 
-            Set(x.Item1, x.Item2, x.Item3, x.Item4, x.Item5);
+            Set(x.Item1, x.Item2, x.Item3, x.Item4, x.Item5, x.Item6);
         }
 
-        public FullData(string[] fileNames, string[] InputTags, string OutputTag, string[] СontinuousTags, Func<string, double> ToDouble)
+        public FullData(string[] fileNames, string[] InputTags, string OutputTag, string[] СontinuousTags, Func<string, double> ToDouble, String[] stringTags)
         {
-            Set(fileNames, InputTags, OutputTag, СontinuousTags, ToDouble);
+            Set(fileNames, InputTags, OutputTag, СontinuousTags, ToDouble, stringTags);
         }
 
-        protected void Set(string[] fileNames, string[] InputTags, string OutputTag, string[] СontinuousTags, Func<string, double> ToDouble)
+        protected void Set(string[] fileNames, string[] InputTags, string OutputTag, string[] СontinuousTags, Func<string, double> ToDouble, String[] stringTags)
         {
             string[] DiscreteTags = InputTags.Remove(СontinuousTags);
 
@@ -149,7 +160,9 @@ namespace IOData
 
             output = DataFile.getOnlyResult(fileNames, OutputTag);
 
-            dimension = mixInput[0].continuous.Length + mixInput[0].discrete.Length;           
+            dimension = mixInput[0].continuous.Length + mixInput[0].discrete.Length;
+
+            stringInput = DataFile.getOnlyString(fileNames, stringTags);
         }
 
         FullData(MixData[] mi, Vector[] ci, int[][] di, Results r)
@@ -161,12 +174,25 @@ namespace IOData
             dimension = mixInput[0].continuous.Length + mixInput[0].discrete.Length;
         }
 
+        FullData(MixData[] mi, Vector[] ci, int[][] di, Results r, String[][] si)
+        {
+            mixInput = mi.CloneOk<MixData>();
+            if (ci != null) continuousInput = ci.CloneOk<Vector>();
+            if (di != null) discreteInput = di.CloneOk<int[]>();
+            output = r.CloneOk();
+            dimension = mixInput[0].continuous.Length + mixInput[0].discrete.Length;
+            stringInput = si.CloneOk();
+        }
+
         public FullData(FullData data, int[] indexer)
         {
             mixInput = data.mixInput.CloneShuffle(indexer);
             output = data.output.CloneShuffle(indexer);
+            continuousInput = data.СontinuousInput.CloneShuffle(indexer);
+            discreteInput = data.DiscreteInput.CloneShuffle(indexer);
             dimension = data.dimension;
             maxdiscretePart = data.maxdiscretePart;
+            stringInput = data.stringInput.CloneShuffle(indexer);
         }
     }
 }

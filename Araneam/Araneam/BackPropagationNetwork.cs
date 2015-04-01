@@ -292,6 +292,8 @@ namespace Araneam
                 Learn(inputDate[k], resultDate[k], rats[k]);
             }
 
+            step += inputDate.Length;
+
             Vector[] calcDate = Calculation(inputDate);
             double[] errors = new double[classCount.Length];
             double maxError = 0.0;
@@ -339,7 +341,7 @@ namespace Araneam
                     int m = classCount[i];
                     for (int j = 0; j < m; j++)
                     {
-                        errors[i] += Math.Sqrt((double)(calcDate[j + l] - resultDate[j + l]));
+                        errors[i] += (double)(calcDate[j + l] - resultDate[j + l]);
                     }
                     errors[i] /= m;
                     l += m;
@@ -377,6 +379,37 @@ namespace Araneam
             if (flag)
             {
                 calcDate = Calculation(inputDate);
+                double err = 0.0;
+                for (int i = 0; i < calcDate.Length; i++)
+                    err += Math.Sqrt((double)(calcDate[i] - resultDate[i]));
+                err /= calcDate.Length;
+                return new LearnLog(step, epoch, err);
+            }
+            else return new LearnLog(step, epoch);
+        }
+
+        public virtual LearnLog NewLearn2(bool flag, int max)
+        {
+            Random rnd = new Random();
+            int epoch = 1;
+
+            step = 0;
+
+            int[] indexs;
+            for (epoch = 1; epoch <= max; epoch++)
+            {
+                indexs = Statist.getRandomIndex(inputDate.Length, rnd);
+                for (int i = 0; i < inputDate.Length; i++)
+                {
+                    int k = indexs[i];
+                    Learn(inputDate[k], resultDate[k]);
+                }
+                step += inputDate.Length;
+            }
+
+            if (flag)
+            {
+                Vector[] calcDate = Calculation(inputDate);
                 double err = 0.0;
                 for (int i = 0; i < calcDate.Length; i++)
                     err += Math.Sqrt((double)(calcDate[i] - resultDate[i]));
@@ -544,6 +577,7 @@ namespace Araneam
             setLocalGrads(errorSignal);
 
             double h = r * rateStart / (1.0 + (double)(step) / timeLearn);
+            //h = r * rateStart; //!!! Тестовая строчка, пробуем без модели аля отжиг
 
             int max = Int32.MinValue;
             int min = Int32.MaxValue;

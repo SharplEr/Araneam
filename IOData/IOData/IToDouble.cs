@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace IOData
 {
-
     public class IToDouble
     {
         //!!В случае изменения имени требуется внести изменение в DataFile.cs
@@ -15,5 +14,4 @@ namespace IOData
             return Convert.ToDouble(s);
         }
     }
-
 }

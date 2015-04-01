@@ -11,7 +11,7 @@ namespace ArrayHelper
         /// <summary>
         /// Инициализация массива объектов
         /// </summary>
-        public static void done<T>(this T[] arr) where T : new()
+        public static void Done<T>(this T[] arr) where T : new()
         {
             for (int i = 0; i < arr.Length; i++)
                 arr[i] = new T();
@@ -68,7 +68,7 @@ namespace ArrayHelper
             return a;
         }
 
-        public static void let<T>(this IEnumerable<T> o, Action<T> f)
+        public static void Let<T>(this IEnumerable<T> o, Action<T> f)
         {
             if (o == null) return;
             foreach (T item in o)

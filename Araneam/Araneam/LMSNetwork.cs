@@ -1,5 +1,6 @@
 ﻿using System;
 using VectorSpace;
+using IOData;
 
 namespace Araneam
 {
@@ -33,7 +34,7 @@ namespace Araneam
             rateStart = r;
             timeLearn = t;
             layers = new NeuronLayer[1];
-            layers[0] = new NeuronLayer(n, indexs, false, 0, name, p);
+            layers[0] = new NeuronLayer(n, indexs, false, 1, name, p);
             fixedLayers = new NeuronLayer[1];
         }
 
@@ -51,7 +52,7 @@ namespace Araneam
             rateStart = r;
             timeLearn = t;
             layers = new NeuronLayer[1];
-            layers[0] = new NeuronLayer(n, m, false, 0, name, p);
+            layers[0] = new NeuronLayer(n, m, false, 1, name, p);
             fixedLayers = new NeuronLayer[1];
         }
 
@@ -77,6 +78,36 @@ namespace Araneam
 
             step++;
             return ans;
+        }
+
+        public double LearnNew(Vector x, Vector d)
+        {
+            Vector y = Calculation(x);
+            Vector errorSignal = d - y;
+            double ans = (double)errorSignal;
+
+            layers[0].Сorrection(errorSignal.Multiplication(rateStart / (1.0 + (double)step / timeLearn)));
+
+            return ans;
+        }
+
+        public void Learn(Vector[] inputDate, Vector[] resultDate, int max)
+        {
+            Random rnd = new Random();
+
+            step = 0;
+
+            int[] indexs;
+            for (int epoch = 1; epoch <= max; epoch++)
+            {
+                indexs = Statist.getRandomIndex(inputDate.Length, rnd);
+                for (int i = 0; i < inputDate.Length; i++)
+                {
+                    int k = indexs[i];
+                    LearnNew(inputDate[k], resultDate[k]);
+                }
+                step += inputDate.Length;
+            }
         }
     }
 }

@@ -9,7 +9,7 @@ namespace IOData
 {
     public static class DataFile
     {
-        public static Tuple<string[], string[], string, string[], Func<string, double>> LoadDataInfo(string file)
+        public static Tuple<string[], string[], string, string[], Func<string, double>, string[]> LoadDataInfo(string file)
         {
             StreamReader reader = null;
             try
@@ -31,7 +31,7 @@ namespace IOData
             }
         }
         
-        public static Tuple<string[], string[], string, string[], Func<string, double>> LoadDataInfo(StreamReader reader)
+        public static Tuple<string[], string[], string, string[], Func<string, double>, string[]> LoadDataInfo(StreamReader reader)
         {
             string s = reader.ReadLine();
 
@@ -55,7 +55,8 @@ namespace IOData
                 s = reader.ReadLine();
             }
 
-            if (inputTags.Count == 0) throw new IOException("Неверный формат файла! Нет списка входных значений.");
+            //if (inputTags.Count == 0) throw new IOException("Неверный формат файла! Нет списка входных значений.");
+            //Может не быть числовых входных значений
 
             s = reader.ReadLine();
 
@@ -69,19 +70,41 @@ namespace IOData
 
             //Все значения могут быть дискретными
 
+            s = reader.ReadLine();
+
+            List<string> stringTags = new List<string>();
+
+            while (!String.IsNullOrWhiteSpace(s))
+            {
+                stringTags.Add(s);
+                s = reader.ReadLine();
+            }
+
+            //Может не быть строковых значений
+
             string outputTag = reader.ReadLine();
 
             if (String.IsNullOrWhiteSpace(outputTag)) throw new IOException("Неверный формат файла! Должно быть выходное значение!");
 
-            if (reader.EndOfStream)
-            {
-                return new Tuple<string[], string[], string, string[], Func<string, double>>(fileNames.ToArray(), inputTags.ToArray(), outputTag, continuousTags.ToArray(), Convert.ToDouble);
-            }
-
             reader.ReadLine();
             s = reader.ReadLine();
+
+            ProblemMod mod = ProblemMod.none;
+
+            switch (s)
+            {
+                case ("classification"): mod = ProblemMod.classification; break;
+                case ("regression"): mod = ProblemMod.regression; break;
+                default: break;
+            }
+
+            if (reader.EndOfStream)
+            {
+                return new Tuple<string[], string[], string, string[], Func<string, double>, string[]>(fileNames.ToArray(), inputTags.ToArray(), outputTag, continuousTags.ToArray(), Convert.ToDouble, stringTags.ToArray());
+            }
+
             if ((s == "standard") || (String.IsNullOrWhiteSpace(s)))
-                return new Tuple<string[], string[], string, string[], Func<string, double>>(fileNames.ToArray(), inputTags.ToArray(), outputTag, continuousTags.ToArray(), Convert.ToDouble);
+                return new Tuple<string[], string[], string, string[], Func<string, double>, string[]>(fileNames.ToArray(), inputTags.ToArray(), outputTag, continuousTags.ToArray(), Convert.ToDouble, stringTags.ToArray());
             else
             {
                 Assembly a = Assembly.LoadFrom(@s);
@@ -107,7 +130,7 @@ namespace IOData
                         }
                     }
                 if (f == null) throw new IOException("В искомом файле не найден класс наследующий IToDouble");
-                return new Tuple<string[], string[], string, string[], Func<string, double>>(fileNames.ToArray(), inputTags.ToArray(), outputTag, continuousTags.ToArray(), f);
+                return new Tuple<string[], string[], string, string[], Func<string, double>, string[]>(fileNames.ToArray(), inputTags.ToArray(), outputTag, continuousTags.ToArray(), f, stringTags.ToArray());
             }
         }
 
@@ -172,6 +195,20 @@ namespace IOData
             Results results = new Results((i) => new Result(r[i], max), reader.countLine);
 
             return results;
+        }
+
+        public static String[][] getOnlyString(string[] fileNames, string[] Tags)
+        {
+            if (Tags == null) return null;
+            CSVReader reader = new CSVReader(Tags, fileNames);
+            if (!reader.Test()) throw new IOException("Bad files.");
+
+            String[][] ans = new String[reader.countLine][];
+
+            for (int i = 0; i < ans.Length; i++)
+                ans[i] = reader[i, Tags];
+
+            return ans;
         }
     }
 }

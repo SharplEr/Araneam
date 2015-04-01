@@ -201,8 +201,8 @@ namespace Araneam
         /// </summary>
         public void Dispose()
         {
-            layers.let((o) => o.Dispose());
-            fixedLayers.let((o) => o.Dispose());
+            layers.Let((o) => o.Dispose());
+            fixedLayers.Let((o) => o.Dispose());
         }
     }
 }
