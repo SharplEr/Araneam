@@ -107,6 +107,14 @@ namespace IOData
             }
         }
 
+        Double[] regression;
+
+        public Double[] Regression
+        {
+            get
+            { return regression; }
+        }
+
         int dimension;
 
         public int Dimension
@@ -127,15 +135,10 @@ namespace IOData
         {
             var x = DataFile.LoadDataInfo(settingFile);
 
-            Set(x.Item1, x.Item2, x.Item3, x.Item4, x.Item5, x.Item6);
+            Set(x.Item1, x.Item2, x.Item3, x.Item4, x.Item5, x.Item6, x.Item7);
         }
 
-        public FullData(string[] fileNames, string[] InputTags, string OutputTag, string[] СontinuousTags, Func<string, double> ToDouble, String[] stringTags)
-        {
-            Set(fileNames, InputTags, OutputTag, СontinuousTags, ToDouble, stringTags);
-        }
-
-        protected void Set(string[] fileNames, string[] InputTags, string OutputTag, string[] СontinuousTags, Func<string, double> ToDouble, String[] stringTags)
+        protected void Set(string[] fileNames, string[] InputTags, string OutputTag, string[] СontinuousTags, Func<string, double> ToDouble, String[] stringTags, ProblemMod mod)
         {
             string[] DiscreteTags = InputTags.Remove(СontinuousTags);
 
@@ -169,7 +172,7 @@ namespace IOData
             dimension = mixInput[0].continuous.Length + mixInput[0].discrete.Length;
         }
 
-        FullData(MixData[] mi, Vector[] ci, int[][] di, Results r, String[][] si)
+        FullData(MixData[] mi, Vector[] ci, int[][] di, Results r, String[][] si, double[] reg)
         {
             mixInput = mi.CloneOk<MixData>();
             if (ci != null) continuousInput = ci.CloneOk<Vector>();
@@ -177,6 +180,7 @@ namespace IOData
             output = r.CloneOk();
             dimension = mixInput[0].continuous.Length + mixInput[0].discrete.Length;
             stringInput = si.CloneOk();
+            regression = (double[])reg.Clone();
         }
 
         public FullData(FullData data, int[] indexer)
@@ -188,6 +192,7 @@ namespace IOData
             dimension = data.dimension;
             maxdiscretePart = data.maxdiscretePart;
             stringInput = data.stringInput.CloneShuffle(indexer);
+            regression = data.regression.CloneShuffleStruct(indexer);
         }
     }
 }

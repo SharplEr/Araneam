@@ -12,7 +12,7 @@ namespace IOData
     /// </summary>
     public static class DataFile
     {
-        public static Tuple<string[], string[], string, string[], Func<string, double>, string[]> LoadDataInfo(string file)
+        public static Tuple<string[], string[], string, string[], Func<string, double>, string[], ProblemMod> LoadDataInfo(string file)
         {
             StreamReader reader = null;
             try
@@ -33,8 +33,8 @@ namespace IOData
                 throw new IOException("Не удается считать файл!");
             }
         }
-        
-        public static Tuple<string[], string[], string, string[], Func<string, double>, string[]> LoadDataInfo(StreamReader reader)
+
+        public static Tuple<string[], string[], string, string[], Func<string, double>, string[], ProblemMod> LoadDataInfo(StreamReader reader)
         {
             string s = reader.ReadLine();
 
@@ -103,11 +103,11 @@ namespace IOData
 
             if (reader.EndOfStream)
             {
-                return new Tuple<string[], string[], string, string[], Func<string, double>, string[]>(fileNames.ToArray(), inputTags.ToArray(), outputTag, continuousTags.ToArray(), Convert.ToDouble, stringTags.ToArray());
+                return new Tuple<string[], string[], string, string[], Func<string, double>, string[], ProblemMod>(fileNames.ToArray(), inputTags.ToArray(), outputTag, continuousTags.ToArray(), Convert.ToDouble, stringTags.ToArray(), mod);
             }
 
             if ((s == "standard") || (String.IsNullOrWhiteSpace(s)))
-                return new Tuple<string[], string[], string, string[], Func<string, double>, string[]>(fileNames.ToArray(), inputTags.ToArray(), outputTag, continuousTags.ToArray(), Convert.ToDouble, stringTags.ToArray());
+                return new Tuple<string[], string[], string, string[], Func<string, double>, string[], ProblemMod>(fileNames.ToArray(), inputTags.ToArray(), outputTag, continuousTags.ToArray(), Convert.ToDouble, stringTags.ToArray(), mod);
             else
             {
                 Assembly a = Assembly.LoadFrom(@s);
@@ -133,7 +133,7 @@ namespace IOData
                         }
                     }
                 if (f == null) throw new IOException("В искомом файле не найден класс наследующий IToDouble");
-                return new Tuple<string[], string[], string, string[], Func<string, double>, string[]>(fileNames.ToArray(), inputTags.ToArray(), outputTag, continuousTags.ToArray(), f, stringTags.ToArray());
+                return new Tuple<string[], string[], string, string[], Func<string, double>, string[], ProblemMod>(fileNames.ToArray(), inputTags.ToArray(), outputTag, continuousTags.ToArray(), f, stringTags.ToArray(), mod);
             }
         }
 
@@ -200,15 +200,15 @@ namespace IOData
             return results;
         }
 
-        public static Vector[] getOnlyRegressionResult(string[] fileNames, string[] Tags, Func<string, double> ToDouble)
+        public static double[] getOnlyRegressionResult(string[] fileNames, string Tag, Func<string, double> ToDouble)
         {
-            CSVReader reader = new CSVReader(Tags, fileNames);
+            CSVReader reader = new CSVReader(new string[]{Tag}, fileNames);
             if (!reader.Test()) throw new IOException("Bad files.");
 
-            Vector[] ans = new Vector[reader.countLine];
+            double[] ans = new double[reader.countLine];
 
             for (int i = 0; i < ans.Length; i++)
-                ans[i] = new Vector(reader.lineLength, (j) => ToDouble(reader[i, Tags[j]]));
+                ans[i] = ToDouble(reader[i, Tag]);
 
             return ans;
         }
