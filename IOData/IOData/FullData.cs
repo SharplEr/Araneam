@@ -156,31 +156,22 @@ namespace IOData
             for (int i = 0; i < mixInput.Length; i++)
                 mixInput[i] = new MixData(cd[i], dd[i]);
 
-            output = DataFile.getOnlyResult(fileNames, OutputTag);
+            switch (mod)
+            {
+                case ProblemMod.classification:
+                    output = DataFile.getOnlyResult(fileNames, OutputTag);
+                    break;
+                case ProblemMod.regression:
+                    regression = DataFile.getOnlyRegressionResult(fileNames, OutputTag, ToDouble);
+                    break;
+                default:
+                    throw new ArgumentException("bad mod");
+            }
+            
 
             dimension = mixInput[0].continuous.Length + mixInput[0].discrete.Length;
 
             stringInput = DataFile.getOnlyString(fileNames, stringTags);
-        }
-
-        FullData(MixData[] mi, Vector[] ci, int[][] di, Results r)
-        {
-            mixInput = mi.CloneOk<MixData>();
-            if (ci != null) continuousInput = ci.CloneOk<Vector>();
-            if (di != null) discreteInput = di.CloneOk<int[]>();
-            output = r.CloneOk();
-            dimension = mixInput[0].continuous.Length + mixInput[0].discrete.Length;
-        }
-
-        FullData(MixData[] mi, Vector[] ci, int[][] di, Results r, String[][] si, double[] reg)
-        {
-            mixInput = mi.CloneOk<MixData>();
-            if (ci != null) continuousInput = ci.CloneOk<Vector>();
-            if (di != null) discreteInput = di.CloneOk<int[]>();
-            output = r.CloneOk();
-            dimension = mixInput[0].continuous.Length + mixInput[0].discrete.Length;
-            stringInput = si.CloneOk();
-            regression = (double[])reg.Clone();
         }
 
         public FullData(FullData data, int[] indexer)
