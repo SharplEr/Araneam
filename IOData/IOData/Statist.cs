@@ -5,7 +5,7 @@ using ArrayHelper;
 namespace IOData
 {
     /// <summary>
-    /// Набор статистических функций
+    /// Набор статистических функций, которых объединяет связь со статистикой и перемешиванием массивов
     /// </summary>
     public static class Statist
     {

@@ -7,6 +7,9 @@ using VectorSpace;
 
 namespace IOData
 {
+    /// <summary>
+    /// Набор статических методов для извлечения файлов данных, а так же извлечения инфрмации о файлах данных
+    /// </summary>
     public static class DataFile
     {
         public static Tuple<string[], string[], string, string[], Func<string, double>, string[]> LoadDataInfo(string file)
@@ -195,6 +198,19 @@ namespace IOData
             Results results = new Results((i) => new Result(r[i], max), reader.countLine);
 
             return results;
+        }
+
+        public static Vector[] getOnlyRegressionResult(string[] fileNames, string[] Tags, Func<string, double> ToDouble)
+        {
+            CSVReader reader = new CSVReader(Tags, fileNames);
+            if (!reader.Test()) throw new IOException("Bad files.");
+
+            Vector[] ans = new Vector[reader.countLine];
+
+            for (int i = 0; i < ans.Length; i++)
+                ans[i] = new Vector(reader.lineLength, (j) => ToDouble(reader[i, Tags[j]]));
+
+            return ans;
         }
 
         public static String[][] getOnlyString(string[] fileNames, string[] Tags)

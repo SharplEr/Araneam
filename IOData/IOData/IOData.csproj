@@ -49,6 +49,7 @@
     <Compile Include="CSVReader.cs" />
     <Compile Include="CSVWriter.cs" />
     <Compile Include="DataConverter.cs" />
+    <Compile Include="DataExtension.cs" />
     <Compile Include="DataFile.cs" />
     <Compile Include="FullData.cs" />
     <Compile Include="IToDouble.cs" />

@@ -107,7 +107,7 @@ namespace IOData
                         if (min > Counts[i]) min = Counts[i];
                     }
                     if (min == 0) equable = Double.PositiveInfinity;
-                    else equable = max / min;
+                    else equable = (double)max / min;
                 }
                 return equable;
             }

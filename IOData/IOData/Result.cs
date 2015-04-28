@@ -72,21 +72,9 @@ namespace IOData
             max = maxN;
         }
 
-        //Можно разрешать конфликт двумя способами. 1. Максимальный элемент и есть няшка. 2. Элемент ближайший к 1 и есть няшка.
-        //Поскольку жизнь не справедлива хуй знает что лучше.
         public Result(Vector s)
         {
             max = s.Length;
-            /*//Первый вариант, логичный но меньше подходит смыслу обучения нейронной сети
-            int maxi = 0;
-            double maxz = s[0];
-            for (int i = 1; i < max; i++)
-                if (maxz < s[i])
-                {
-                    maxi = i;
-                    maxz = s[i];
-                }
-  */
             
             int maxi = 0;
             double maxEquals = Math.Abs(1.0 - s[0]);

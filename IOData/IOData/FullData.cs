@@ -8,10 +8,6 @@ using ArrayHelper;
 
 namespace IOData
 {
-    /*
-     Добавить класс преобразователей, генерирование преобразователей, отправка в конструктор преобразователей!
-     * !!!! ну или забей)
-     * */
     [Serializable]
     public class FullData
     {
@@ -55,7 +51,6 @@ namespace IOData
                             for (int j = mixInput[0].continuous.Length; j < continuousInput[i].Length; j++)
                                 continuousInput[i][j] = fs[j - mixInput[0].continuous.Length](mixInput[i].discrete[j - mixInput[0].continuous.Length]);
                         }
-                        //continuousInput.Normalization(1.0);
                     }
                 }
                 return continuousInput;

@@ -5,6 +5,9 @@ using ArrayHelper;
 
 namespace IOData
 {
+    /// <summary>
+    /// Набор статических методов генерирующие преобразователи входных значений
+    /// </summary>
     public static class DataConverter
     {
         public static Func<string, int> NumericOfString(string[] input, out int max)

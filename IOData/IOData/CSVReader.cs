@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using ArrayHelper;
 
 namespace IOData
 {
@@ -154,6 +155,17 @@ namespace IOData
                 for (int i = 0; i < lineLength; i++)
                     strs[i] = allElement[index][map[tags[i].ToUpper()]];
                 return strs;
+            }
+        }
+
+        string[] tags = null;
+
+        public string[] Tags
+        {
+            get
+            {
+                if (tags == null) tags = map.Keys.GetEnumerator().ToArray<string>(map.Keys.Count);
+                return tags;
             }
         }
     }

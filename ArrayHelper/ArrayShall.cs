@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ArrayHelper
 {
+
     /// <summary>
     /// Представляет оболочку для данных, которые можно представить как конечный массив
     /// </summary>
