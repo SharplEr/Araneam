@@ -104,6 +104,8 @@ namespace ArrayHelper
         /// <param name="indexer">Индексы</param>
         public static T[] CloneShuffle<T>(this T[] o, int[] indexer) where T:ICloneable
         {
+            if (o == null) return null;
+
             T[] a = new T[indexer.Length];
 
             for (int i = 0; i < a.Length; i++)
@@ -119,6 +121,8 @@ namespace ArrayHelper
         /// <param name="indexer">Индексы</param>
         public static T[] CloneShuffleStruct<T>(this T[] o, int[] indexer) where T : struct
         {
+            if (o == null) return null;
+
             T[] a = new T[indexer.Length];
 
             for (int i = 0; i < a.Length; i++)
