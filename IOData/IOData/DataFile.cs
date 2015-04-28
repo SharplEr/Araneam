@@ -106,6 +106,9 @@ namespace IOData
                 return new Tuple<string[], string[], string, string[], Func<string, double>, string[], ProblemMod>(fileNames.ToArray(), inputTags.ToArray(), outputTag, continuousTags.ToArray(), Convert.ToDouble, stringTags.ToArray(), mod);
             }
 
+            reader.ReadLine();
+            s = reader.ReadLine();
+
             if ((s == "standard") || (String.IsNullOrWhiteSpace(s)))
                 return new Tuple<string[], string[], string, string[], Func<string, double>, string[], ProblemMod>(fileNames.ToArray(), inputTags.ToArray(), outputTag, continuousTags.ToArray(), Convert.ToDouble, stringTags.ToArray(), mod);
             else
