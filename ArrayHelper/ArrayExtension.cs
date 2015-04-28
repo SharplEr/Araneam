@@ -113,6 +113,21 @@ namespace ArrayHelper
         }
 
         /// <summary>
+        /// Типизированный Clone() с произвольным перемешиванием
+        /// </summary>
+        /// <param name="o">Массив</param>
+        /// <param name="indexer">Индексы</param>
+        public static T[] CloneShuffleStruct<T>(this T[] o, int[] indexer) where T : struct
+        {
+            T[] a = new T[indexer.Length];
+
+            for (int i = 0; i < a.Length; i++)
+                a[i] = o[indexer[i]];
+
+            return a;
+        }
+
+        /// <summary>
         /// Выполняет некоторое действие с каждым не равным null элементом перечисления
         /// </summary>
         /// <param name="o">Перечисление</param>
