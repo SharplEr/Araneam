@@ -31,14 +31,13 @@ namespace IOData
             {
                 List<string> ans = new List<string>();
                 string s;
-                using (StreamReader reader = new StreamReader(name))
+                using (var reader = new StreamReader(name))
                 {
                     do
                     {
                         s = reader.ReadLine();
                         if (s != null) ans.Add(s);
                     } while (s != null);
-                    reader.Close();
                 }
                 allElement = new string[ans.Count - 1][];
 
@@ -70,7 +69,7 @@ namespace IOData
             lineLength = tags.Length;
             for (int i = 0; i < name.Length; i++)
             {
-                CSVReader reader = new CSVReader(name[i]);
+                var reader = new CSVReader(name[i]);
                 for (int j = 0; j < reader.countLine; j++)
                 {
                     string[] strs = new string[lineLength];

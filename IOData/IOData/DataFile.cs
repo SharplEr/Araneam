@@ -14,24 +14,8 @@ namespace IOData
     {
         public static Tuple<string[], string[], string, string[], Func<string, double>, string[], ProblemMod> LoadDataInfo(string file)
         {
-            StreamReader reader = null;
-            try
-            {
-                reader = new StreamReader(file);
-                var ans = LoadDataInfo(reader);
-                reader.Close();
-                reader.Dispose();
-                return ans;
-            }
-            catch
-            {
-                if (reader != null)
-                {
-                    reader.Close();
-                    reader.Dispose();
-                }
-                throw new IOException("Не удается считать файл!");
-            }
+            using (var reader = new StreamReader(file))
+                return LoadDataInfo(reader);
         }
 
         public static Tuple<string[], string[], string, string[], Func<string, double>, string[], ProblemMod> LoadDataInfo(StreamReader reader)

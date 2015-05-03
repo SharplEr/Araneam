@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 
 namespace ArrayHelper
@@ -64,12 +61,12 @@ namespace ArrayHelper
         /// Переводит массив типа T в массив типа U
         /// </summary>
         /// <typeparam name="T">Первый тип</typeparam>
-        /// <typeparam name="U">Второй тип</typeparam>
+        /// <typeparam name="TOut">Второй тип</typeparam>
         /// <param name="vector">Массив</param>
         /// <param name="f">Функция конвертации</param>
-        public static U[] Convert<T, U>(this T[] vector, Func<T, U> f)
+        public static TOut[] Convert<T, TOut>(this T[] vector, Func<T, TOut> f)
         {
-            U[] ans = new U[vector.Length];
+            TOut[] ans = new TOut[vector.Length];
             for (int i = 0; i < vector.Length; i++)
                 ans[i] = f(vector[i]);
             return ans;
@@ -210,12 +207,8 @@ namespace ArrayHelper
 
         public static void WriteTo<T>(this T[] o, string name, string sep)
         {
-            StreamWriter writer = new StreamWriter(name);
-
-            o.WriteTo(writer, sep);
-
-            writer.Close();
-            writer.Dispose();
+            using (var writer = new StreamWriter(name))
+                o.WriteTo(writer, sep);
         }
     }
 }

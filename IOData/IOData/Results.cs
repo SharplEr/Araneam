@@ -8,6 +8,7 @@ using ArrayHelper;
 
 namespace IOData
 {
+    [Serializable]
     public class Results: ICloneable
     {
         Result[] items;

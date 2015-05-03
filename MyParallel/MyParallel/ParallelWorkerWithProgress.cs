@@ -95,7 +95,7 @@ namespace MyParallel
             if (deadEnd) throw new Exception("Обработчик уже освобожден");
             for (int i = 0; i < progress.Length; i++)
                 progress[i] = 0.0;
-            if (timer == null) timer = new Timer(sum, null, due, period);
+            if (timer == null) timer = new Timer(Sum, null, due, period);
             else timer.Change(due, period);
             if (tc > 1)
             {
@@ -109,7 +109,7 @@ namespace MyParallel
             {
                 DoFromTo(0, n, (x)=>progress[0]=x);
             }
-            sum(null);
+            Sum(null);
             timer.Change(System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
         }
 
@@ -159,7 +159,7 @@ namespace MyParallel
         /// <summary>
         /// Сложение всех прогрессов отдельных потоков
         /// </summary>
-        protected void sum(object o)
+        protected void Sum(object o)
         {
             double t = 0.0;
             for(int i = 0; i<progress.Length; i++)

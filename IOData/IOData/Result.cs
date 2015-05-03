@@ -9,6 +9,7 @@ namespace IOData
      * +1 в элементе i - обозначает принадлежность к i классу
      * только один элемент равен +1, остальные равны -1.
     */
+    [Serializable]
     public class Result: ICloneable
     {
         //Номер класса
