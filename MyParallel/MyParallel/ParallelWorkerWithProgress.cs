@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Threading;
+using  ArrayHelper;
 
 namespace MyParallel
 {
-    public abstract class ParallelWorkerWithProgress
+    public abstract class ParallelWorkerWithProgress : IDisposable
     {
-        readonly Thread[] Workers;
-        readonly protected int n;
+        private readonly Thread[] Workers;
+        protected readonly int n;
 
-        readonly int d;
-        readonly int tc;
+        private readonly int d;
+        private readonly int tc;
 
         protected object go = new object();
         protected AutoResetEvent[] ready;
@@ -38,7 +39,7 @@ namespace MyParallel
                 ready = new AutoResetEvent[threadCount];
                 pause = new AutoResetEvent[threadCount];
 
-                d = n / threadCount;
+                d = n/threadCount;
 
                 for (int i = 0; i < threadCount; i++)
                 {
@@ -49,8 +50,10 @@ namespace MyParallel
                 }
             }
         }
-        static int fullCount = 0;
-        static object naming = new object();
+
+        private static int fullCount = 0;
+        private static object naming = new object();
+
         /// <summary>
         /// Конструктор связывает обработчик с массивом и дает потокам уникальные имена
         /// </summary>
@@ -69,7 +72,7 @@ namespace MyParallel
                 ready = new AutoResetEvent[threadCount];
                 pause = new AutoResetEvent[threadCount];
 
-                d = n / threadCount;
+                d = n/threadCount;
 
                 for (int i = 0; i < threadCount; i++)
                 {
@@ -107,7 +110,7 @@ namespace MyParallel
             }
             else
             {
-                DoFromTo(0, n, (x)=>progress[0]=x);
+                DoFromTo(0, n, (x) => progress[0] = x);
             }
             Sum(null);
             timer.Change(System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
@@ -118,18 +121,18 @@ namespace MyParallel
         /// </summary>
         protected void DoOne(object nm)
         {
-            int num = (int)nm;
-            int mod = n % Workers.Length;
+            int num = (int) nm;
+            int mod = n%Workers.Length;
             int str;
             int end;
             if (num < mod)
             {
-                str = (d + 1) * num;
+                str = (d + 1)*num;
                 end = str + d + 1;
             }
             else
             {
-                str = (d + 1) * mod + d * (num - mod);
+                str = (d + 1)*mod + d*(num - mod);
                 end = str + d;
             }
             AutoResetEvent myReady = ready[num];
@@ -149,7 +152,7 @@ namespace MyParallel
                     return;
                 }
 
-                DoFromTo(str, end, (x)=>progress[num]=x);
+                DoFromTo(str, end, (x) => progress[num] = x);
 
                 //Сигнализация о завершении
                 myReady.Set();
@@ -162,8 +165,8 @@ namespace MyParallel
         protected void Sum(object o)
         {
             double t = 0.0;
-            for(int i = 0; i<progress.Length; i++)
-                t+=progress[i];
+            for (int i = 0; i < progress.Length; i++)
+                t += progress[i];
             f(t/progress.Length);
         }
 
@@ -172,7 +175,7 @@ namespace MyParallel
         /// </summary>
         /// <param name="start">С</param>
         /// <param name="finish">До</param>
-        abstract protected void DoFromTo(int start, int finish, Action<double> f);
+        protected abstract void DoFromTo(int start, int finish, Action<double> f);
 
         /// <summary>
         /// Освобождение ресурсов после использования и завершение всех потоков
@@ -185,16 +188,8 @@ namespace MyParallel
             {
                 exit = true;
                 Run(System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
-                for (int i = 0; i < Workers.Length; i++)
-                {
-                    ready[i].Close();
-                    ready[i].Dispose();
-                }
-                for (int i = 0; i < Workers.Length; i++)
-                {
-                    pause[i].Close();
-                    pause[i].Dispose();
-                }
+                ready.Let(x => x.Dispose());
+                pause.Let(x => x.Dispose());
             }
             timer.Dispose();
             deadEnd = true;

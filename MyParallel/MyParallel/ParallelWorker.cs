@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Threading;
+using ArrayHelper;
 
 namespace MyParallel
 {
-    public abstract class ParallelWorker
+    public abstract class ParallelWorker : IDisposable
     {
         readonly Thread[] Workers;
         readonly protected int n;
@@ -159,16 +160,8 @@ namespace MyParallel
             {
                 exit = true;
                 Run();
-                for (int i = 0; i < Workers.Length; i++)
-                {
-                    ready[i].Close();
-                    ready[i].Dispose();
-                }
-                for (int i = 0; i < Workers.Length; i++)
-                {
-                    pause[i].Close();
-                    pause[i].Dispose();
-                }
+                ready.Let(x => x.Dispose());
+                pause.Let(x => x.Dispose());
             }
             deadEnd = true;
         }

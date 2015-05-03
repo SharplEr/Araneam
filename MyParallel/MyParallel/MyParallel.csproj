@@ -74,6 +74,12 @@
     <Compile Include="ParallelWorkerWithProgress.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ArrayHelper\ArrayHelper.csproj">
+      <Project>{7c6d1a70-8e63-4c6c-8d2e-eb3a529c198b}</Project>
+      <Name>ArrayHelper</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using ArrayHelper;
 
 namespace MyParallel
 {
@@ -23,7 +24,7 @@ namespace MyParallel
     /// Базовый класс для параллельного обработчика массивов
     /// </summary>
     /// <typeparam name="T">Тип массива</typeparam>
-    public abstract class ParallelWorker<T>
+    public abstract class ParallelWorker<T>:IDisposable
     {
         readonly Thread[] Workers;
         readonly protected T[] vector;
@@ -180,16 +181,8 @@ namespace MyParallel
             {
                 exit = true;
                 Run();
-                for (int i = 0; i < Workers.Length; i++)
-                {
-                    ready[i].Close();
-                    ready[i].Dispose();
-                }
-                for (int i = 0; i < Workers.Length; i++)
-                {
-                    pause[i].Close();
-                    pause[i].Dispose();
-                }
+                ready.Let(x => x.Dispose());
+                pause.Let(x => x.Dispose());
             }
             deadEnd = true;
         }

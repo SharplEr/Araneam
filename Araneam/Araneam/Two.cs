@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using  System;
 
 namespace Araneam
 {
+    [Serializable]
     public class TwoArray
     {
         public int[] index, subIndex;

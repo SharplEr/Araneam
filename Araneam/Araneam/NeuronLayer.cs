@@ -25,7 +25,7 @@ namespace Araneam
     /// !!!Работа со слоем должна производиться в многопоточном апартаменте!!!
     /// </summary>
     [Serializable]
-    public class NeuronLayer: ICloneable
+    public class NeuronLayer: ICloneable, IDisposable
     {
         public Neuron[] neuros;
 

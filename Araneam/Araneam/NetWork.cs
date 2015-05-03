@@ -21,7 +21,7 @@ namespace Araneam
     /// Представление нейронной сети
     /// </summary>
     [Serializable]
-    public abstract class Network
+    public abstract class Network:IDisposable
     {
         /// <summary>
         /// Скрытые слои

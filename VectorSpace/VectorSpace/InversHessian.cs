@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace VectorSpace
 {
-    public class InversHessian
+    public class InversHessian: IDisposable
     {
         HessianHelper helper;
         MatrixSumWorker sumHelper;
@@ -35,6 +35,13 @@ namespace VectorSpace
             //helper.Numerator * H матрично и поделить на (helper.Denominator+1)
             divHelper.Run(helper.Denominator + 1.0);
             sumHelper.Run(helper.Numerator);
+        }
+
+        public void Dispose()
+        {
+            helper.Dispose();
+            sumHelper.Dispose();
+            divHelper.Dispose();
         }
     }
 }
