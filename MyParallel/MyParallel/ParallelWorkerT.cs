@@ -43,7 +43,7 @@ namespace MyParallel
         /// </summary>
         /// <param name="threadCount">Число потоков обработчика</param>
         /// <param name="v">Обрабатываемый массив</param>
-        public ParallelWorker(int threadCount, T[] v)
+        protected ParallelWorker(int threadCount, T[] v)
         {
             vector = v;
             tc = threadCount;
@@ -73,7 +73,7 @@ namespace MyParallel
         /// <param name="threadCount">Число потоков обработчика</param>
         /// <param name="v">Обрабатываемый массив</param>
         /// <param name="name">Начало имени для потоков</param>
-        public ParallelWorker(int threadCount, T[] v, string name)
+        protected ParallelWorker(int threadCount, T[] v, string name)
         {            
             vector = v;
             tc = threadCount;

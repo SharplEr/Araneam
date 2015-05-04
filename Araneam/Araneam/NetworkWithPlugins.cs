@@ -53,7 +53,7 @@ namespace Araneam
 
         protected Random random = new Random();
 
-        public NetworkWithPlugins(Plug<T>[] plugs)
+        protected NetworkWithPlugins(Plug<T>[] plugs)
         {
             this.plugins = plugs;
         }

@@ -27,7 +27,7 @@ namespace MyParallel
         /// </summary>
         /// <param name="threadCount">Число потоков обработчика</param>
         /// <param name="v">Обрабатываемый массив</param>
-        public ParallelWorkerWithProgress(int threadCount, int nn, Action<double> ff)
+        protected ParallelWorkerWithProgress(int threadCount, int nn, Action<double> ff)
         {
             n = nn;
             tc = threadCount;
@@ -60,7 +60,7 @@ namespace MyParallel
         /// <param name="threadCount">Число потоков обработчика</param>
         /// <param name="v">Обрабатываемый массив</param>
         /// <param name="name">Начало имени для потоков</param>
-        public ParallelWorkerWithProgress(int threadCount, int nn, string name, Action<double> ff)
+        protected ParallelWorkerWithProgress(int threadCount, int nn, string name, Action<double> ff)
         {
             n = nn;
             tc = threadCount;
