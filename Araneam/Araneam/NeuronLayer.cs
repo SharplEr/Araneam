@@ -42,7 +42,6 @@ namespace Araneam
         public int[][] InputIndex
         {
             get { return inputIndex; }
-            private set { inputIndex = value; }
         }
 
         /// <summary>
