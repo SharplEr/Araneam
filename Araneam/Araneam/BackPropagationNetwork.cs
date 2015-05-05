@@ -102,14 +102,14 @@ namespace Araneam
                     tempforlg[i] = new Vector(layers[i].neuros.Length);
             }
 
-            if (LocalGrads[layers.Length - 1] == null)
+            if (LocalGrads[layers.Length - 1].IsNull)
                 LocalGrads[layers.Length - 1] = e.Multiplication(layers[layers.Length - 1].CalcDer());
             else
                 layers[layers.Length - 1].CalcDer(LocalGrads[layers.Length - 1]).Multiplication(e);
 
             for (l = layers.Length - 2; l >= 0; l--)
             {
-                if (LocalGrads[l] == null)
+                if (LocalGrads[l].IsNull)
                     LocalGrads[l] = layers[l].CalcDer();
                 else
                     layers[l].CalcDer(LocalGrads[l]);

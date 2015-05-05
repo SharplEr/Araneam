@@ -54,10 +54,9 @@ namespace IOData
             {
                 lock (bloker)
                 {
-                    if (spectrum == null)
-                        spectrum = new Vector(max, (i) => (i != number) ? -1.0 : 1.0);
+                    if (spectrum.IsNull) spectrum = new Vector(max, (i) => (i != number) ? -1.0 : 1.0);
+                    return spectrum;
                 }
-                return spectrum;
             }
         }
 

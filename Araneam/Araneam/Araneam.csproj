@@ -72,7 +72,6 @@
   <ItemGroup>
     <Compile Include="ActivationFunc.cs" />
     <Compile Include="BackPropagationNetwork.cs" />
-    <Compile Include="BackPropagationNetworkWithPlugs.cs" />
     <Compile Include="ClassicNetwork.cs" />
     <Compile Include="CorrectionWorker.cs" />
     <Compile Include="FuncFactory.cs" />
@@ -85,14 +84,7 @@
     <Compile Include="NeuronLayer.cs" />
     <Compile Include="Neuron.cs" />
     <Compile Include="NeurosCalc.cs" />
-    <Compile Include="NLayer.cs" />
-    <Compile Include="NetworkWithPlugins.cs" />
-    <Compile Include="Plug.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RNLearningNode.cs" />
-    <Compile Include="RNNetwork.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="SetInputWorker.cs" />
     <Compile Include="Simple.cs" />
     <Compile Include="Simples.cs" />

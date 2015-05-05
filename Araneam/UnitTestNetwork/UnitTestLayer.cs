@@ -77,7 +77,7 @@ namespace UnitTestNetwork
             nl.neuros[1].weight[1] = 2.0;
             nl.neuros[1].weight[2] = 3.0;
 
-            Vector ans = null;
+            Vector ans = default(Vector);
 
             new Thread(() => ans = nl.Calc()).InMTA();
 
@@ -184,8 +184,8 @@ namespace UnitTestNetwork
 
             new Thread(() => nl.Input = new Vector(m, j => j + 1)).InMTA();
 
-            Vector t1 = null;
-            Vector t2 = null;
+            Vector t1 = default(Vector);
+            Vector t2 = default(Vector);
 
             new Thread(() => t1 = nl.Calc()).InMTA();
 
@@ -211,7 +211,7 @@ namespace UnitTestNetwork
 
             new Thread(()=> nl.Dispose()).InMTA();
 
-            t2 = null;
+            t2 = default(Vector);
 
             new Thread(() => t2 = newNl.Calc()).InMTA();
 

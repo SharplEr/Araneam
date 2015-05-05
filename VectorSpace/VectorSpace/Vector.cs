@@ -16,7 +16,7 @@ namespace VectorSpace
     /// Представление вектора с вещественными координатами
     /// </summary>
     [Serializable]
-    public class Vector: ICloneable
+    public struct Vector: ICloneable
     {
         /// <summary>
         /// Координаты вектора
@@ -31,6 +31,11 @@ namespace VectorSpace
         {
             if (n <= 0) throw new ArgumentException("размерность вектора должен быть больше 0");
             element = new Double[n];
+        }
+
+        public bool IsNull
+        {
+            get { return element == null; }
         }
 
         /// <summary>
@@ -67,6 +72,8 @@ namespace VectorSpace
 
         public Object Clone()
         {
+            if (IsNull) return default(Vector);
+
             Vector v = new Vector(element.Length);
             //Магическая константа, при размере массива больше которой стандартный метод обгоняет простую итерацию
             if (element.Length < 50)

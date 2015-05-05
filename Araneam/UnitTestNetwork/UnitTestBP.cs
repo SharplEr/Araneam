@@ -41,7 +41,7 @@ namespace UnitTestNetwork
             Vector d = new Vector(1);
             d[0] = 1;
 
-            Vector e = null;
+            Vector e = default(Vector);
             Vector[] lg = null;
             new Thread(() =>
             {
@@ -458,7 +458,7 @@ namespace UnitTestNetwork
             d[1] = 0.4;
             d[2] = 0.3;
 
-            Vector y = null;
+            Vector y = default(Vector);
 
             new Thread(() => y = nw.Calculation(x)).InMTA();
 

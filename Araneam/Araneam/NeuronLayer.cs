@@ -281,7 +281,7 @@ namespace Araneam
             if (withThreshold)
             {
                 Output = new Vector(neuros.Length + 1);
-                Output[neuros.Length] = 1.0 / Output.Length;
+                Output.element[neuros.Length] = 1.0 / Output.Length;
             }
             else Output = new Vector(neuros.Length);
         }

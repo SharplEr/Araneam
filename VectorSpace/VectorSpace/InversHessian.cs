@@ -18,7 +18,10 @@ namespace VectorSpace
             H = new Vector[n];
 
             for (int i = 0; i < n; i++)
-                (H[i] = new Vector(n))[i] = m;
+            {
+                H[i] = new Vector(n);
+                H[i][i] = m;
+            }
 
             int threadCount = Environment.ProcessorCount;
             if (threadCount > n) threadCount = n;
