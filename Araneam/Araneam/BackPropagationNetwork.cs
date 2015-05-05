@@ -609,7 +609,7 @@ namespace Araneam
 
         public override double Learn(Vector x, Vector d)
         {
-            if (layers == null) throw new ArgumentNullException();
+            if (layers == null) throw new ArgumentNullException("Learn: нет слоев");
 
             double ans = 0.0;
 
