@@ -5,7 +5,7 @@ namespace Araneam
     /// <summary>
     /// Набор функций активации
     /// </summary>
-    public struct Activation
+    public static class Activation
     {
         /// <summary>
         /// Возвращает функцию активации по имени и набору параметров
