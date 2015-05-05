@@ -70,7 +70,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Activation.cs" />
+    <Compile Include="ActivationFunc.cs" />
     <Compile Include="BackPropagationNetwork.cs" />
     <Compile Include="BackPropagationNetworkWithPlugs.cs" />
     <Compile Include="ClassicNetwork.cs" />

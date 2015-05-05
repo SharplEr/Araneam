@@ -5,7 +5,7 @@ namespace Araneam
     /// <summary>
     /// Набор функций активации
     /// </summary>
-    public static class Activation
+    public static class ActivationFunc
     {
         /// <summary>
         /// Возвращает функцию активации по имени и набору параметров

@@ -8,8 +8,8 @@ namespace Araneam
      *          сериализован, а затем востановит код с помощью метода Refresh.
      *      Так же он позволяет удобнее создавать функции активации "на лету" используя только их псевдоним
      *          и параметры.
-     *      Список всех доступных таким образом функций активации можно найти в структуре Activation.
-     * 1) По сути он с Activation образует паттерн фабрика.
+     *      Список всех доступных таким образом функций активации можно найти в структуре ActivationFunc.
+     * 1) По сути он с ActivationFunc образует паттерн фабрика.
     */ 
     [Serializable]
     /// <summary>
@@ -48,8 +48,8 @@ namespace Araneam
         /// </summary>
         public void Refresh()
         {
-            f = Activation.get(name, param);
-            df = Activation.get("d" + name, param);
+            f = ActivationFunc.get(name, param);
+            df = ActivationFunc.get("d" + name, param);
         }
     }
 }
