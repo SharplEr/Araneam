@@ -7,7 +7,7 @@ namespace VectorSpace
     /*
      * Общие пояснения для тех, кто попытается разобраться:
      * 0) Этот класс - реализация n-мерного вектора и сопутствующих методов для удобной работы
-     * 1) В классе имеется только 1 поле - double[] element, любые изменения происходят только в нем после выполения методов
+     * 1) В классе имеется только 1 поле - double[] elements, любые изменения происходят только в нем после выполения методов
      * 2) Методы из класса не вызывают друг-друга за исключением конструкторов (вызываемых в операторах)
      * 3) Все методы, кроме операторов, модифицируют текущий класс. Операторы наоборот создают новый объект.
      * 4) Все методы (кроме ToString() и операторов) имеют fluent interface, возвращая ссылку на текущий объект.
@@ -21,7 +21,7 @@ namespace VectorSpace
         /// <summary>
         /// Координаты вектора
         /// </summary>
-        public Double[] element;
+        public Double[] elements;
 
         /// <summary>
         /// Конструктор создает вектор с заданной размерностью
@@ -30,12 +30,12 @@ namespace VectorSpace
         public Vector(int n)
         {
             if (n <= 0) throw new ArgumentException("размерность вектора должен быть больше 0");
-            element = new Double[n];
+            elements = new Double[n];
         }
 
         public bool IsNull
         {
-            get { return element == null; }
+            get { return elements == null; }
         }
 
         /// <summary>
@@ -46,27 +46,27 @@ namespace VectorSpace
         public Vector(int n, Func<int, Double> f)
         {
             if (n <= 0) throw new ArgumentException("размерность вектора должен быть больше 0");
-            element = new Double[n];
-            for (int i = 0; i < n; i++) element[i] = f(i);
+            elements = new Double[n];
+            for (int i = 0; i < n; i++) elements[i] = f(i);
         }
 
         public Vector(int n, Func<int, Double> f, double x)
         {
-            element = new Double[n+1];
-            for (int i = 0; i < n; i++) element[i] = f(i);
-            element[n] = x;
+            elements = new Double[n+1];
+            for (int i = 0; i < n; i++) elements[i] = f(i);
+            elements[n] = x;
         }
 
         public Double this[int index]
         {
             get
             {
-                return element[index];
+                return elements[index];
             }
 
             set
             {
-                element[index] = value;
+                elements[index] = value;
             }
         }
 
@@ -74,15 +74,15 @@ namespace VectorSpace
         {
             if (IsNull) return default(Vector);
 
-            Vector v = new Vector(element.Length);
+            Vector v = new Vector(elements.Length);
             //Магическая константа, при размере массива больше которой стандартный метод обгоняет простую итерацию
-            if (element.Length < 50)
+            if (elements.Length < 50)
             {
-                for (int i = 0; i < element.Length; i++)
-                    v.element[i] = element[i];
+                for (int i = 0; i < elements.Length; i++)
+                    v.elements[i] = elements[i];
             }
             else
-                element.CopyTo(v.element, 0);
+                elements.CopyTo(v.elements, 0);
             return v;
         }
 
@@ -107,7 +107,7 @@ namespace VectorSpace
         public unsafe static Double operator *(Vector vf, Vector vs)
         {
             double ans = 0.0;
-            fixed(double* pvf0 = vf.element, pvs0 = vs.element)
+            fixed(double* pvf0 = vf.elements, pvs0 = vs.elements)
             {
                 double* pvf = pvf0;
                 double* pvs = pvs0;
@@ -149,7 +149,7 @@ namespace VectorSpace
         public static unsafe explicit operator Double(Vector v)
         {
             double ans = 0.0;
-            fixed (double* pv0 = v.element)
+            fixed (double* pv0 = v.elements)
             {
                 //ans = Yeppp.Core.SumSquares_V64f_S64f(pv0, v.Length);
                 double* pv = pv0;
@@ -172,7 +172,7 @@ namespace VectorSpace
         {
             get
             {
-                return element.Length;
+                return elements.Length;
             }
         }
 
@@ -182,7 +182,7 @@ namespace VectorSpace
         public unsafe Vector Multiplication(Double k)
         {
             
-            fixed (double* pv0 = this.element)
+            fixed (double* pv0 = this.elements)
             {
                 //Yeppp.Core.Multiply_IV64fS64f_IV64f(pv0, k, this.Length);
                 
@@ -201,23 +201,23 @@ namespace VectorSpace
         public unsafe Vector Multiplication(Vector v)
         {
             /*
-            fixed (double* pvf = this.element, pvs = v.element)
+            fixed (double* pvf = this.elements, pvs = v.elements)
             {
                 Yeppp.Core.Multiply_IV64fV64f_IV64f(pvf, pvs, this.Length);
             }*/
             
-            for (int i = 0; i < element.Length; i++) element[i] = v[i] * element[i];
+            for (int i = 0; i < elements.Length; i++) elements[i] = v[i] * elements[i];
 
             return this;
         }
 
         public unsafe Vector Addication(Vector v)
         {
-            fixed (double* pthis = element, pv = v.element)
+            fixed (double* pthis = elements, pv = v.elements)
             {
                 //Yeppp.Core.Add_IV64fV64f_IV64f(pthis, pv, this.Length);
 
-                double* pend = pthis + element.Length;
+                double* pend = pthis + elements.Length;
                 double* tt = pthis, tv = pv;
                 while (tt < pend)
                 {
@@ -233,7 +233,7 @@ namespace VectorSpace
         public unsafe Vector Addication(double x)
         {
 
-            fixed (double* pv0 = this.element)
+            fixed (double* pv0 = this.elements)
             {
                 //Yeppp.Core.Add_IV64fS64f_IV64f(pv0, x, this.Length);
                 
@@ -251,20 +251,20 @@ namespace VectorSpace
 
         public Vector Set(Func<int, Double> f)
         {
-            for (int i = 0; i < element.Length; i++)
-                element[i] = f(i);
+            for (int i = 0; i < elements.Length; i++)
+                elements[i] = f(i);
             return this;
         }
 
         public Vector Set(Vector v)
         {
-            if (element.Length < 50)
+            if (elements.Length < 50)
             {
-                for (int i = 0; i < element.Length; i++)
-                    element[i] = v[i];
+                for (int i = 0; i < elements.Length; i++)
+                    elements[i] = v[i];
             }
             else
-                v.element.CopyTo(element, 0);
+                v.elements.CopyTo(elements, 0);
 
             return this;
         }
@@ -276,7 +276,7 @@ namespace VectorSpace
         {
             Random r = new Random();
 
-            for (int i = 0; i < element.Length; i++) element[i] = 2 * r.NextDouble() - 1;
+            for (int i = 0; i < elements.Length; i++) elements[i] = 2 * r.NextDouble() - 1;
 
             return this;
         }
@@ -288,7 +288,7 @@ namespace VectorSpace
         {
             Random r = new Random();
 
-            for (int i = 0; i < element.Length; i++) element[i] = (b-a) * r.NextDouble() + a;
+            for (int i = 0; i < elements.Length; i++) elements[i] = (b-a) * r.NextDouble() + a;
 
             return this;
         }
@@ -300,7 +300,7 @@ namespace VectorSpace
         {
             Random r = new Random();
 
-            for (int i = 0; i < element.Length; i++) element[i] = 2 * a * r.NextDouble() - a;
+            for (int i = 0; i < elements.Length; i++) elements[i] = 2 * a * r.NextDouble() - a;
 
             return this;
         }
@@ -315,11 +315,11 @@ namespace VectorSpace
             double b = a - epsilon;
             double t;
 
-            for (int i = 0; i < element.Length; i++)
+            for (int i = 0; i < elements.Length; i++)
             {
                 t = 2 * b * r.NextDouble() - b;
-                if (t >= 0) element[i] = t + epsilon;
-                element[i] = t - epsilon;
+                if (t >= 0) elements[i] = t + epsilon;
+                elements[i] = t - epsilon;
             }
 
             return this;
@@ -333,11 +333,11 @@ namespace VectorSpace
             double b = a - epsilon;
             double t;
 
-            for (int i = 0; i < element.Length; i++)
+            for (int i = 0; i < elements.Length; i++)
             {
                 t = 2 * b * r.NextDouble() - b;
-                if (t >= 0) element[i] = t + epsilon;
-                element[i] = t - epsilon;
+                if (t >= 0) elements[i] = t + epsilon;
+                elements[i] = t - epsilon;
             }
 
             return this;
@@ -353,14 +353,14 @@ namespace VectorSpace
 
         public Vector InvPer()
         {
-            double sum = element[0];
-            for (int i = 1; i < element.Length; i++)
-                sum += element[i];
+            double sum = elements[0];
+            for (int i = 1; i < elements.Length; i++)
+                sum += elements[i];
 
-            double a = 2.0 / element.Length;
+            double a = 2.0 / elements.Length;
 
-            for (int i = 0; i < element.Length; i++)
-                element[i] = a - element[i] / sum;
+            for (int i = 0; i < elements.Length; i++)
+                elements[i] = a - elements[i] / sum;
 
             return this;
         }
@@ -369,8 +369,8 @@ namespace VectorSpace
         {
             Vector m = new Vector(2);
 
-            m[0] = (Math.Sign(threshold) - element[0]) * Math.Abs(threshold);
-            m[1] = (-Math.Sign(threshold) - element[1]) * Math.Abs(threshold);
+            m[0] = (Math.Sign(threshold) - elements[0]) * Math.Abs(threshold);
+            m[1] = (-Math.Sign(threshold) - elements[1]) * Math.Abs(threshold);
 
             return this.Addication(m);
         }
@@ -379,12 +379,12 @@ namespace VectorSpace
         {
             StringBuilder sb = new StringBuilder("(");
 
-            sb.Append(element[0]);
+            sb.Append(elements[0]);
 
             for (int i = 1; i < Length; i++)
             {
                 sb.Append("; ");
-                sb.Append(element[i]);
+                sb.Append(elements[i]);
             }
 
             sb.Append(")");

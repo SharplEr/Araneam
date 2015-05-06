@@ -129,7 +129,7 @@ namespace IOData
             { return mixInput.Length; }
         }
 
-        public int[] maxdiscretePart;
+        public int[] maxdiscretePart {get; protected set; }
 
         public FullData(string settingFile)
         {

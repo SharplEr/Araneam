@@ -15,7 +15,7 @@ namespace Araneam
 
         public void Run(Vector inp, int[][] Index)
         {
-            input = inp.element;
+            input = inp.elements;
             inputIndex = Index;
             Run();
         }
@@ -31,7 +31,7 @@ namespace Araneam
                 Index = inputIndex[i];
                 fixed(int* pi0 = Index)
                 {
-                    fixed (double* ps0 = vector[i].synapse.element)
+                    fixed (double* ps0 = vector[i].synapse.elements)
                     {
                         int* pit = pi0;
                         double* pst = ps0;

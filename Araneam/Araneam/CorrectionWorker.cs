@@ -16,7 +16,7 @@ namespace Araneam
         public void Run(Vector r)
         {
             if (r.Length != vector.Length) throw new ArgumentException("Bad correction spectrum");
-            rate = r.element;
+            rate = r.elements;
             Run();
         }
 
@@ -28,8 +28,8 @@ namespace Araneam
                 double* tr = pr;
                 for (int i = start; i < finish; i++)
                 {
-                    syn = vector[i].synapse.element;
-                    wei = vector[i].weight.element;
+                    syn = vector[i].synapse.elements;
+                    wei = vector[i].weight.elements;
                     
                     fixed (double* psyn = syn, pwei = wei)
                     {
