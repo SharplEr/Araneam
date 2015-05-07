@@ -74,7 +74,8 @@ namespace MyParallel
         /// <param name="v">Обрабатываемый массив</param>
         /// <param name="name">Начало имени для потоков</param>
         protected ParallelWorker(int threadCount, T[] v, string name)
-        {            
+        {
+            if (v == null) throw new ArgumentException("v is null");
             vector = v;
             tc = threadCount;
             if (threadCount > 1)

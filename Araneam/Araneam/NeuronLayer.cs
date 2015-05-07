@@ -382,7 +382,6 @@ namespace Araneam
 
             nl.inputLength = inputLength;
             if (inversIndex != null)
-                //было inversIndex.Length!=inputLength
                 nl.CalcInvers(inputLength - inversIndex.Length);
 
             nl.SetWorker(threadCount);

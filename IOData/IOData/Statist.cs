@@ -110,7 +110,6 @@ namespace IOData
         /// </summary>
         public static void shuffle2DIndex(Tuple<int,int>[] indexes, Random r)
         {
-
             int k;
 
             Tuple<int, int> t;
