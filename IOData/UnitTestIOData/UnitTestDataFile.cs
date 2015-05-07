@@ -151,13 +151,13 @@ namespace UnitTestIODate
             writer.WriteLine(@"2C-B");
             writer.WriteLine("");
             writer.WriteLine(@"Old");
-            writer.Close();
+            
             writer.Dispose();
 
             StreamReader reader = new StreamReader(name);
 
             var ans = DataFile.LoadDataInfo(reader);
-            reader.Close();
+            
             reader.Dispose();
 
             Assert.AreEqual(ans.Item1.Length, 2);
@@ -191,13 +191,13 @@ namespace UnitTestIODate
             writer.WriteLine("");
             writer.WriteLine("");
             writer.WriteLine(@"Old");
-            writer.Close();
+            
             writer.Dispose();
 
             StreamReader reader = new StreamReader(name);
 
             var ans = DataFile.LoadDataInfo(reader);
-            reader.Close();
+            
             reader.Dispose();
 
             Assert.AreEqual(ans.Item1.Length, 2);
@@ -230,7 +230,7 @@ namespace UnitTestIODate
             writer.WriteLine("");
             writer.WriteLine("");
             writer.WriteLine(@"Old");
-            writer.Close();
+            
             writer.Dispose();
 
             var ans = DataFile.LoadDataInfo(name);
