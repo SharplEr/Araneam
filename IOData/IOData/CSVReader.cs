@@ -88,7 +88,7 @@ namespace IOData
             }
         }
 
-        string[] Separating(string s)
+        static string[] Separating(string s)
         {
             List<string> ans = new List<string>();
             string add = "";
