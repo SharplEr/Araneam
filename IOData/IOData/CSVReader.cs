@@ -157,14 +157,14 @@ namespace IOData
             }
         }
 
-        string[] tags = null;
+        string[] descriptors = null;
 
-        public string[] Tags
+        public string[] Descriptors
         {
             get
             {
-                if (tags == null) tags = map.Keys.GetEnumerator().ToArray<string>(map.Keys.Count);
-                return tags;
+                if (descriptors == null) descriptors = map.Keys.GetEnumerator().ToArray<string>(map.Keys.Count);
+                return descriptors;
             }
         }
     }

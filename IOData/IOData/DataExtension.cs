@@ -36,7 +36,7 @@ namespace IOData
         public static void ExtentionToMis(string From, int[] extIndexs, string mark, string To)
         {
             CSVReader reader = new CSVReader(From);
-            ExtentionToMis(reader, reader.Tags, extIndexs, mark, To);
+            ExtentionToMis(reader, reader.Descriptors, extIndexs, mark, To);
         }
 
         public static void ExtentionToDoubleMis(CSVReader reader, string[] allTags, int[] extIndexs, string mark, string fileName)
@@ -78,7 +78,7 @@ namespace IOData
         public static void ExtentionToDoubleMis(string From, int[] extIndexs, string mark, string To)
         {
             CSVReader reader = new CSVReader(From);
-            ExtentionToDoubleMis(reader, reader.Tags, extIndexs, mark, To);
+            ExtentionToDoubleMis(reader, reader.Descriptors, extIndexs, mark, To);
         }
 
         public static string[][] ExtentionToDoubleMis(CSVReader reader, string[] allTags, int[] extIndexs, string mark)
@@ -120,7 +120,7 @@ namespace IOData
         public static string[][] ExtentionToDoubleMis(string From, int[] extIndexs, string mark)
         {
             CSVReader reader = new CSVReader(From);
-            return ExtentionToDoubleMis(reader, reader.Tags, extIndexs, mark);
+            return ExtentionToDoubleMis(reader, reader.Descriptors, extIndexs, mark);
         }
     }
 }
