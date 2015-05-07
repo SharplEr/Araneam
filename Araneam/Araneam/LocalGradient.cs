@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using VectorSpace;
+﻿using VectorSpace;
 
 namespace Araneam
 {
     public class LocalGradient:ILocalGradient
     {
-        Vector[] temp;
-        Vector[] localGrads;
+        readonly Vector[] temp;
+        readonly Vector[] localGrads;
 
         public LocalGradient(NeuronLayer[] layers)
         {

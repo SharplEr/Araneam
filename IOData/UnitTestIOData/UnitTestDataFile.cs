@@ -1,9 +1,8 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Globalization;
 using System.IO;
 using IOData;
-using VectorSpace;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTestIODate
 {

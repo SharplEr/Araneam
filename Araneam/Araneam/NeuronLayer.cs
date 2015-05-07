@@ -1,7 +1,6 @@
 ﻿using System;
-using VectorSpace;
-using MyParallel;
 using ArrayHelper;
+using VectorSpace;
 
 namespace Araneam
 {
@@ -38,7 +37,7 @@ namespace Araneam
         /// <summary>
         /// Матрица связи синапсов каждого нейрона с входным сигналом
         /// </summary>
-        int[][] inputIndex;
+        readonly int[][] inputIndex;
         public int[][] InputIndex
         {
             get { return inputIndex; }
@@ -71,7 +70,7 @@ namespace Araneam
 
         int inputLength;
 
-        bool withThreshold;
+        readonly bool withThreshold;
         public bool WithThreshold
         { get { return withThreshold; } }
 

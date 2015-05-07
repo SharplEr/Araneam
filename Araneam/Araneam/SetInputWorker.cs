@@ -1,5 +1,5 @@
-﻿using VectorSpace;
-using MyParallel;
+﻿using MyParallel;
+using VectorSpace;
 
 namespace Araneam
 {

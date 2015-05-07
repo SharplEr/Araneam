@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using VectorSpace;
 using ArrayHelper;
+using VectorSpace;
 
 namespace IOData
 {
@@ -12,8 +8,8 @@ namespace IOData
     public class FullData
     {
         //Почекать потокобезопасность!
-        Object blokerContinuous = new Object();
-        Object blokerDiscrete = new Object();
+        readonly Object blokerContinuous = new Object();
+        readonly Object blokerDiscrete = new Object();
         MixData[] mixInput;
 
         public MixData[] MixInput

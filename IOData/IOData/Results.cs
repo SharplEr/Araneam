@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using VectorSpace;
 using ArrayHelper;
+using VectorSpace;
 
 namespace IOData
 {
     [Serializable]
     public class Results: ICloneable
     {
-        Result[] items;
+        readonly Result[] items;
 
-        int maxNumber;
+        readonly int maxNumber;
 
         public int MaxNumber
         {

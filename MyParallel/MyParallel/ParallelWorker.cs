@@ -45,7 +45,7 @@ namespace MyParallel
             }
         }
         static int fullCount = 0;
-        static object naming = new object();
+        static readonly object naming = new object();
         /// <summary>
         /// Конструктор связывает обработчик с массивом и дает потокам уникальные имена
         /// </summary>
@@ -82,7 +82,7 @@ namespace MyParallel
         /// <summary>
         /// Запуск потоков
         /// </summary>
-        [MTAThreadAttribute]
+        [MTAThread]
         protected void Run()
         {
             if (deadEnd) throw new Exception("Обработчик уже освобожден");

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ArrayHelper
 {
@@ -25,7 +22,7 @@ namespace ArrayHelper
     /// </summary>
     public class Janus
     {
-        Dictionary<Type, object[]> data;
+        readonly Dictionary<Type, object[]> data;
 
         public Janus(object[][] o)
         {
@@ -49,7 +46,7 @@ namespace ArrayHelper
             return data[t].Convert((x) => (T)x);
         }
 
-        object locko = new object();
+        readonly object locko = new object();
 
         public void Add(object[] o)
         {

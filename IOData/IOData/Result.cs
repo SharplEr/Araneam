@@ -1,6 +1,6 @@
 ﻿using System;
-using VectorSpace;
 using ArrayHelper;
+using VectorSpace;
 
 namespace IOData
 {
@@ -18,9 +18,9 @@ namespace IOData
         Vector spectrum;
 
         //Число классов, то есть длина спектра
-        int max;
+        readonly int max;
 
-        Object bloker = new Object();
+        readonly Object bloker = new Object();
 
         public int MaxNumber
         {

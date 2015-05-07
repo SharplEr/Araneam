@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using VectorSpace;
-using IOData;
-using MyParallel;
 using ArrayHelper;
+using IOData;
+using VectorSpace;
 
 namespace Araneam
 {
@@ -16,8 +15,8 @@ namespace Araneam
     {
         protected Vector[] LocalGrads = null;
 
-        double rateStart;
-        double timeLearn;
+        readonly double rateStart;
+        readonly double timeLearn;
 
         protected Vector[] inputDate = null;
         protected Vector[] resultDate = null;

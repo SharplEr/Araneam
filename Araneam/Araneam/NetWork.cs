@@ -1,10 +1,9 @@
 ﻿using System;
-using VectorSpace;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using MyParallel;
 using ArrayHelper;
-using System.Collections.Generic;
+using VectorSpace;
 
 namespace Araneam
 {
@@ -31,8 +30,7 @@ namespace Araneam
         /// <summary>
         /// Де/сериализатор
         /// </summary>
-        [NonSerialized]
-        BinaryFormatter deser = new BinaryFormatter();
+        [NonSerialized] readonly BinaryFormatter deser = new BinaryFormatter();
 
         /// <summary>
         /// Номер шага обучения

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ArrayHelper
 {
@@ -16,10 +14,10 @@ namespace ArrayHelper
     */
     public class JanusConvertable<B>
     {
-        B[] baseData;
+        readonly B[] baseData;
 
-        Dictionary<Type, object[]> data;
-        Dictionary<Type, Func<B[], object[]>> convert;
+        readonly Dictionary<Type, object[]> data;
+        readonly Dictionary<Type, Func<B[], object[]>> convert;
 
         public JanusConvertable(B[] bdata, Dictionary<Type, Func<B[], object[]>> fs)
         {

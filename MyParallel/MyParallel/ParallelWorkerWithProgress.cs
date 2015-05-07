@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading;
-using  ArrayHelper;
+using ArrayHelper;
 
 namespace MyParallel
 {
@@ -52,7 +52,7 @@ namespace MyParallel
         }
 
         private static int fullCount = 0;
-        private static object naming = new object();
+        private static readonly object naming = new object();
 
         /// <summary>
         /// Конструктор связывает обработчик с массивом и дает потокам уникальные имена
@@ -92,7 +92,7 @@ namespace MyParallel
         /// <summary>
         /// Запуск потоков
         /// </summary>
-        [MTAThreadAttribute]
+        [MTAThread]
         protected void Run(int due, int period)
         {
             if (deadEnd) throw new Exception("Обработчик уже освобожден");

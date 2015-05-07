@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ArrayHelper
 {
@@ -13,8 +9,8 @@ namespace ArrayHelper
     /// <typeparam name="T">Тип массива</typeparam>
     public class ArrayShall<T>: ICloneable
     {
-        Func<int, T> getItem;
-        int length;
+        readonly Func<int, T> getItem;
+        readonly int length;
 
         public ArrayShall(Func<int, T> f, int n)
         {

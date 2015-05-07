@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using VectorSpace;
-using IOData;
 
 namespace Araneam
 {
     public class ClassicNetwork : BackPropagationNetwork
     {
-        double a = 1.7159, b = 2.0 / 3.0;
+        readonly double a = 1.7159;
+        readonly double b = 2.0 / 3.0;
 
         public ClassicNetwork(double r, double t, int one, int two, int inputSize, int outputSize)
             : base(r, t, 3)

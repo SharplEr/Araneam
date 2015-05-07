@@ -1,8 +1,6 @@
-﻿using System;
+﻿using ArrayHelper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VectorSpace;
-using MyParallel;
-using ArrayHelper;
 
 namespace UnitTestVector
 {

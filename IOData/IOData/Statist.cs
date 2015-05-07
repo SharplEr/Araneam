@@ -1,6 +1,5 @@
 ﻿using System;
 using VectorSpace;
-using ArrayHelper;
 
 namespace IOData
 {

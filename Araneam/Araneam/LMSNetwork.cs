@@ -1,6 +1,6 @@
 ﻿using System;
-using VectorSpace;
 using IOData;
+using VectorSpace;
 
 namespace Araneam
 {
@@ -10,8 +10,8 @@ namespace Araneam
     [Serializable]
     public class LMSNetwork: Network
     {
-        double rateStart;
-        double timeLearn;
+        readonly double rateStart;
+        readonly double timeLearn;
 
         public LMSNetwork(double r, double t)
         {

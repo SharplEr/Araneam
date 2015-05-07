@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Diagnostics;
 
 namespace VectorSpace
 {
     public class InversHessian: IDisposable
     {
-        HessianHelper helper;
-        MatrixSumWorker sumHelper;
-        MatrixDivisionWorker divHelper;
+        readonly HessianHelper helper;
+        readonly MatrixSumWorker sumHelper;
+        readonly MatrixDivisionWorker divHelper;
         public Vector[] H;
 
         public InversHessian(int n)

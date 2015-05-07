@@ -18,12 +18,12 @@ namespace IOData
     */
     public class CSVReader
     {
-        string[][] allElement;
-        Dictionary<string, int> map = new Dictionary<string, int>();
+        readonly string[][] allElement;
+        readonly Dictionary<string, int> map = new Dictionary<string, int>();
         readonly public int countLine;
         readonly public int lineLength;
 
-        static Action<string, SystemException> OnError = (x, y) => Console.WriteLine(x);
+        static readonly Action<string, SystemException> OnError = (x, y) => Console.WriteLine(x);
 
         public CSVReader(string name)
         {
