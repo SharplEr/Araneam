@@ -212,7 +212,7 @@ namespace ArrayHelper
             return o.Convert((x) => (T)x);
         }
 
-        public static void WriteTo<T>(this T[] o, StreamWriter writer, string sep)
+        public static void WriteTo<T>(this T[] o, TextWriter writer, string sep)
         {
             if (o == null || writer == null) return;
 
