@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using MyParallel;
 
 namespace VectorSpace
@@ -9,8 +7,8 @@ namespace VectorSpace
     {
         Vector v;
         Double denominator;
-        Vector[] numerator;
-        object calc = new object();
+        readonly Vector[] numerator;
+        readonly object calc = new object();
 
         public HessianHelper(int threadCount, Vector[] matrix) :
             base(threadCount, matrix, @"HessianHelper№")

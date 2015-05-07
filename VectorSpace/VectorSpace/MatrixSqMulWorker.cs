@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using MyParallel;
+﻿using MyParallel;
 
 namespace VectorSpace
 {
@@ -9,9 +6,9 @@ namespace VectorSpace
     {
         
         Vector[] m;
-        int n;
+        readonly int n;
 
-        Vector[] temp;
+        readonly Vector[] temp;
 
         public MatrixSqMulWorker(int threadCount, Vector[] matrix) :
             base(threadCount, matrix, @"MatrixSqMulWorker№") 
