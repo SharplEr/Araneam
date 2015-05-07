@@ -175,7 +175,7 @@ namespace MyParallel
         /// </summary>
         /// <param name="start">С</param>
         /// <param name="finish">До</param>
-        protected abstract void DoFromTo(int start, int finish, Action<double> f);
+        protected abstract void DoFromTo(int start, int finish, Action<double> progr);
 
         /// <summary>
         /// Освобождение ресурсов после использования и завершение всех потоков

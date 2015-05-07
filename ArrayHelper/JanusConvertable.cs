@@ -14,7 +14,7 @@ namespace ArrayHelper
      * 3) Что бы сократить число функций перевода, имеется базовый тип данных,
      *          и функции перевода из него в другие.
     */
-    class JanusConvertable<B>
+    public class JanusConvertable<B>
     {
         B[] baseData;
 
