@@ -390,5 +390,33 @@ namespace VectorSpace
             sb.Append(")");
             return sb.ToString();
         }
+
+        //Точное сравнение
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Vector)) return false;
+
+            return Equals((Vector)obj);
+        }
+
+        public bool Equals(Vector vector)
+        {
+            return elements == vector.elements;
+        }
+
+        public static bool operator ==(Vector v1, Vector v2)
+        {
+            return v1.elements == v2.elements;
+        }
+
+        public static bool operator !=(Vector v1, Vector v2)
+        {
+            return v1.elements != v2.elements;
+        }
+
+        public override int GetHashCode()
+        {
+            return elements.GetHashCode();
+        }
     }
 }
