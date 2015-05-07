@@ -15,6 +15,9 @@ namespace Araneam
         public ClassicNetwork(double r, double t, int one, int two, int inputSize, int outputSize)
             : base(r, t, 3)
         {
+            if (one == int.MaxValue) throw new ArgumentException("ClassicNetwork: too big network");
+            if (two == int.MaxValue) throw new ArgumentException("ClassicNetwork: too big network");
+
             layers[0] = new NeuronLayer(one, inputSize, true, 1, "tanh", a , b);
             layers[0].NormalInitialize(random);
             layers[1] = new NeuronLayer(two, one + 1, true, 1, "tanh", a, b);
