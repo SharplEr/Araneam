@@ -1,7 +1,7 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using IOData;
 using System.IO;
+using IOData;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTestIODate
 {

@@ -1,6 +1,6 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using IOData;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VectorSpace;
 
 namespace UnitTestIODate
