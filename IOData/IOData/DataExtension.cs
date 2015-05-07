@@ -7,7 +7,7 @@ using ArrayHelper;
 
 namespace IOData
 {
-    public class DataExtension
+    public static class DataExtension
     {
         public static void ExtentionToMis(CSVReader reader, string[] allTags, int[] extIndexs, string mark, string fileName)
         {

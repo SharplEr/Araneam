@@ -7,7 +7,7 @@ using System.IO;
 
 namespace IOData
 {
-    public class CSVWriter
+    public static class CSVWriter
     {
         /// <summary>
         /// Записывает в csv файл плоскую таблицу
