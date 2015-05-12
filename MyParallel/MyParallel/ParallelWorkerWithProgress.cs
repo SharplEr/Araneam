@@ -98,8 +98,11 @@ namespace MyParallel
             if (deadEnd) throw new Exception("Обработчик уже освобожден");
             for (int i = 0; i < progress.Length; i++)
                 progress[i] = 0.0;
-            if (timer == null) timer = new Timer(Sum, null, due, period);
-            else timer.Change(due, period);
+            if (n > 1)
+            {
+                if (timer == null) timer = new Timer(Sum, null, due, period);
+                else timer.Change(due, period);
+            }
             if (tc > 1)
             {
                 WaitHandle.WaitAll(pause);
@@ -113,7 +116,8 @@ namespace MyParallel
                 DoFromTo(0, n, (x) => progress[0] = x);
             }
             Sum(null);
-            timer.Change(System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
+            if (n > 1)
+                timer.Change(System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
         }
 
         /// <summary>
